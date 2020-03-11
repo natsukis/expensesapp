@@ -8,7 +8,13 @@ import 'package:gastosapp/screens/submenu.dart';
 class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+       backgroundColor: Colors.cyan,
+      appBar: AppBar(
+        title: Text("Control de Gastos"),
+        backgroundColor: Colors.cyan,
+      ),
+      body:Padding(
       padding: EdgeInsets.only(top: 150.0, left: 5.0, right: 5.0),
       child: Center(
           child: Container(
@@ -128,6 +134,7 @@ class Menu extends StatelessWidget {
                         },
                         child: Text("Exportar")))
               ]))),
+    )
     );
   }
 

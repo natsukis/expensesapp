@@ -38,6 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         backgroundColor: Colors.cyan,
       ),
-      body: IntroScreen()
+      body: SplashScreen()
      );}
 }
