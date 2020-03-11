@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:gastosapp/screens/pickdate/picktwodates.dart';
+import 'package:gastosapp/screens/pickdate/pickdate.dart';
+import 'package:gastosapp/screens/expense/expensepage.dart';
+import 'package:gastosapp/screens/inversion/inversionpage.dart';
+import 'package:gastosapp/screens/income/incomepage.dart';
+
+class SubMenu extends StatelessWidget {
+  final String route;
+  SubMenu(this.route);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(title()),
+          backgroundColor: Colors.cyan,
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: Text("Volver", style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.cyan,
+            onPressed: () {
+              Navigator.pop(context, true);
+            }),
+        backgroundColor: Colors.cyan,
+        body: Padding(
+          padding: EdgeInsets.only(top: 120.0, left: 5.0, right: 5.0),
+          child: Center(
+              child: Column(children: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Container(
+                    width: 180.0,
+                    height: 50.0,
+                    child: RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(28.0),
+                          side: BorderSide(color: Colors.blue)),
+                      textColor: Colors.white,
+                      color: Colors.cyan,
+                      onPressed: () {
+                        switch (route) {
+                          case "Expense":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ExpensePage(date())));
+                            break;
+                          case "Inversion":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => InversionPage(date())));
+                            break;
+                          case "Income":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => IncomePage(date())));
+                            break;
+                        }
+                      },
+                      child: Text("Movimientos de hoy"),
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    ))),
+                    Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Container(
+                    width: 180.0,
+                    height: 50.0,
+                    child: RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(28.0),
+                          side: BorderSide(color: Colors.blue)),
+                      textColor: Colors.white,
+                      color: Colors.cyan,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PickDate(route)));
+                      },
+                      child: Text("Movimientos x dia"),
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    ))),
+            Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Container(
+                    width: 180.0,
+                    height: 50.0,
+                    child: RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(28.0),
+                          side: BorderSide(color: Colors.blue)),
+                      textColor: Colors.white,
+                      color: Colors.cyan,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PickTwoDate(route)));
+                      },
+                      child: Text("Movimientos x fecha"),
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    )))
+          ])),
+        ));
+  }
+
+  String date() {
+    String date = new DateFormat.yMd().format(DateTime.now());
+    return date;
+  }
+
+  String title() {
+    switch (route) {
+      case "Expense":
+        return "Gastos";
+        break;
+      case "Inversion":
+        return "Inversiones";
+        break;
+      case "Income":
+        return "Ingresos";
+        break;
+      default:
+        return "Control";
+    }
+  }
+}
