@@ -111,42 +111,18 @@ class IncomePageState extends State {
   Color getColor(String article) {
 
     switch (article) {
-      case "Luz":
+      case "Ganancias":
         return Colors.blue;
         break;
-      case "Impuesto":
+      case "Inversion":
         return Colors.yellow;
         break;
-      case "Agua":
+      case "Prestamo":
         return Colors.green;
         break;
 
-      case "Telefono":
+      case "Sueldo":
         return Colors.lightGreen;
-        break;
-
-      case "Internet":
-        return Colors.brown;
-        break;
-
-      case "Celular":
-        return Colors.red;
-        break;
-
-      case "Alquiler":
-        return Colors.blueGrey;
-        break;
-
-      case "Nafta":
-        return Colors.orange;
-        break;
-
-      case "Seguro":
-        return Colors.cyan;
-        break;
-
-      case "Gastos comunes":
-        return Colors.grey;
         break;
         
       case  "Otro":

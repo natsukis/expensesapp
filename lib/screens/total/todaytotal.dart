@@ -50,9 +50,10 @@ class TodayTotalState extends State {
       getMonthIncomeData();
     }
     return Scaffold(
-      backgroundColor: Colors.cyan,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
           title: Text(stringToDate(date)),
+          centerTitle: true,
           backgroundColor: Colors.cyan,
         ),
         floatingActionButton: FloatingActionButton(
@@ -62,130 +63,183 @@ class TodayTotalState extends State {
               Navigator.pop(context, true);
             }),
         body: Padding(
-          padding: EdgeInsets.only(top: 50.0, left: 20.0),
+          padding: EdgeInsets.only(top: 20.0, left: 20),
           child: Center(
-              child: Container(
-                  alignment: Alignment.center,
-                  child: Column(children: <Widget>[
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: Text("Gastos del dia: ",style: TextStyle(color:Colors.white)),
-                      ),
-                      Expanded(
-                          child: Text('\$' +
-                              calculateTotalExpenses(expenses, countExpense)))
-                    ]),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Ingresos del dia:",style: TextStyle(color:Colors.white))),
+              child: SingleChildScrollView(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Column(children: <Widget>[
+                        Row(children: <Widget>[
                           Expanded(
-                              child: Text('\$' +
-                                  calculateTotalExpenses(incomes, countIncome)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Inversiones del dia: ",style: TextStyle(color:Colors.white))),
+                            child: Text("Gastos del dia: ",
+                                style: TextStyle(color: Colors.white)),
+                          ),
                           Expanded(
-                              child: Text('\$' +
-                                  calculateTotalInversions(
-                                      inversions, countInversion)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Total (Ingre.-Gasto-Inver.):",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' + calculateTotal(
-                                  expenses,
-                                  countExpense,
-                                  incomes,
-                                  countIncome,
-                                  inversions,
-                                  countInversion)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Gastos ult. 7 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalExpenses(
-                                      weekExpense, weekexpensecount)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Ingresos ult. 7 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalExpenses(
-                                      weekIncome, weekincomecount)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Inversiones ult. 7 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalInversions(
-                                      weekInversion, weekInversioncount)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Gastos ult. 30 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalExpenses(
-                                      monthExpense, monthExpenseCount)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Ingresos ult. 30 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalExpenses(
-                                      monthIncome, monthIncomeCount)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Inversiones ult. 30 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalInversions(
-                                      monthInversion, monthInversionCount))),
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Total ult. 30 dias:",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotal(
-                                      monthExpense,
-                                      monthExpenseCount,
-                                      monthIncome,
-                                      monthIncomeCount,
-                                      monthInversion,
-                                      monthInversionCount)))
-                        ])),
-                         Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(child: Text("Total ult. 30 dias (I-G):",style: TextStyle(color:Colors.white))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotalSimple(
-                                      monthExpense,
-                                      monthExpenseCount,
-                                      monthIncome,
-                                      monthIncomeCount)))
-                        ])),
-                  ]))),
+                              child: Text(
+                                  '-\$' +
+                                      calculateTotalExpenses(
+                                          expenses, countExpense),
+                                  style: TextStyle(color: Colors.red)))
+                        ]),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Ingresos del dia:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '\$' +
+                                          calculateTotalExpenses(
+                                              incomes, countIncome),
+                                      style:
+                                          TextStyle(color: Colors.greenAccent)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Inversiones del dia: ",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '\$' +
+                                          calculateTotalInversions(
+                                              inversions, countInversion),
+                                      style:
+                                          TextStyle(color: Colors.blueAccent)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Total (Ingre.-Gasto-Inver.):",
+                                      style: TextStyle(color: Colors.yellow))),
+                              Expanded(
+                                  child: Text('\$' +
+                                      calculateTotal(
+                                          expenses,
+                                          countExpense,
+                                          incomes,
+                                          countIncome,
+                                          inversions,
+                                          countInversion)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Gastos ult. 7 dias:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '-\$' +
+                                          calculateTotalExpenses(
+                                              weekExpense, weekexpensecount),
+                                      style: TextStyle(color: Colors.red)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Ingresos ult. 7 dias:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '\$' +
+                                          calculateTotalExpenses(
+                                              weekIncome, weekincomecount),
+                                      style:
+                                          TextStyle(color: Colors.greenAccent)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Inversiones ult. 7 dias:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '\$' +
+                                          calculateTotalInversions(
+                                              weekInversion,
+                                              weekInversioncount),
+                                      style:
+                                          TextStyle(color: Colors.blueAccent)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Gastos ult. 30 dias:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '-\$' +
+                                          calculateTotalExpenses(
+                                              monthExpense, monthExpenseCount),
+                                      style: TextStyle(color: Colors.red)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Ingresos ult. 30 dias:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '\$' +
+                                          calculateTotalExpenses(
+                                              monthIncome, monthIncomeCount),
+                                      style:
+                                          TextStyle(color: Colors.greenAccent)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Inversiones ult. 30 dias:",
+                                      style: TextStyle(color: Colors.white))),
+                              Expanded(
+                                  child: Text(
+                                      '\$' +
+                                          calculateTotalInversions(
+                                              monthInversion,
+                                              monthInversionCount),
+                                      style:
+                                          TextStyle(color: Colors.blueAccent))),
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Total ult. 30 dias:",
+                                      style: TextStyle(color: Colors.yellow))),
+                              Expanded(
+                                  child: Text('\$' +
+                                      calculateTotal(
+                                          monthExpense,
+                                          monthExpenseCount,
+                                          monthIncome,
+                                          monthIncomeCount,
+                                          monthInversion,
+                                          monthInversionCount)))
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Text("Total ult. 30 dias (I-G):",
+                                      style: TextStyle(color: Colors.yellow))),
+                              Expanded(
+                                  child: Text('\$' +
+                                      calculateTotalSimple(
+                                          monthExpense,
+                                          monthExpenseCount,
+                                          monthIncome,
+                                          monthIncomeCount)))
+                            ])),
+                      ])))),
         ));
   }
 

@@ -15,9 +15,9 @@ class Menu extends StatelessWidget {
         backgroundColor: Colors.cyan,
       ),
       body:Padding(
-      padding: EdgeInsets.only(top: 150.0, left: 5.0, right: 5.0),
+      padding: EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
       child: Center(
-          child: Container(
+          child: SingleChildScrollView(child: Container(
               alignment: Alignment.center,
               child: Column(children: <Widget>[
                 Row(children: <Widget>[
@@ -134,7 +134,7 @@ class Menu extends StatelessWidget {
                 //         },
                 //         child: Text("Exportar")))
               ]))),
-    )
+    ))
     );
   }
 

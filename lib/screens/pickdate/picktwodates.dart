@@ -27,11 +27,12 @@ class PickTwoDateState extends State {
     return Scaffold(
       backgroundColor: Colors.cyan,
         appBar: AppBar(
-          title: Text("Fecha"),
+          title: Text("Ingrese fechas a buscar"),
           centerTitle: true,
           backgroundColor: Colors.cyan,
         ),
         body: Center(
+          child:Padding(padding: EdgeInsets.only(top: 30),
             child: Column(
           children: <Widget>[
             RaisedButton(
@@ -54,7 +55,9 @@ class PickTwoDateState extends State {
                   'Elegir fecha desde:',
                   style: TextStyle(color: Colors.white),
                 )),
-            Container(child: Text(convertDateToString(dateFrom),style: TextStyle(color:Colors.white))),
+            Padding(
+            padding: EdgeInsets.only(top:10, bottom:10)
+            ,child:Container(child: Text(convertDateToString(dateFrom),style: TextStyle(color:Colors.green)))),
             RaisedButton(
               color: Colors.cyan,
                 shape: new RoundedRectangleBorder(
@@ -75,7 +78,9 @@ class PickTwoDateState extends State {
                   'Elegir fecha hasta:',
                   style: TextStyle(color: Colors.white),
                 )),
-            Container(child: Text(convertDateToString(dateTo),style: TextStyle(color:Colors.white))),
+            Padding(
+            padding: EdgeInsets.only(top:10, bottom:10)
+            ,child:Container(child: Text(convertDateToString(dateTo),style: TextStyle(color:Colors.green)))),
             RaisedButton(
               color: Colors.lightBlue,
               textColor: Colors.white,
@@ -85,7 +90,7 @@ class PickTwoDateState extends State {
               },
             )
           ],
-        )));
+        ))));
   }
 
   String convertDateToString(DateTime datetoconvert) {

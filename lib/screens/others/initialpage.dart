@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        Duration(milliseconds: 1500),
         () => Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (BuildContext context) => Menu())));
   }
@@ -25,20 +25,20 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Container(
               child: Column(children: <Widget>[
         Padding(
-            padding: EdgeInsets.only(top: 40, left: 80),
+            padding: EdgeInsets.only(top: 40, left: 20, right: 20),
             child: Text("GATO: La app de control de vida",
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 25,
                   foreground: Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = 6
                     ..color = Colors.blue[300],
                 ))),
         Padding(
-            padding: EdgeInsets.only(top: 40, left: 80),
+            padding: EdgeInsets.only(top: 40, left: 40),
             child: Text("By Natsuki",
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 20,
                   foreground: Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = 6

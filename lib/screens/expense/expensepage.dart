@@ -108,38 +108,50 @@ class ExpensePageState extends State {
 
   Color getColor(String article) {
     switch (article) {
-      case "Luz":
+      case "Alquiler":
         return Colors.blue;
         break;
-      case "Impuesto":
+      case "Colectivo":
         return Colors.yellow;
         break;
-      case "Agua":
+      case "Celular":
         return Colors.green;
         break;
 
-      case "Telefono":
+      case "Compra":
         return Colors.lightGreen;
         break;
 
-      case "Internet":
+      case "Impuesto":
         return Colors.brown;
         break;
 
-      case "Celular":
+      case "Nafta":
         return Colors.red;
         break;
 
-      case "Alquiler":
+      case "Internet":
         return Colors.blueGrey;
         break;
 
-      case "Nafta":
+      case "Prestamo":
         return Colors.orange;
         break;
 
-      case "Seguro":
+      case "Regalo":
         return Colors.cyan;
+        break;
+
+      case "Salida":
+        return Colors.pink;
+        break;
+
+      case "Seguro":
+        return Colors.brown[100];
+        break;
+
+      case "Taxi":
+        return Colors.yellow[100];
         break;
 
       case "Gastos comunes":

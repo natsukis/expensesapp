@@ -33,7 +33,7 @@ class TotalPerDayState extends State {
   int monthInversionCount = 0;
   int monthIncomeCount = 0;
   int countExpense = 0;
-    DateTime dateFrom;
+  DateTime dateFrom;
   DateTime dateTo;
   TotalPerDayState(this.dateFrom, this.dateTo);
 
@@ -46,8 +46,9 @@ class TotalPerDayState extends State {
       getDataInversion();
     }
     return Scaffold(
-      backgroundColor: Colors.cyan,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
+          centerTitle: true,
           title: Text(stringToDate(dateFrom) + " a " + stringToDate(dateTo)),
           backgroundColor: Colors.cyan,
         ),
@@ -65,46 +66,64 @@ class TotalPerDayState extends State {
                   child: Column(children: <Widget>[
                     Row(children: <Widget>[
                       Expanded(
-                        child: Text("Gastos en esos dias: ",style: TextStyle(color:Colors.white)),
+                        child: Text("Gastos en esos dias: ",
+                            style: TextStyle(color: Colors.white)),
                       ),
                       Expanded(
-                          child: Text('\$' +
-                              calculateTotalExpenses(expenses, countExpense)))
+                          child: Text(
+                              '-\$' +
+                                  calculateTotalExpenses(
+                                      expenses, countExpense),
+                              style: TextStyle(color: Colors.red)))
                     ]),
                     Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Row(children: <Widget>[
-                          Expanded(child: Text("Ingresos en esos dias:",style: TextStyle(color:Colors.white))),
                           Expanded(
-                              child: Text('\$' +
-                                  calculateTotalExpenses(incomes, countIncome)))
+                              child: Text("Ingresos en esos dias:",
+                                  style: TextStyle(color: Colors.white))),
+                          Expanded(
+                              child: Text(
+                                  '\$' +
+                                      calculateTotalExpenses(
+                                          incomes, countIncome),
+                                  style: TextStyle(color: Colors.greenAccent)))
                         ])),
                     Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Row(children: <Widget>[
-                          Expanded(child: Text("Inversiones en esos dias: ",style: TextStyle(color:Colors.white))),
                           Expanded(
-                              child: Text('\$' +
-                                  calculateTotalInversions(
-                                      inversions, countInversion)))
+                              child: Text("Inversiones en esos dias: ",
+                                  style: TextStyle(color: Colors.white))),
+                          Expanded(
+                              child: Text(
+                                  '\$' +
+                                      calculateTotalInversions(
+                                          inversions, countInversion),
+                                  style: TextStyle(color: Colors.blueAccent)))
                         ])),
                     Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Row(children: <Widget>[
-                          Expanded(child: Text("Total (Ingre.-Gasto-Inver.):",style: TextStyle(color:Colors.white))),
                           Expanded(
-                              child: Text(calculateTotal(
-                                  expenses,
-                                  countExpense,
-                                  incomes,
-                                  countIncome,
-                                  inversions,
-                                  countInversion)))
-                        ])),                    
-                        Padding(
+                              child: Text("Total (Ingre.-Gasto-Inver.):",
+                                  style: TextStyle(color: Colors.yellow))),
+                          Expanded(
+                              child: Text('\$' +
+                                  calculateTotal(
+                                      expenses,
+                                      countExpense,
+                                      incomes,
+                                      countIncome,
+                                      inversions,
+                                      countInversion)))
+                        ])),
+                    Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Row(children: <Widget>[
-                          Expanded(child: Text("Total (Ingre-Gasto):",style: TextStyle(color:Colors.white))),
+                          Expanded(
+                              child: Text("Total (Ingre-Gasto):",
+                                  style: TextStyle(color: Colors.yellow))),
                           Expanded(
                               child: Text('\$' +
                                   calculateTotalSimple(
@@ -189,9 +208,6 @@ class TotalPerDayState extends State {
     });
   }
 
-
-
-  
   String stringToDate(DateTime aux) {
     return aux.day.toString() + '/' + aux.month.toString();
   }
@@ -257,7 +273,7 @@ class TotalPerDayState extends State {
     return (total - totalexpense).toString();
   }
 
-    bool comparedate(String date) {
+  bool comparedate(String date) {
     DateTime dateD = new DateFormat().add_yMd().parse(date);
     if (dateD.isAfter(dateFrom.add(new Duration(days: -1))) &&
         dateD.isBefore(dateTo.add(new Duration(days: 1)))) {

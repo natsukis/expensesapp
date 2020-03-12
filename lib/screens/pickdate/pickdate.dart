@@ -24,11 +24,12 @@ class PickDateState extends State {
     return Scaffold(
       backgroundColor: Colors.cyan,
         appBar: AppBar(
-          title: Text("Fecha"),
+          title: Text("Ingrese fecha"),
           centerTitle: true,
           backgroundColor: Colors.cyan,
         ),
         body: Center(
+          child:Padding(padding: EdgeInsets.only(top: 30),
             child: Column(children: <Widget>[
           RaisedButton(
             color: Colors.cyan,
@@ -52,7 +53,9 @@ class PickDateState extends State {
                 'Elegir fecha a buscar',
                 style: TextStyle(color: Colors.white),
               )),
-          Container(child: Text(datesText,style: TextStyle(color:Colors.white))),
+          Padding(
+            padding: EdgeInsets.only(top:10, bottom:10)
+            ,child:Container(child: Text(datesText,style: TextStyle(color:Colors.green)))),
           RaisedButton(
             color: Colors.lightBlue,
             child: Text("Buscar"),
@@ -61,7 +64,7 @@ class PickDateState extends State {
               alert();
             },
           )
-        ])));
+        ]))));
   }
 
   void navigateToSale(String dates) async {

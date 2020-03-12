@@ -18,7 +18,7 @@ class SubMenu extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
             child: Text("Volver", style: TextStyle(color: Colors.white)),
-            backgroundColor: Colors.cyan,
+            backgroundColor: Colors.lightBlue,
             onPressed: () {
               Navigator.pop(context, true);
             }),
@@ -26,7 +26,7 @@ class SubMenu extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.only(top: 120.0, left: 5.0, right: 5.0),
           child: Center(
-              child: Column(children: <Widget>[
+              child: SingleChildScrollView(child: Column(children: <Widget>[
             Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Container(
@@ -84,7 +84,7 @@ class SubMenu extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     ))),
             Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Container(
                     width: 180.0,
                     height: 50.0,
@@ -103,7 +103,7 @@ class SubMenu extends StatelessWidget {
                       child: Text("Movimientos x fecha"),
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     )))
-          ])),
+          ]))),
         ));
   }
 

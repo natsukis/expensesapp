@@ -2,17 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gastosapp/model/expense.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/number_symbols_data.dart';
 
 DbHelper helper = new DbHelper();
-final List<String> choices = const <String>[
-  'Save Expense & Back',
-  'Delete Expense Back',
-  'Back to List'
-];
-
-const mnuSave = 'Save Todo & Back';
-const mnuDelete = 'Delete Todo Back';
-const mnuBack = 'Back to List';
 
 class ExpenseDetail extends StatefulWidget {
   final Expense expense;
@@ -28,17 +20,20 @@ class ExpenseDetailState extends State {
     final String date;
   ExpenseDetailState(this.expense,this.date);
   final _articles = [
-    "Agua",
-    "Luz",
-    "Telefono",
-    "Internet",
-    "Celular",
     "Alquiler",
-    "Nafta",
-    "Seguro",
+    "Celular",
+    "Colectivo",
+    "Compra",
     "Gastos comunes",
     "Impuesto",
-    "Otro"
+    "Internet",  
+    "Nafta",        
+    "Otro",
+    "Prestamo",
+    "Regalo",
+    "Salida",
+    "Seguro",
+    "Taxi",
   ];
   String _article = "Otro";
   TextEditingController quantityController = TextEditingController();
@@ -54,27 +49,16 @@ class ExpenseDetailState extends State {
         appBar: AppBar(
           backgroundColor: Colors.cyan,
           automaticallyImplyLeading: false,
-          title: Text(expense.description),
-          actions: <Widget>[
-            PopupMenuButton<String>(
-              onSelected: select,
-              itemBuilder: (BuildContext context) {
-                return choices.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
-              },
-            )
-          ],
+          title: Text(expense.description == "" ? "Nuevo Gasto" : expense.description),          
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
           child: ListView(children: <Widget>[
             Column(
               children: <Widget>[
-                ListTile(
+                 Padding(
+                  padding:EdgeInsets.only(top: 20),
+                  child:ListTile(
                     title: DropdownButton<String>(
                   items: _articles.map((String value) {
                     return DropdownMenuItem<String>(
@@ -85,8 +69,10 @@ class ExpenseDetailState extends State {
                   style: textStyle,
                   value: expense.article,
                   onChanged: (value) => updateArticle(value),
-                )),
-                TextField(
+                ))),
+                 Padding(
+                  padding:EdgeInsets.only(top: 20, bottom:20),
+                  child:TextField(
                   controller: descriptionController,
                   style: textStyle,
                   onChanged: (value) => this.updateDescription(),
@@ -95,10 +81,11 @@ class ExpenseDetailState extends State {
                       labelText: "Descripcion",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0))),
-                ),
+                )),
                 Padding(
                     padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       controller: priceController,
                       style: textStyle,
                       onChanged: (value) => this.updatePrice(),
@@ -130,32 +117,6 @@ class ExpenseDetailState extends State {
           selectedItemColor: Colors.amber[800],
           onTap: navigate,
         ));
-  }
-
-  void select(String value) async {
-    int result;
-    switch (value) {
-      case mnuSave:
-        save();
-        break;
-      case mnuDelete:
-        if (expense.id == null) {
-          return;
-        }
-        result = await helper.deleteExpense(expense.id);
-        if (result != 0) {
-          Navigator.pop(context, true);
-          AlertDialog alertDialog = AlertDialog(
-            title: Text("Delete Todo"),
-            content: Text("The Expense has been deleted"),
-          );
-          showDialog(context: context, builder: (_) => alertDialog);
-        }
-        break;
-      case mnuBack:
-        Navigator.pop(context, true);
-        break;
-    }
   }
 
   void save() {
