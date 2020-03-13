@@ -10,10 +10,10 @@ class TodayTotal extends StatefulWidget {
   String date;
   TodayTotal(this.date);
   @override
-  TodayTotalState createState() => TodayTotalState(date);
+  State<StatefulWidget> createState() => TodayTotalState(date);
 }
 
-class TodayTotalState extends State<PageView> {
+class TodayTotalState extends State {
   String date;
   TodayTotalState(this.date);
   PageController _controller = PageController(
@@ -28,13 +28,23 @@ class TodayTotalState extends State<PageView> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
+    return Scaffold(
+        body: PageView(
       controller: _controller,
       children: [
         TodayTotal1(date),
         TodayTotal2(),
       ],
-    );
+    ));
+  }
+
+  String stringToDate(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.day.toString() +
+        '/' +
+        newDateTimeObj.month.toString() +
+        '/' +
+        newDateTimeObj.year.toString();
   }
 }
 
@@ -362,7 +372,9 @@ class TodayTotal1State extends State {
           Expense producAux = Expense.fromObject(result[i]);
           DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
           var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 7 && producAux.type == "Expense") {
+          if (diff.inDays <= 7 &&
+              diff.inDays >= 0 &&
+              producAux.type == "Expense") {
             expenseList.add(producAux);
           } else {
             notToday = notToday + 1;
@@ -388,7 +400,9 @@ class TodayTotal1State extends State {
           Expense producAux = Expense.fromObject(result[i]);
           DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
           var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 7 && producAux.type == "Income") {
+          if (diff.inDays <= 7 &&
+              diff.inDays >= 0 &&
+              producAux.type == "Income") {
             expenseList.add(producAux);
           } else {
             notToday = notToday + 1;
@@ -414,7 +428,7 @@ class TodayTotal1State extends State {
           Inversion producAux = Inversion.fromObject(result[i]);
           DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
           var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 7) {
+          if (diff.inDays >= 0 && diff.inDays <= 7) {
             inversionList.add(producAux);
           } else {
             notToday = notToday + 1;
@@ -440,7 +454,9 @@ class TodayTotal1State extends State {
           Expense producAux = Expense.fromObject(result[i]);
           DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
           var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 30 && producAux.type == "Income") {
+          if (diff.inDays <= 30 &&
+              diff.inDays >= 0 &&
+              producAux.type == "Income") {
             expenseList.add(producAux);
           } else {
             notToday = notToday + 1;
@@ -466,7 +482,9 @@ class TodayTotal1State extends State {
           Expense producAux = Expense.fromObject(result[i]);
           DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
           var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 30 && (producAux.type == "Expense")) {
+          if (diff.inDays <= 30 &&
+              diff.inDays >= 0 &&
+              (producAux.type == "Expense")) {
             expenseList.add(producAux);
           } else {
             notToday = notToday + 1;
@@ -492,7 +510,7 @@ class TodayTotal1State extends State {
           Inversion producAux = Inversion.fromObject(result[i]);
           DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
           var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 30) {
+          if (diff.inDays >= 0 && diff.inDays <= 30) {
             expenseList.add(producAux);
           } else {
             notToday = notToday + 1;
@@ -579,13 +597,9 @@ class TodayTotal1State extends State {
 
 /////////////////////////////////////////////////
 
-class TodayTotal2 extends StatefulWidget {
+class TodayTotal2 extends StatelessWidget {
   TodayTotal2();
-  @override
-  State<StatefulWidget> createState() => TodayTotal2State();
-}
 
-class TodayTotal2State extends State {
   DbHelper helper = DbHelper();
 
   //Expense Months
@@ -651,11 +665,9 @@ class TodayTotal2State extends State {
   DateTime decemberFrom = DateTime.utc(DateTime.now().year, 12, 1);
   DateTime decemberTo = DateTime.utc(DateTime.now().year, 12, 31);
 
-  TodayTotal2State();
-
   @override
   Widget build(BuildContext context) {
-    if (ejanuaryList == null) {
+    if (ejanuaryList.isEmpty) {
       ejanuaryList = List<Expense>();
       getDataExpense();
       getDataIncome();
@@ -1217,33 +1229,31 @@ class TodayTotal2State extends State {
           }
         }
 
-        setState(() {
-          ejanuaryList = januaryList;
-          efebruaryList = februaryList;
-          emarchList = marchList;
-          eaprilList = aprilList;
-          emayList = mayList;
-          ejuneList = juneList;
-          ejulyList = julyList;
-          eaugustList = augustList;
-          eseptemberList = septemberList;
-          eoctoberList = octoberList;
-          enovemberList = novemberList;
-          edecemberList = decemberList;
+        ejanuaryList = januaryList;
+        efebruaryList = februaryList;
+        emarchList = marchList;
+        eaprilList = aprilList;
+        emayList = mayList;
+        ejuneList = juneList;
+        ejulyList = julyList;
+        eaugustList = augustList;
+        eseptemberList = septemberList;
+        eoctoberList = octoberList;
+        enovemberList = novemberList;
+        edecemberList = decemberList;
 
-          eJanuary = eJanuary - notJanuary;
-          eFebruary = eFebruary - notFebruary;
-          eMarch = eMarch - notMarch;
-          eApril = eApril - notApril;
-          eMay = eMay - notMay;
-          eJune = eJune - notJune;
-          eJuly = eJuly - notJuly;
-          eAugust = eAugust - notAugust;
-          eSeptember = eSeptember - notSeptember;
-          eOctober = eOctober - notOctober;
-          eNovember = eNovember - notNovember;
-          eDecember = eDecember - notDecember;
-        });
+        eJanuary = countExpense - notJanuary;
+        eFebruary = countExpense - notFebruary;
+        eMarch = countExpense - notMarch;
+        eApril = countExpense - notApril;
+        eMay = countExpense - notMay;
+        eJune = countExpense - notJune;
+        eJuly = countExpense - notJuly;
+        eAugust = countExpense - notAugust;
+        eSeptember = countExpense - notSeptember;
+        eOctober = countExpense - notOctober;
+        eNovember = countExpense - notNovember;
+        eDecember = countExpense - notDecember;
       });
     });
   }
@@ -1333,37 +1343,31 @@ class TodayTotal2State extends State {
           }
         }
 
-        setState(() {
-          incomeMonth.januaryList = income.januaryList;
-          incomeMonth.februaryList = income.februaryList;
-          incomeMonth.marchList = income.marchList;
-          incomeMonth.aprilList = income.aprilList;
-          incomeMonth.mayList = income.mayList;
-          incomeMonth.juneList = income.juneList;
-          incomeMonth.julyList = income.julyList;
-          incomeMonth.augustList = income.augustList;
-          incomeMonth.septemberList = income.septemberList;
-          incomeMonth.octoberList = income.octoberList;
-          incomeMonth.novemberList = income.novemberList;
-          incomeMonth.decemberList = income.decemberList;
+        incomeMonth.januaryList = income.januaryList;
+        incomeMonth.februaryList = income.februaryList;
+        incomeMonth.marchList = income.marchList;
+        incomeMonth.aprilList = income.aprilList;
+        incomeMonth.mayList = income.mayList;
+        incomeMonth.juneList = income.juneList;
+        incomeMonth.julyList = income.julyList;
+        incomeMonth.augustList = income.augustList;
+        incomeMonth.septemberList = income.septemberList;
+        incomeMonth.octoberList = income.octoberList;
+        incomeMonth.novemberList = income.novemberList;
+        incomeMonth.decemberList = income.decemberList;
 
-          incomeMonth.notJanuary = incomeMonth.notJanuary - income.notJanuary;
-          incomeMonth.notFebruary =
-              incomeMonth.notFebruary - income.notFebruary;
-          incomeMonth.notMarch = incomeMonth.notMarch - income.notMarch;
-          incomeMonth.notApril = incomeMonth.notApril - income.notApril;
-          incomeMonth.notMay = incomeMonth.notMay - income.notMay;
-          incomeMonth.notJune = incomeMonth.notJune - income.notJune;
-          incomeMonth.notJuly = incomeMonth.notJuly - income.notJuly;
-          incomeMonth.notAugust = incomeMonth.notAugust - income.notAugust;
-          incomeMonth.notSeptember =
-              incomeMonth.notSeptember - income.notSeptember;
-          incomeMonth.notOctober = incomeMonth.notOctober - income.notOctober;
-          incomeMonth.notNovember =
-              incomeMonth.notNovember - income.notNovember;
-          incomeMonth.notDecember =
-              incomeMonth.notDecember - income.notDecember;
-        });
+        incomeMonth.notJanuary = countIncome - income.notJanuary;
+        incomeMonth.notFebruary = countIncome - income.notFebruary;
+        incomeMonth.notMarch = countIncome - income.notMarch;
+        incomeMonth.notApril = countIncome - income.notApril;
+        incomeMonth.notMay = countIncome - income.notMay;
+        incomeMonth.notJune = countIncome - income.notJune;
+        incomeMonth.notJuly = countIncome - income.notJuly;
+        incomeMonth.notAugust = countIncome - income.notAugust;
+        incomeMonth.notSeptember = countIncome - income.notSeptember;
+        incomeMonth.notOctober = countIncome - income.notOctober;
+        incomeMonth.notNovember = countIncome - income.notNovember;
+        incomeMonth.notDecember = countIncome - income.notDecember;
       });
     });
   }
@@ -1440,42 +1444,31 @@ class TodayTotal2State extends State {
           }
         }
 
-        setState(() {
-          inversionMonth.januaryList = inversion.januaryList;
-          inversionMonth.februaryList = inversion.februaryList;
-          inversionMonth.marchList = inversion.marchList;
-          inversionMonth.aprilList = inversion.aprilList;
-          inversionMonth.mayList = inversion.mayList;
-          inversionMonth.juneList = inversion.juneList;
-          inversionMonth.julyList = inversion.julyList;
-          inversionMonth.augustList = inversion.augustList;
-          inversionMonth.septemberList = inversion.septemberList;
-          inversionMonth.octoberList = inversion.octoberList;
-          inversionMonth.novemberList = inversion.novemberList;
-          inversionMonth.decemberList = inversion.decemberList;
+        inversionMonth.januaryList = inversion.januaryList;
+        inversionMonth.februaryList = inversion.februaryList;
+        inversionMonth.marchList = inversion.marchList;
+        inversionMonth.aprilList = inversion.aprilList;
+        inversionMonth.mayList = inversion.mayList;
+        inversionMonth.juneList = inversion.juneList;
+        inversionMonth.julyList = inversion.julyList;
+        inversionMonth.augustList = inversion.augustList;
+        inversionMonth.septemberList = inversion.septemberList;
+        inversionMonth.octoberList = inversion.octoberList;
+        inversionMonth.novemberList = inversion.novemberList;
+        inversionMonth.decemberList = inversion.decemberList;
 
-          inversionMonth.notJanuary =
-              inversionMonth.notJanuary - inversion.notJanuary;
-          inversionMonth.notFebruary =
-              inversionMonth.notFebruary - inversion.notFebruary;
-          inversionMonth.notMarch =
-              inversionMonth.notMarch - inversion.notMarch;
-          inversionMonth.notApril =
-              inversionMonth.notApril - inversion.notApril;
-          inversionMonth.notMay = inversionMonth.notMay - inversion.notMay;
-          inversionMonth.notJune = inversionMonth.notJune - inversion.notJune;
-          inversionMonth.notJuly = inversionMonth.notJuly - inversion.notJuly;
-          inversionMonth.notAugust =
-              inversionMonth.notAugust - inversion.notAugust;
-          inversionMonth.notSeptember =
-              inversionMonth.notSeptember - inversion.notSeptember;
-          inversionMonth.notOctober =
-              inversionMonth.notOctober - inversion.notOctober;
-          inversionMonth.notNovember =
-              inversionMonth.notNovember - inversion.notNovember;
-          inversionMonth.notDecember =
-              inversionMonth.notDecember - inversion.notDecember;
-        });
+        inversionMonth.notJanuary = countInversion - inversion.notJanuary;
+        inversionMonth.notFebruary = countInversion - inversion.notFebruary;
+        inversionMonth.notMarch = countInversion - inversion.notMarch;
+        inversionMonth.notApril = countInversion - inversion.notApril;
+        inversionMonth.notMay = countInversion - inversion.notMay;
+        inversionMonth.notJune = countInversion - inversion.notJune;
+        inversionMonth.notJuly = countInversion - inversion.notJuly;
+        inversionMonth.notAugust = countInversion - inversion.notAugust;
+        inversionMonth.notSeptember = countInversion - inversion.notSeptember;
+        inversionMonth.notOctober = countInversion - inversion.notOctober;
+        inversionMonth.notNovember = countInversion - inversion.notNovember;
+        inversionMonth.notDecember = countInversion - inversion.notDecember;
       });
     });
   }
@@ -1545,7 +1538,7 @@ class TodayTotal2State extends State {
     return (total - totalexpense).toString();
   }
 
-  bool comparedate(String date, DateTime dateTo, DateTime dateFrom) {
+  bool comparedate(String date, DateTime dateFrom, DateTime dateTo) {
     DateTime dateD = new DateFormat().add_yMd().parse(date);
     if (dateD.isAfter(dateFrom.add(new Duration(days: -1))) &&
         dateD.isBefore(dateTo.add(new Duration(days: 1)))) {

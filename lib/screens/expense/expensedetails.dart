@@ -120,7 +120,7 @@ class ExpenseDetailState extends State {
   }
 
   void save() {
-    expense.date = new DateFormat.yMd().format(DateTime.now());
+    expense.date = date;
     expense.type = 'Expense';
     if (expense.id != null) {
       helper.updateExpense(expense);
@@ -137,51 +137,6 @@ class ExpenseDetailState extends State {
       _article = value;
     });
   }
-
-  // void updateArticle(String value) {
-  //   switch (value) {
-  //     case "Agua":
-  //       expense.article = 1;
-  //       break;
-  //     case "Luz":
-  //       expense.article = 2;
-  //       break;
-  //     case "Telefono":
-  //       expense.article = 3;
-  //       break;
-
-  //     case "Celular":
-  //       expense.article = 4;
-  //       break;
-
-  //     case "Internet":
-  //       expense.article = 5;
-  //       break;
-
-  //     case "Alquiler":
-  //       expense.article = 6;
-  //       break;
-
-  //     case "Nafta":
-  //       expense.article = 7;
-  //       break;
-
-  //     case "Seguro":
-  //       expense.article = 8;
-  //       break;
-
-  //     case "Gastos comunes":
-  //       expense.article = 9;
-  //       break;
-
-  //     case "Otro":
-  //       expense.article = 10;
-  //       break;
-  //   }
-  //   setState(() {
-  //     _article = value;
-  //   });
-  // }
 
   String retrieveArticle(int value) {
     return _articles[value - 1];
@@ -215,4 +170,5 @@ class ExpenseDetailState extends State {
       Navigator.pop(context, true);
     }
   }
+  
 }

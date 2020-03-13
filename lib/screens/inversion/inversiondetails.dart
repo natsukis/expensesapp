@@ -112,7 +112,7 @@ class InversionDetailState extends State {
   }
 
   void save() {
-    inversion.date = new DateFormat.yMd().format(DateTime.now());
+    inversion.date = date;
     if (inversion.id != null) {
       helper.updateInversion(inversion);
     } else {

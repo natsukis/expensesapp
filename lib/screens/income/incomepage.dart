@@ -94,7 +94,7 @@ class IncomePageState extends State {
         int notInRange = 0;
         for (int i = 0; i < count; i++) {
           Expense producAux = Expense.fromObject(result[i]);
-          if (producAux.type == "Income") {
+          if (producAux.type == "Income" && producAux.date == date ) {
             productList.add(producAux);
           } else {
             notInRange = notInRange + 1;

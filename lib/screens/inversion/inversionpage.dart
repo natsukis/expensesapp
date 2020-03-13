@@ -91,7 +91,9 @@ class InversionPageState extends State {
         count = result.length;        
         for (int i = 0; i < count; i++) {
           Inversion producAux = Inversion.fromObject(result[i]);
+          if( producAux.date == date ){
             productList.add(producAux);
+          }
         }
         setState(() {
           inversions = productList;

@@ -111,7 +111,7 @@ class IncomeDetailState extends State {
   }
 
   void save() {
-    expense.date = new DateFormat.yMd().format(DateTime.now());
+    expense.date = date;
     expense.type = 'Income';
     if (expense.id != null) {
       helper.updateExpense(expense);
