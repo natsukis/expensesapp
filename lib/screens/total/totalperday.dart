@@ -101,23 +101,7 @@ class TotalPerDayState extends State {
                                       calculateTotalInversions(
                                           inversions, countInversion),
                                   style: TextStyle(color: Colors.blueAccent)))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(children: <Widget>[
-                          Expanded(
-                              child: Text("Total (Ingre.-Gasto-Inver.):",
-                                  style: TextStyle(color: Colors.yellow))),
-                          Expanded(
-                              child: Text('\$' +
-                                  calculateTotal(
-                                      expenses,
-                                      countExpense,
-                                      incomes,
-                                      countIncome,
-                                      inversions,
-                                      countInversion)))
-                        ])),
+                        ])),                    
                     Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Row(children: <Widget>[
