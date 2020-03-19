@@ -16,7 +16,10 @@ class Menu extends StatelessWidget {
       ),
       body:Padding(
       padding: EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
-      child: Center(
+      child: Column(children:<Widget>[
+        Padding(padding:EdgeInsets.only(bottom: 10)
+      ,child:Container(child: Text("Aca va a ir el saldo"),)),
+      Center(
           child: SingleChildScrollView(child: Container(
               alignment: Alignment.center,
               child: Column(children: <Widget>[
@@ -134,7 +137,7 @@ class Menu extends StatelessWidget {
                 //         },
                 //         child: Text("Exportar")))
               ]))),
-    ))
+    )]))
     );
   }
 

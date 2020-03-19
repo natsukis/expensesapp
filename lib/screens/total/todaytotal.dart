@@ -695,7 +695,7 @@ class TodayTotal2 extends StatelessWidget {
                       child: Column(children: <Widget>[
                         Row(children: <Widget>[
                           Expanded(
-                            child: Text("Ingresos Enero(Ingre-Gasto): ",
+                            child: Text("Total Enero(Ingre-Gasto): ",
                                 style: TextStyle(color: Colors.white)),
                           ),
                           Expanded(
@@ -712,7 +712,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Febrero(Ingre-Gasto):",
+                                  child: Text("Total Febrero(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -728,7 +728,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Marzo(Ingre-Gasto):",
+                                  child: Text("Total Marzo(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -744,7 +744,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Abril(Ingre-Gasto):",
+                                  child: Text("Total Abril(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -760,7 +760,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Mayo(Ingre-Gasto):",
+                                  child: Text("Total Mayo(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -776,7 +776,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Junio(Ingre-Gasto):",
+                                  child: Text("Total Junio(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -792,7 +792,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Julio(Ingre-Gasto):",
+                                  child: Text("Total Julio(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -808,7 +808,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Agosto(Ingre-Gasto):",
+                                  child: Text("Total Agosto(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -825,7 +825,7 @@ class TodayTotal2 extends StatelessWidget {
                             child: Row(children: <Widget>[
                               Expanded(
                                   child: Text(
-                                      "Ingresos Septiembre(Ingre-Gasto):",
+                                      "Total Septiembre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -841,7 +841,7 @@ class TodayTotal2 extends StatelessWidget {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Ingresos Octubre(Ingre-Gasto):",
+                                  child: Text("Total Octubre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -858,7 +858,7 @@ class TodayTotal2 extends StatelessWidget {
                             child: Row(children: <Widget>[
                               Expanded(
                                   child: Text(
-                                      "Ingresos Noviembre(Ingre-Gasto):",
+                                      "Total Noviembre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
@@ -875,7 +875,7 @@ class TodayTotal2 extends StatelessWidget {
                             child: Row(children: <Widget>[
                               Expanded(
                                   child: Text(
-                                      "Ingresos Diciembre(Ingre-Gasto):",
+                                      "Total Diciembre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(

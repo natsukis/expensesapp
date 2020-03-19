@@ -1,11 +1,10 @@
+import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:gastosapp/model/expense.dart';
 import 'package:gastosapp/model/inversion.dart';
-
-
 
 class DbHelper {
   static final DbHelper _dbHelper = DbHelper._internal();
@@ -48,6 +47,10 @@ class DbHelper {
     await db.execute(
         "CREATE TABLE $tblInversion($colId INTEGER PRIMARY KEY, $colArticle TEXT, " +
             "$colDescription TEXT, $colPrice INTEGER, $colDate TEXT)");
+    await db.execute(
+        "CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
+            "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +
+            "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
   }
 
   //<--Expense block-->
@@ -88,7 +91,7 @@ class DbHelper {
   //<--Expense block-->
 
   //<--Inversion block-->
-    Future<int> insertInversion(Inversion inversion) async {
+  Future<int> insertInversion(Inversion inversion) async {
     Database db = await this.db;
     var result = await db.insert(tblInversion, inversion.toMap());
     return result;
@@ -96,8 +99,8 @@ class DbHelper {
 
   Future<List> getInversion() async {
     Database db = await this.db;
-    var result =
-        await db.rawQuery("SELECT * FROM $tblInversion order by $colArticle ASC");
+    var result = await db
+        .rawQuery("SELECT * FROM $tblInversion order by $colArticle ASC");
     return result;
   }
 
@@ -122,5 +125,46 @@ class DbHelper {
     return result;
   }
   //<--Inversion block-->
+
+  //<--total block-->
+  Future<int> insertTotal(TotalPerMonth total) async {
+    Database db = await this.db;
+    var result = await db.insert("totalyear", total.toMap());
+    return result;
+  }
+
+  Future<List> getTotal() async {
+    Database db = await this.db;
+    var result = await db.rawQuery("SELECT * FROM totalyear order by year ASC");
+    return result;
+  }
+
+    Future<List> getTotalYear(int year) async {
+    Database db = await this.db;
+    var result = await db.rawQuery("SELECT * FROM totalyear where year = $year");
+    return result;
+  }
+
+  Future<int> getTotalCount() async {
+    Database db = await this.db;
+    var result = Sqflite.firstIntValue(
+        await db.rawQuery("Select count (*) from totalyear"));
+    return result;
+  }
+
+  Future<int> updateTotal(TotalPerMonth totalPerMonth) async {
+    Database db = await this.db;
+    var result = await db.update("totalyear", totalPerMonth.toMap(),
+        where: "year = ?", whereArgs: [totalPerMonth.year]);
+    return result;
+  }
+
+  Future<int> deleteTotal(int id) async {
+    int result;
+    Database db = await this.db;
+    result = await db.rawDelete('DELETE FROM totalyear WHERE year = $id');
+    return result;
+  }
+  //<--total block-->
 
 }
