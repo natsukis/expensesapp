@@ -3,6 +3,7 @@ import 'package:gastosapp/model/expense.dart';
 import 'package:gastosapp/model/inversion.dart';
 import 'package:gastosapp/model/month.dart';
 import 'package:gastosapp/model/monthinversion.dart';
+import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:intl/intl.dart';
 
@@ -14,11 +15,14 @@ class TodayTotal extends StatefulWidget {
 }
 
 class TodayTotalState extends State {
+  DbHelper helper = DbHelper();
   String date;
   TodayTotalState(this.date);
   PageController _controller = PageController(
     initialPage: 0,
   );
+  TotalPerMonth tempTot;
+  int status;
 
   @override
   void dispose() {
@@ -28,12 +32,13 @@ class TodayTotalState extends State {
 
   @override
   Widget build(BuildContext context) {
+    getTotal(getDate(date));
     return Scaffold(
         body: PageView(
       controller: _controller,
       children: [
         TodayTotal1(date),
-        TodayTotal2(),
+        TodayTotal2(tempTot, status),
       ],
     ));
   }
@@ -45,6 +50,35 @@ class TodayTotalState extends State {
         newDateTimeObj.month.toString() +
         '/' +
         newDateTimeObj.year.toString();
+  }
+
+  int getDate(String dateString) {
+    var x = new DateFormat().add_yMd().parse(dateString).year;
+    return x;
+  }
+
+  void getTotal(int year) async {
+    final dbFuture = helper.initializeDb();
+    TotalPerMonth totalAux;
+    int statusTemp;
+    await dbFuture.then((result) async {
+      final total = helper.getTotalYear(year);
+      await total.then((result) {
+        int count = result.length;
+        if (count == 0) {
+          totalAux = new TotalPerMonth.withYear(year);
+          helper.insertTotal(totalAux);
+          statusTemp = 0;
+        } else {
+          totalAux = TotalPerMonth.fromObject(result[0]);
+          statusTemp = 1;
+        }
+      });
+      setState(() {
+        tempTot = totalAux;
+        status = statusTemp;
+      });
+    });
   }
 }
 
@@ -598,7 +632,9 @@ class TodayTotal1State extends State {
 /////////////////////////////////////////////////
 
 class TodayTotal2 extends StatelessWidget {
-  TodayTotal2();
+  TotalPerMonth totalMonth;
+  int status;
+  TodayTotal2(this.totalMonth, this.status);
 
   DbHelper helper = DbHelper();
 
@@ -667,11 +703,37 @@ class TodayTotal2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ejanuaryList.isEmpty) {
+    if (status == 0) {
       ejanuaryList = List<Expense>();
       getDataExpense();
       getDataIncome();
       getDataInversion();
+
+      totalMonth.january = calculateTotalSimple(ejanuaryList, eJanuary,
+          incomeMonth.januaryList, incomeMonth.notJanuary);
+      totalMonth.february = calculateTotalSimple(efebruaryList, eFebruary,
+          incomeMonth.februaryList, incomeMonth.notFebruary);
+      totalMonth.march = calculateTotalSimple(
+          emarchList, eMarch, incomeMonth.marchList, incomeMonth.notMarch);
+      totalMonth.april = calculateTotalSimple(
+          eaprilList, eApril, incomeMonth.aprilList, incomeMonth.notApril);
+      totalMonth.may = calculateTotalSimple(
+          emayList, eMay, incomeMonth.mayList, incomeMonth.notMay);
+      totalMonth.june = calculateTotalSimple(
+          ejuneList, eJune, incomeMonth.juneList, incomeMonth.notJune);
+      totalMonth.july = calculateTotalSimple(
+          ejulyList, eJuly, incomeMonth.julyList, incomeMonth.notJuly);
+      totalMonth.august = calculateTotalSimple(
+          eaugustList, eAugust, incomeMonth.augustList, incomeMonth.notAugust);
+      totalMonth.september = calculateTotalSimple(eseptemberList, eSeptember,
+          incomeMonth.septemberList, incomeMonth.notSeptember);
+      totalMonth.october = calculateTotalSimple(eoctoberList, eOctober,
+          incomeMonth.octoberList, incomeMonth.notOctober);
+      totalMonth.november = calculateTotalSimple(enovemberList, eNovember,
+          incomeMonth.novemberList, incomeMonth.notNovember);
+      totalMonth.december = calculateTotalSimple(edecemberList, eDecember,
+          incomeMonth.decemberList, incomeMonth.notDecember);
+      //
     }
     return Scaffold(
         backgroundColor: Colors.cyan,
@@ -699,13 +761,7 @@ class TodayTotal2 extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                           ),
                           Expanded(
-                              child: Text(
-                                  '-\$' +
-                                      calculateTotalSimple(
-                                          ejanuaryList,
-                                          eJanuary,
-                                          incomeMonth.januaryList,
-                                          incomeMonth.notJanuary),
+                              child: Text('-\$' + totalMonth.january.toString(),
                                   style: TextStyle(color: Colors.white)))
                         ]),
                         Padding(
@@ -716,12 +772,7 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              efebruaryList,
-                                              eFebruary,
-                                              incomeMonth.februaryList,
-                                              incomeMonth.notFebruary),
+                                      '\$' + totalMonth.february.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -732,12 +783,7 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              emarchList,
-                                              eMarch,
-                                              incomeMonth.marchList,
-                                              incomeMonth.notMarch),
+                                      '\$' + totalMonth.march.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -748,12 +794,7 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              eaprilList,
-                                              eApril,
-                                              incomeMonth.aprilList,
-                                              incomeMonth.notApril),
+                                      '\$' + totalMonth.april.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -763,13 +804,7 @@ class TodayTotal2 extends StatelessWidget {
                                   child: Text("Total Mayo(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
-                                  child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              emayList,
-                                              eMay,
-                                              incomeMonth.mayList,
-                                              incomeMonth.notMay),
+                                  child: Text('\$' + totalMonth.may.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -779,13 +814,7 @@ class TodayTotal2 extends StatelessWidget {
                                   child: Text("Total Junio(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
-                                  child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              ejuneList,
-                                              eJune,
-                                              incomeMonth.juneList,
-                                              incomeMonth.notJune),
+                                  child: Text('\$' + totalMonth.june.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -795,13 +824,7 @@ class TodayTotal2 extends StatelessWidget {
                                   child: Text("Total Julio(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
-                                  child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              ejulyList,
-                                              eJuly,
-                                              incomeMonth.julyList,
-                                              incomeMonth.notJuly),
+                                  child: Text('\$' + totalMonth.july.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -812,29 +835,18 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              eaugustList,
-                                              eAugust,
-                                              incomeMonth.augustList,
-                                              incomeMonth.notAugust),
+                                      '\$' + totalMonth.august.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text(
-                                      "Total Septiembre(Ingre-Gasto):",
+                                  child: Text("Total Septiembre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              eseptemberList,
-                                              eSeptember,
-                                              incomeMonth.septemberList,
-                                              incomeMonth.notSeptember),
+                                      '\$' + totalMonth.september.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -845,46 +857,29 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              eoctoberList,
-                                              eOctober,
-                                              incomeMonth.octoberList,
-                                              incomeMonth.notOctober),
+                                      '\$' + totalMonth.october.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text(
-                                      "Total Noviembre(Ingre-Gasto):",
+                                  child: Text("Total Noviembre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              enovemberList,
-                                              eNovember,
-                                              incomeMonth.novemberList,
-                                              incomeMonth.notNovember),
+                                      '\$' + totalMonth.november.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text(
-                                      "Total Diciembre(Ingre-Gasto):",
+                                  child: Text("Total Diciembre(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
-                                          calculateTotalSimple(
-                                              edecemberList,
-                                              eDecember,
-                                              incomeMonth.decemberList,
-                                              incomeMonth.notDecember),
+                                      '\$' + totalMonth.december.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                       ])))),
@@ -1291,7 +1286,7 @@ class TodayTotal2 extends StatelessWidget {
     return (total - totalexpense - totalInversion).toString();
   }
 
-  String calculateTotalSimple(
+  int calculateTotalSimple(
     List<Expense> expenses,
     int count,
     List<Expense> incomes,
@@ -1307,7 +1302,7 @@ class TodayTotal2 extends StatelessWidget {
       totalexpense = totalexpense + expenses[i].price;
     }
 
-    return (total - totalexpense).toString();
+    return (total - totalexpense);
   }
 
   bool comparedate(String date, DateTime dateFrom, DateTime dateTo) {

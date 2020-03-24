@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastosapp/model/expense.dart';
+import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:intl/intl.dart';
 
@@ -30,11 +31,13 @@ class IncomeDetailState extends State {
   TextEditingController quantityController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TotalPerMonth tempTot;
 
   @override
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
+    getTotal(getDate(date));
     return Scaffold(
       backgroundColor: Colors.cyan,
         appBar: AppBar(
@@ -111,6 +114,11 @@ class IncomeDetailState extends State {
   }
 
   void save() {
+    //Save in totalmonth table
+    var tempDate = new DateFormat().add_yMd().parse(date);
+    tempTot = updateMonth(tempTot, tempDate.month, expense.price);
+    helper.updateTotal(tempTot);
+    ///
     expense.date = date;
     expense.type = 'Income';
     if (expense.id != null) {
@@ -161,4 +169,74 @@ class IncomeDetailState extends State {
       Navigator.pop(context, true);
     }
   }
+  
+  int getDate(String dateString){
+    var x = new DateFormat().add_yMd().parse(dateString).year;
+    return x;
+  }
+
+    void getTotal(int year) async {
+    final dbFuture = helper.initializeDb();
+    TotalPerMonth totalAux;
+    await dbFuture.then((result) async{
+      final total = helper.getTotalYear(year);
+      await total.then((result) {
+        int count = result.length;
+
+        if (count == 0) {
+          totalAux = new TotalPerMonth.withYear(year);
+          helper.insertTotal(totalAux);
+        } else {
+          totalAux = TotalPerMonth.fromObject(result[0]);
+        }
+
+      });
+      setState(() {
+        tempTot = totalAux;
+      });
+    });
+  }
+
+  TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
+    switch (month) {
+      case 1:
+        totalToUpdate.january = totalToUpdate.january + value;
+        break;
+      case 2:
+        totalToUpdate.february = totalToUpdate.february + value;
+        break;
+      case 3:
+        totalToUpdate.march = totalToUpdate.march + value;
+        break;
+      case 4:
+        totalToUpdate.april = totalToUpdate.april + value;
+        break;
+      case 5:
+        totalToUpdate.may = totalToUpdate.may + value;
+        break;
+      case 6:
+        totalToUpdate.june = totalToUpdate.june + value;
+        break;
+      case 7:
+        totalToUpdate.july = totalToUpdate.july + value;
+        break;
+      case 8:
+        totalToUpdate.august = totalToUpdate.august + value;
+        break;
+      case 9:
+        totalToUpdate.september = totalToUpdate.september + value;
+        break;
+      case 10:
+        totalToUpdate.october = totalToUpdate.october + value;
+        break;
+      case 11:
+        totalToUpdate.november = totalToUpdate.november + value;
+        break;
+      case 12:
+        totalToUpdate.december = totalToUpdate.december + value;
+        break;
+    }
+    return totalToUpdate;
+  }
+
 }

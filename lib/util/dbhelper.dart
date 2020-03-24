@@ -36,7 +36,7 @@ class DbHelper {
   Future<Database> initializeDb() async {
     Directory dir = await getApplicationDocumentsDirectory();
     String path = dir.path + "expenses.db";
-    var dbExpenses = await openDatabase(path, version: 1, onCreate: _create);
+    var dbExpenses = await openDatabase(path, version: 2, onCreate: _create, onUpgrade: _upgrade);
     return dbExpenses;
   }
 
@@ -47,6 +47,13 @@ class DbHelper {
     await db.execute(
         "CREATE TABLE $tblInversion($colId INTEGER PRIMARY KEY, $colArticle TEXT, " +
             "$colDescription TEXT, $colPrice INTEGER, $colDate TEXT)");
+    await db.execute(
+        "CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
+            "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +
+            "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
+  }
+
+  void _upgrade(Database db, int newVersion, int update) async {
     await db.execute(
         "CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
             "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +

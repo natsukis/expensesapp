@@ -13,13 +13,13 @@ class ExpenseDetail extends StatefulWidget {
   ExpenseDetail(this.expense, this.date);
 
   @override
-  State<StatefulWidget> createState() => ExpenseDetailState(expense,date);
+  State<StatefulWidget> createState() => ExpenseDetailState(expense, date);
 }
 
 class ExpenseDetailState extends State {
   Expense expense;
-    final String date;
-  ExpenseDetailState(this.expense,this.date);
+  final String date;
+  ExpenseDetailState(this.expense, this.date);
   final _articles = [
     "Alquiler",
     "Celular",
@@ -27,8 +27,8 @@ class ExpenseDetailState extends State {
     "Compra",
     "Gastos comunes",
     "Impuesto",
-    "Internet",  
-    "Nafta",        
+    "Internet",
+    "Nafta",
     "Otro",
     "Prestamo",
     "Regalo",
@@ -40,49 +40,51 @@ class ExpenseDetailState extends State {
   TextEditingController quantityController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-
+  TotalPerMonth tempTot;
   @override
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
+     getTotal(getDate(date));
     return Scaffold(
-      backgroundColor: Colors.cyan,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
           backgroundColor: Colors.cyan,
           automaticallyImplyLeading: false,
-          title: Text(expense.description == "" ? "Nuevo Gasto" : expense.description),          
+          title: Text(
+              expense.description == "" ? "Nuevo Gasto" : expense.description),
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
           child: ListView(children: <Widget>[
             Column(
               children: <Widget>[
-                 Padding(
-                  padding:EdgeInsets.only(top: 20),
-                  child:ListTile(
-                    title: DropdownButton<String>(
-                  items: _articles.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  style: textStyle,
-                  value: expense.article,
-                  onChanged: (value) => updateArticle(value),
-                ))),
-                 Padding(
-                  padding:EdgeInsets.only(top: 20, bottom:20),
-                  child:TextField(
-                  controller: descriptionController,
-                  style: textStyle,
-                  onChanged: (value) => this.updateDescription(),
-                  decoration: InputDecoration(
-                      labelStyle: textStyle,
-                      labelText: "Descripcion",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0))),
-                )),
+                Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: ListTile(
+                        title: DropdownButton<String>(
+                      items: _articles.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      style: textStyle,
+                      value: expense.article,
+                      onChanged: (value) => updateArticle(value),
+                    ))),
+                Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
+                    child: TextField(
+                      controller: descriptionController,
+                      style: textStyle,
+                      onChanged: (value) => this.updateDescription(),
+                      decoration: InputDecoration(
+                          labelStyle: textStyle,
+                          labelText: "Descripcion",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                    )),
                 Padding(
                     padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                     child: TextField(
@@ -121,6 +123,11 @@ class ExpenseDetailState extends State {
   }
 
   void save() {
+    //Save in totalmonth table
+    var tempDate = new DateFormat().add_yMd().parse(date);
+    tempTot = updateMonth(tempTot, tempDate.month, expense.price);
+    helper.updateTotal(tempTot);
+    ///
     expense.date = date;
     expense.type = 'Expense';
     if (expense.id != null) {
@@ -131,7 +138,7 @@ class ExpenseDetailState extends State {
     Navigator.pop(context, true);
   }
 
-    void updateArticle(String value) {
+  void updateArticle(String value) {
     expense.article = value;
 
     setState(() {
@@ -171,5 +178,73 @@ class ExpenseDetailState extends State {
       Navigator.pop(context, true);
     }
   }
-  
+
+  int getDate(String dateString){
+    var x = new DateFormat().add_yMd().parse(dateString).year;
+    return x;
+  }
+
+  void getTotal(int year) async {
+    final dbFuture = helper.initializeDb();
+    TotalPerMonth totalAux;
+    await dbFuture.then((result) async{
+      final total = helper.getTotalYear(year);
+      await total.then((result) {
+        int count = result.length;
+
+        if (count == 0) {
+          totalAux = new TotalPerMonth.withYear(year);
+          helper.insertTotal(totalAux);
+        } else {
+          totalAux = TotalPerMonth.fromObject(result[0]);
+        }
+
+      });
+      setState(() {
+        tempTot = totalAux;
+      });
+    });
+  }
+
+  TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
+    switch (month) {
+      case 1:
+        totalToUpdate.january = totalToUpdate.january - value;
+        break;
+      case 2:
+        totalToUpdate.february = totalToUpdate.february - value;
+        break;
+      case 3:
+        totalToUpdate.march = totalToUpdate.march - value;
+        break;
+      case 4:
+        totalToUpdate.april = totalToUpdate.april - value;
+        break;
+      case 5:
+        totalToUpdate.may = totalToUpdate.may - value;
+        break;
+      case 6:
+        totalToUpdate.june = totalToUpdate.june - value;
+        break;
+      case 7:
+        totalToUpdate.july = totalToUpdate.july - value;
+        break;
+      case 8:
+        totalToUpdate.august = totalToUpdate.august - value;
+        break;
+      case 9:
+        totalToUpdate.september = totalToUpdate.september - value;
+        break;
+      case 10:
+        totalToUpdate.october = totalToUpdate.october - value;
+        break;
+      case 11:
+        totalToUpdate.november = totalToUpdate.november - value;
+        break;
+      case 12:
+        totalToUpdate.december = totalToUpdate.december - value;
+        break;
+    }
+    return totalToUpdate;
+  }
 }
