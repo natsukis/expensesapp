@@ -191,9 +191,11 @@ class IncomeDetailState extends State {
         }
 
       });
+      if(mounted){
       setState(() {
         tempTot = totalAux;
       });
+      }
     });
   }
 

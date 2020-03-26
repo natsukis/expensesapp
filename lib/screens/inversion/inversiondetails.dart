@@ -37,43 +37,45 @@ class InversionDetailState extends State {
     descriptionController.text = inversion.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
-      backgroundColor: Colors.cyan,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
           backgroundColor: Colors.cyan,
           automaticallyImplyLeading: false,
-          title: Text(inversion.description == "" ? "Nueva Inversion" : inversion.description),
+          title: Text(inversion.description == ""
+              ? "Nueva Inversion"
+              : inversion.description),
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
           child: ListView(children: <Widget>[
             Column(
-              children: <Widget>[                
+              children: <Widget>[
                 Padding(
-                  padding:EdgeInsets.only(top: 20),
-                  child:ListTile(
-                    title: DropdownButton<String>(
-                  items: _articles.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  style: textStyle,
-                  value: inversion.article,
-                  onChanged: (value) => updateArticle(value),
-                ))),
+                    padding: EdgeInsets.only(top: 20),
+                    child: ListTile(
+                        title: DropdownButton<String>(
+                      items: _articles.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      style: textStyle,
+                      value: inversion.article,
+                      onChanged: (value) => updateArticle(value),
+                    ))),
                 Padding(
-                  padding:EdgeInsets.only(top: 20, bottom:20),
-                  child:TextField(
-                  controller: descriptionController,
-                  style: textStyle,
-                  onChanged: (value) => this.updateDescription(),
-                  decoration: InputDecoration(
-                      labelStyle: textStyle,
-                      labelText: "Descripcion",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0))),
-                )),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
+                    child: TextField(
+                      controller: descriptionController,
+                      style: textStyle,
+                      onChanged: (value) => this.updateDescription(),
+                      decoration: InputDecoration(
+                          labelStyle: textStyle,
+                          labelText: "Descripcion",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                    )),
                 Padding(
                     padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                     child: TextField(

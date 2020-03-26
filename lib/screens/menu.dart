@@ -32,7 +32,7 @@ class MenuState extends State {
                   padding: EdgeInsets.only(bottom: 10),
                   child: Container(
                     child: Text("Su saldo de este mes es: \$" +
-                        currentTotal, style: TextStyle(color: Colors.green)),
+                        currentTotal, style: TextStyle(color: Colors.purple)),
                   )),
               Center(
                 child: SingleChildScrollView(

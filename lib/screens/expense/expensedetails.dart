@@ -45,7 +45,7 @@ class ExpenseDetailState extends State {
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
-     getTotal(getDate(date));
+    getTotal(getDate(date));
     return Scaffold(
         backgroundColor: Colors.cyan,
         appBar: AppBar(
@@ -127,6 +127,7 @@ class ExpenseDetailState extends State {
     var tempDate = new DateFormat().add_yMd().parse(date);
     tempTot = updateMonth(tempTot, tempDate.month, expense.price);
     helper.updateTotal(tempTot);
+
     ///
     expense.date = date;
     expense.type = 'Expense';
@@ -179,17 +180,17 @@ class ExpenseDetailState extends State {
     }
   }
 
-  int getDate(String dateString){
+  int getDate(String dateString) {
     var x = new DateFormat().add_yMd().parse(dateString).year;
     return x;
   }
 
-  void getTotal(int year) async {
+  void getTotal(int year) {
     final dbFuture = helper.initializeDb();
     TotalPerMonth totalAux;
-    await dbFuture.then((result) async{
+    dbFuture.then((result) {
       final total = helper.getTotalYear(year);
-      await total.then((result) {
+      total.then((result) {
         int count = result.length;
 
         if (count == 0) {
@@ -198,11 +199,12 @@ class ExpenseDetailState extends State {
         } else {
           totalAux = TotalPerMonth.fromObject(result[0]);
         }
-
       });
-      setState(() {
-        tempTot = totalAux;
-      });
+      if (mounted) {
+        setState(() {
+          tempTot = totalAux;
+        });
+      }
     });
   }
 
