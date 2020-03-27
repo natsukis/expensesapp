@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastosapp/model/expense.dart';
+import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/screens/others/loadandviewcsvpage.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:gastosapp/screens/expense/expensedetails.dart';
@@ -20,6 +21,7 @@ class ExpensePageState extends State {
   ExpensePageState(this.date);
   DbHelper helper = DbHelper();
   List<Expense> expenses;
+  TotalPerMonth tempTot;
   int count = 0;
   String date;
   @override
@@ -92,7 +94,7 @@ class ExpensePageState extends State {
         int notInRange = 0;
         for (int i = 0; i < count; i++) {
           Expense producAux = Expense.fromObject(result[i]);
-          if (producAux.type == "Expense" && producAux.date == date  ) {
+          if (producAux.type == "Expense" && producAux.date == date) {
             productList.add(producAux);
           } else {
             notInRange = notInRange + 1;
@@ -103,7 +105,30 @@ class ExpensePageState extends State {
           count = count - notInRange;
         });
       });
+
+      //total
+      final total = helper.getTotalYear(getDate(date));
+      TotalPerMonth totalAux;
+      total.then((result) {
+        int count = result.length;
+        if (count == 0) {
+          totalAux = new TotalPerMonth.withYear(getDate(date));
+          helper.insertTotal(totalAux);
+        } else {
+          totalAux = TotalPerMonth.fromObject(result[0]);
+        }
+        if (mounted) {
+          setState(() {
+            tempTot = totalAux;
+          });
+        }
+      });
     });
+  }
+
+  int getDate(String dateString) {
+    var x = new DateFormat().add_yMd().parse(dateString).year;
+    return x;
   }
 
   Color getColor(String article) {
@@ -168,8 +193,10 @@ class ExpensePageState extends State {
   }
 
   void navigateToDetail(Expense expense) async {
-    bool result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ExpenseDetail(expense, date)));
+    bool result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ExpenseDetail(expense, date, tempTot)));
     if (result == true) {
       getData();
     }

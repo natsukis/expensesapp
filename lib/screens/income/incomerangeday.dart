@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastosapp/model/expense.dart';
+import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/screens/others/loadandviewcsvpage.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:gastosapp/screens/expense/expensedetails.dart';
@@ -26,6 +27,7 @@ class IncomeRangeDayState extends State {
   int count = 0;
   DateTime dateTo;
   DateTime dateFrom;
+  TotalPerMonth tempTot;
   IncomeRangeDayState(this.dateFrom, this.dateTo);
 
   @override
@@ -105,6 +107,25 @@ class IncomeRangeDayState extends State {
           count = count - notInRange;
         });
       });
+
+      //Income total
+      TotalPerMonth totalAux;
+      final total = helper.getTotalYear(dateFrom.year);
+      total.then((result) {
+        int count = result.length;
+
+        if (count == 0) {
+          totalAux = new TotalPerMonth.withYear(dateFrom.year);
+          helper.insertTotal(totalAux);
+        } else {
+          totalAux = TotalPerMonth.fromObject(result[0]);
+        }
+      });
+      if (mounted) {
+        setState(() {
+          tempTot = totalAux;
+        });
+      }
     });
   }
 
@@ -112,7 +133,8 @@ class IncomeRangeDayState extends State {
     bool result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => IncomeDetail(expense, expense.date)));
+            builder: (context) =>
+                IncomeDetail(expense, expense.date, tempTot)));
     if (result == true) {
       getData();
     }
@@ -196,8 +218,11 @@ class IncomeRangeDayState extends State {
     if (result[PermissionGroup.storage] == PermissionStatus.granted) {
       // permission was granted
       final String dir = (await DownloadsPathProvider.downloadsDirectory).path;
-      final String path =
-          '$dir/Ingresos' + stringToDateConvertCsv(dateFrom) + "a" + stringToDateConvertCsv(dateTo)  + '.csv';
+      final String path = '$dir/Ingresos' +
+          stringToDateConvertCsv(dateFrom) +
+          "a" +
+          stringToDateConvertCsv(dateTo) +
+          '.csv';
 
       // create file
       final File file = File(path);
@@ -212,7 +237,10 @@ class IncomeRangeDayState extends State {
   }
 
   String stringToDateConvertCsv(DateTime aux) {
-    return aux.day.toString() + '-' + aux.month.toString() + '-' + aux.year.toString();
+    return aux.day.toString() +
+        '-' +
+        aux.month.toString() +
+        '-' +
+        aux.year.toString();
   }
-
 }

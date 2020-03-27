@@ -27,15 +27,16 @@ class MenuState extends State {
         ),
         body: Padding(
             padding: EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
-            child: Column(children: <Widget>[
+            child: Center(
+              child:Column(children: <Widget>[
               Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Container(
                     child: Text("Su saldo de este mes es: \$" +
                         currentTotal, style: TextStyle(color: Colors.purple)),
                   )),
-              Center(
-                child: SingleChildScrollView(
+              
+                 SingleChildScrollView(
                     child: Container(
                         alignment: Alignment.center,
                         child: Column(children: <Widget>[
@@ -166,8 +167,8 @@ class MenuState extends State {
                           //         },
                           //         child: Text("Exportar")))
                         ]))),
-              )
-            ])));
+              ])
+            )));
   }
 
   String date() {

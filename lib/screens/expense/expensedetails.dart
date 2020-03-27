@@ -10,16 +10,17 @@ DbHelper helper = new DbHelper();
 class ExpenseDetail extends StatefulWidget {
   final Expense expense;
   final String date;
-  ExpenseDetail(this.expense, this.date);
+  final TotalPerMonth tempTot;
+  ExpenseDetail(this.expense, this.date, this.tempTot);
 
   @override
-  State<StatefulWidget> createState() => ExpenseDetailState(expense, date);
+  State<StatefulWidget> createState() => ExpenseDetailState(expense, date, tempTot);
 }
 
 class ExpenseDetailState extends State {
   Expense expense;
   final String date;
-  ExpenseDetailState(this.expense, this.date);
+  ExpenseDetailState(this.expense, this.date, this.tempTot);
   final _articles = [
     "Alquiler",
     "Celular",
@@ -45,7 +46,7 @@ class ExpenseDetailState extends State {
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    getTotal(getDate(date));
+    //getTotal(getDate(date));
     return Scaffold(
         backgroundColor: Colors.cyan,
         appBar: AppBar(
@@ -180,33 +181,33 @@ class ExpenseDetailState extends State {
     }
   }
 
-  int getDate(String dateString) {
-    var x = new DateFormat().add_yMd().parse(dateString).year;
-    return x;
-  }
+  // int getDate(String dateString) {
+  //   var x = new DateFormat().add_yMd().parse(dateString).year;
+  //   return x;
+  // }
 
-  void getTotal(int year) {
-    final dbFuture = helper.initializeDb();
-    TotalPerMonth totalAux;
-    dbFuture.then((result) {
-      final total = helper.getTotalYear(year);
-      total.then((result) {
-        int count = result.length;
+  // void getTotal(int year) {
+  //   final dbFuture = helper.initializeDb();
+  //   TotalPerMonth totalAux;
+  //   dbFuture.then((result) {
+  //     final total = helper.getTotalYear(year);
+  //     total.then((result) {
+  //       int count = result.length;
 
-        if (count == 0) {
-          totalAux = new TotalPerMonth.withYear(year);
-          helper.insertTotal(totalAux);
-        } else {
-          totalAux = TotalPerMonth.fromObject(result[0]);
-        }
-      });
-      if (mounted) {
-        setState(() {
-          tempTot = totalAux;
-        });
-      }
-    });
-  }
+  //       if (count == 0) {
+  //         totalAux = new TotalPerMonth.withYear(year);
+  //         helper.insertTotal(totalAux);
+  //       } else {
+  //         totalAux = TotalPerMonth.fromObject(result[0]);
+  //       }
+  //     });
+  //     if (mounted) {
+  //       setState(() {
+  //         tempTot = totalAux;
+  //       });
+  //     }
+  //   });
+  // }
 
   TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
     switch (month) {

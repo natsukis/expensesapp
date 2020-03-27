@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastosapp/model/expense.dart';
+import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:gastosapp/screens/expense/expensedetails.dart';
 import 'package:intl/intl.dart';
@@ -11,8 +12,8 @@ import 'package:gastosapp/screens/others/loadandviewcsvpage.dart';
 
 class ExpenseRangeDay extends StatefulWidget {
   int count = 0;
-  DateTime dateFrom;
-  DateTime dateTo;
+  final DateTime dateFrom;
+  final DateTime dateTo;
   ExpenseRangeDay(this.dateFrom, this.dateTo);
   @override
   State<StatefulWidget> createState() => ExpenseRangeDayState(dateFrom, dateTo);
@@ -24,6 +25,7 @@ class ExpenseRangeDayState extends State {
   int count = 0;
   DateTime dateTo;
   DateTime dateFrom;
+  TotalPerMonth tempTot;
   ExpenseRangeDayState(this.dateFrom, this.dateTo);
 
   @override
@@ -39,7 +41,11 @@ class ExpenseRangeDayState extends State {
         centerTitle: true,
         backgroundColor: Colors.cyan,
         bottom: PreferredSize(
-            child: Text(stringToDateConvert(dateFrom) + " a " + stringToDateConvert(dateTo),style: TextStyle(color: Colors.white)),
+            child: Text(
+                stringToDateConvert(dateFrom) +
+                    " a " +
+                    stringToDateConvert(dateTo),
+                style: TextStyle(color: Colors.white)),
             preferredSize: null),
         actions: <Widget>[
           InkWell(
@@ -66,11 +72,13 @@ class ExpenseRangeDayState extends State {
           child: ListTile(
               leading: CircleAvatar(
                   backgroundColor: getColor(this.expenses[position].article),
-                  child: Text(this.expenses[position].article.substring(0,1))),
+                  child: Text(this.expenses[position].article.substring(0, 1))),
               title: Text(this.expenses[position].article),
               subtitle:
                   Text('Total: \$' + this.expenses[position].price.toString()),
-              onTap: () { navigateToDetail(this.expenses[position]);}),
+              onTap: () {
+                navigateToDetail(this.expenses[position]);
+              }),
         );
       },
     );
@@ -86,8 +94,7 @@ class ExpenseRangeDayState extends State {
         int notInRange = 0;
         for (int i = 0; i < count; i++) {
           Expense producAux = Expense.fromObject(result[i]);
-          if (comparedate(producAux.date) &&
-              (producAux.type == "Expense")) {
+          if (comparedate(producAux.date) && (producAux.type == "Expense")) {
             productList.add(producAux);
           } else {
             notInRange = notInRange + 1;
@@ -97,13 +104,34 @@ class ExpenseRangeDayState extends State {
           expenses = productList;
           count = count - notInRange;
         });
+
+        //total
+        final total = helper.getTotalYear(dateFrom.year);
+        TotalPerMonth totalAux;
+        total.then((result) {
+          int count = result.length;
+          if (count == 0) {
+            totalAux = new TotalPerMonth.withYear(dateFrom.year);
+            helper.insertTotal(totalAux);
+          } else {
+            totalAux = TotalPerMonth.fromObject(result[0]);
+          }
+          if (mounted) {
+            setState(() {
+              tempTot = totalAux;
+            });
+          }
+        });
       });
     });
   }
 
-    void navigateToDetail(Expense expense) async {
-    bool result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ExpenseDetail(expense, expense.date)));
+  void navigateToDetail(Expense expense) async {
+    bool result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ExpenseDetail(expense, expense.date, tempTot)));
     if (result == true) {
       getData();
     }
@@ -114,7 +142,11 @@ class ExpenseRangeDayState extends State {
   }
 
   String stringToDateConvertCsv(DateTime aux) {
-    return aux.day.toString() + '-' + aux.month.toString() + '-' + aux.year.toString();
+    return aux.day.toString() +
+        '-' +
+        aux.month.toString() +
+        '-' +
+        aux.year.toString();
   }
 
   String stringToDate(String aux) {
@@ -138,7 +170,8 @@ class ExpenseRangeDayState extends State {
   bool comparedate(String date) {
     DateTime dateD = new DateFormat().add_yMd().parse(date);
 
-    if (dateD.isAfter(dateFrom.add(new Duration(days: -1))) && dateD.isBefore(dateTo.add(new Duration(days: 1)))) {
+    if (dateD.isAfter(dateFrom.add(new Duration(days: -1))) &&
+        dateD.isBefore(dateTo.add(new Duration(days: 1)))) {
       return true;
     } else {
       return false;
@@ -146,7 +179,6 @@ class ExpenseRangeDayState extends State {
   }
 
   Color getColor(String article) {
-
     switch (article) {
       case "Luz":
         return Colors.blue;
@@ -185,12 +217,12 @@ class ExpenseRangeDayState extends State {
       case "Gastos comunes":
         return Colors.grey;
         break;
-        
-      case  "Otro":
+
+      case "Otro":
         return Colors.grey;
         break;
 
-        default:
+      default:
         return Colors.grey;
     }
   }
@@ -222,8 +254,11 @@ class ExpenseRangeDayState extends State {
     if (result[PermissionGroup.storage] == PermissionStatus.granted) {
       // permission was granted
       final String dir = (await DownloadsPathProvider.downloadsDirectory).path;
-      final String path =
-          '$dir/Gastos' + stringToDateConvertCsv(dateFrom) + "a" + stringToDateConvertCsv(dateTo) + '.csv';
+      final String path = '$dir/Gastos' +
+          stringToDateConvertCsv(dateFrom) +
+          "a" +
+          stringToDateConvertCsv(dateTo) +
+          '.csv';
 
       // create file
       final File file = File(path);
@@ -245,5 +280,4 @@ class ExpenseRangeDayState extends State {
         '/' +
         newDateTimeObj.year.toString();
   }
-
 }

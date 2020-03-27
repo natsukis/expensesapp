@@ -9,16 +9,18 @@ DbHelper helper = new DbHelper();
 class IncomeDetail extends StatefulWidget {
   final Expense expense;
   final String date;
-  IncomeDetail(this.expense, this.date);
+  final TotalPerMonth tempTot;
+  IncomeDetail(this.expense, this.date, this.tempTot);
 
   @override
-  State<StatefulWidget> createState() => IncomeDetailState(expense,date);
+  State<StatefulWidget> createState() =>
+      IncomeDetailState(expense, date, tempTot);
 }
 
 class IncomeDetailState extends State {
   Expense expense;
-    final String date;
-  IncomeDetailState(this.expense,this.date);
+  final String date;
+  IncomeDetailState(this.expense, this.date, this.tempTot);
   final _articles = [
     "Ganancias",
     "Inversion",
@@ -37,13 +39,14 @@ class IncomeDetailState extends State {
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    getTotal(getDate(date));
     return Scaffold(
-      backgroundColor: Colors.cyan,
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
           backgroundColor: Colors.cyan,
           automaticallyImplyLeading: false,
-          title: Text(expense.description == "" ? "Nuevo Ingreso" : expense.description),
+          title: Text(expense.description == ""
+              ? "Nuevo Ingreso"
+              : expense.description),
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
@@ -51,31 +54,31 @@ class IncomeDetailState extends State {
             Column(
               children: <Widget>[
                 Padding(
-                  padding:EdgeInsets.only(top: 20),
-                  child:ListTile(
-                    title: DropdownButton<String>(
-                  items: _articles.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  style: textStyle,
-                  value: expense.article,
-                  onChanged: (value) => updateArticle(value),
-                ))),
+                    padding: EdgeInsets.only(top: 20),
+                    child: ListTile(
+                        title: DropdownButton<String>(
+                      items: _articles.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      style: textStyle,
+                      value: expense.article,
+                      onChanged: (value) => updateArticle(value),
+                    ))),
                 Padding(
-                  padding:EdgeInsets.only(top: 20, bottom:20),
-                  child:TextField(
-                  controller: descriptionController,
-                  style: textStyle,
-                  onChanged: (value) => this.updateDescription(),
-                  decoration: InputDecoration(
-                      labelStyle: textStyle,
-                      labelText: "Descripcion",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0))),
-                )),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
+                    child: TextField(
+                      controller: descriptionController,
+                      style: textStyle,
+                      onChanged: (value) => this.updateDescription(),
+                      decoration: InputDecoration(
+                          labelStyle: textStyle,
+                          labelText: "Descripcion",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                    )),
                 Padding(
                     padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                     child: TextField(
@@ -118,6 +121,7 @@ class IncomeDetailState extends State {
     var tempDate = new DateFormat().add_yMd().parse(date);
     tempTot = updateMonth(tempTot, tempDate.month, expense.price);
     helper.updateTotal(tempTot);
+
     ///
     expense.date = date;
     expense.type = 'Income';
@@ -129,7 +133,7 @@ class IncomeDetailState extends State {
     Navigator.pop(context, true);
   }
 
-    void updateArticle(String value) {
+  void updateArticle(String value) {
     expense.article = value;
 
     setState(() {
@@ -168,35 +172,6 @@ class IncomeDetailState extends State {
     } else {
       Navigator.pop(context, true);
     }
-  }
-  
-  int getDate(String dateString){
-    var x = new DateFormat().add_yMd().parse(dateString).year;
-    return x;
-  }
-
-    void getTotal(int year) async {
-    final dbFuture = helper.initializeDb();
-    TotalPerMonth totalAux;
-    await dbFuture.then((result) async{
-      final total = helper.getTotalYear(year);
-      await total.then((result) {
-        int count = result.length;
-
-        if (count == 0) {
-          totalAux = new TotalPerMonth.withYear(year);
-          helper.insertTotal(totalAux);
-        } else {
-          totalAux = TotalPerMonth.fromObject(result[0]);
-        }
-
-      });
-      if(mounted){
-      setState(() {
-        tempTot = totalAux;
-      });
-      }
-    });
   }
 
   TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
@@ -240,5 +215,4 @@ class IncomeDetailState extends State {
     }
     return totalToUpdate;
   }
-
 }

@@ -74,10 +74,12 @@ class TodayTotalState extends State {
           statusTemp = 1;
         }
       });
+      if (mounted) {
       setState(() {
         tempTot = totalAux;
         status = statusTemp;
       });
+      }
     });
   }
 }
@@ -192,17 +194,15 @@ class TodayTotal1State extends State {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Total (Ingre.-Gasto-Inver.):",
+                                  child: Text("Total (Ingre.-Gasto):",
                                       style: TextStyle(color: Colors.yellow))),
                               Expanded(
                                   child: Text('\$' +
-                                      calculateTotal(
+                                      calculateTotalSimple(
                                           expenses,
                                           countExpense,
                                           incomes,
-                                          countIncome,
-                                          inversions,
-                                          countInversion)))
+                                          countIncome)))
                             ])),
                         Padding(
                             padding: EdgeInsets.only(top: 30),
@@ -292,22 +292,6 @@ class TodayTotal1State extends State {
                             padding: EdgeInsets.only(top: 30),
                             child: Row(children: <Widget>[
                               Expanded(
-                                  child: Text("Total ult. 30 dias:",
-                                      style: TextStyle(color: Colors.yellow))),
-                              Expanded(
-                                  child: Text('\$' +
-                                      calculateTotal(
-                                          monthExpense,
-                                          monthExpenseCount,
-                                          monthIncome,
-                                          monthIncomeCount,
-                                          monthInversion,
-                                          monthInversionCount)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
                                   child: Text("Total ult. 30 dias (I-G):",
                                       style: TextStyle(color: Colors.yellow))),
                               Expanded(
@@ -318,6 +302,11 @@ class TodayTotal1State extends State {
                                           monthIncome,
                                           monthIncomeCount)))
                             ])),
+                            Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child:                              
+                                   Text("Total anual --->",
+                                      style: TextStyle(color: Colors.green))),                              
                       ])))),
         ));
   }
@@ -738,7 +727,7 @@ class TodayTotal2 extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.cyan,
         appBar: AppBar(
-          title: Text("Totales"),
+          title: Text("Totales " + DateTime.now().year.toString()),
           centerTitle: true,
           backgroundColor: Colors.cyan,
         ),
