@@ -75,10 +75,10 @@ class TodayTotalState extends State {
         }
       });
       if (mounted) {
-      setState(() {
-        tempTot = totalAux;
-        status = statusTemp;
-      });
+        setState(() {
+          tempTot = totalAux;
+          status = statusTemp;
+        });
       }
     });
   }
@@ -131,15 +131,15 @@ class TodayTotal1State extends State {
       getMonthIncomeData();
     }
     return Scaffold(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown[200],
         appBar: AppBar(
           title: Text(stringToDate(date)),
           centerTitle: true,
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.brown,
         ),
         floatingActionButton: FloatingActionButton(
             child: Text("Volver"),
-            backgroundColor: Colors.lightBlue,
+            backgroundColor: Colors.brown,
             onPressed: () {
               Navigator.pop(context, true);
             }),
@@ -157,7 +157,7 @@ class TodayTotal1State extends State {
                           ),
                           Expanded(
                               child: Text(
-                                  '-\$' +
+                                  '               -\$' +
                                       calculateTotalExpenses(
                                           expenses, countExpense),
                                   style: TextStyle(color: Colors.red)))
@@ -170,7 +170,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
+                                      '                \$' +
                                           calculateTotalExpenses(
                                               incomes, countIncome),
                                       style:
@@ -184,7 +184,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
+                                      '                \$' +
                                           calculateTotalInversions(
                                               inversions, countInversion),
                                       style:
@@ -197,12 +197,14 @@ class TodayTotal1State extends State {
                                   child: Text("Total (Ingre.-Gasto):",
                                       style: TextStyle(color: Colors.yellow))),
                               Expanded(
-                                  child: Text('\$' +
-                                      calculateTotalSimple(
-                                          expenses,
-                                          countExpense,
-                                          incomes,
-                                          countIncome)))
+                                  child: Text(
+                                      '                \$' +
+                                          calculateTotalSimple(
+                                              expenses,
+                                              countExpense,
+                                              incomes,
+                                              countIncome),
+                                      style: TextStyle(color: Colors.yellow)))
                             ])),
                         Padding(
                             padding: EdgeInsets.only(top: 30),
@@ -212,7 +214,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '-\$' +
+                                      '               -\$' +
                                           calculateTotalExpenses(
                                               weekExpense, weekexpensecount),
                                       style: TextStyle(color: Colors.red)))
@@ -225,7 +227,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
+                                      '                \$' +
                                           calculateTotalExpenses(
                                               weekIncome, weekincomecount),
                                       style:
@@ -239,7 +241,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
+                                      '                \$' +
                                           calculateTotalInversions(
                                               weekInversion,
                                               weekInversioncount),
@@ -254,7 +256,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '-\$' +
+                                      '               -\$' +
                                           calculateTotalExpenses(
                                               monthExpense, monthExpenseCount),
                                       style: TextStyle(color: Colors.red)))
@@ -267,7 +269,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
+                                      '                \$' +
                                           calculateTotalExpenses(
                                               monthIncome, monthIncomeCount),
                                       style:
@@ -281,7 +283,7 @@ class TodayTotal1State extends State {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' +
+                                      '                \$' +
                                           calculateTotalInversions(
                                               monthInversion,
                                               monthInversionCount),
@@ -295,18 +297,19 @@ class TodayTotal1State extends State {
                                   child: Text("Total ult. 30 dias (I-G):",
                                       style: TextStyle(color: Colors.yellow))),
                               Expanded(
-                                  child: Text('\$' +
-                                      calculateTotalSimple(
-                                          monthExpense,
-                                          monthExpenseCount,
-                                          monthIncome,
-                                          monthIncomeCount)))
+                                  child: Text(
+                                      '                \$' +
+                                          calculateTotalSimple(
+                                              monthExpense,
+                                              monthExpenseCount,
+                                              monthIncome,
+                                              monthIncomeCount),
+                                      style: TextStyle(color: Colors.yellow)))
                             ])),
-                            Padding(
+                        Padding(
                             padding: EdgeInsets.only(top: 30),
-                            child:                              
-                                   Text("Total anual --->",
-                                      style: TextStyle(color: Colors.green))),                              
+                            child: Text("Total anual --->",
+                                style: TextStyle(color: Colors.brown))),
                       ])))),
         ));
   }
@@ -725,18 +728,12 @@ class TodayTotal2 extends StatelessWidget {
       //
     }
     return Scaffold(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown[200],
         appBar: AppBar(
           title: Text("Totales " + DateTime.now().year.toString()),
           centerTitle: true,
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.brown,
         ),
-        floatingActionButton: FloatingActionButton(
-            child: Text("Volver"),
-            backgroundColor: Colors.lightBlue,
-            onPressed: () {
-              Navigator.pop(context, true);
-            }),
         body: Padding(
           padding: EdgeInsets.only(top: 20.0, left: 20),
           child: Center(
@@ -750,7 +747,9 @@ class TodayTotal2 extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                           ),
                           Expanded(
-                              child: Text('-\$' + totalMonth.january.toString(),
+                              child: Text(
+                                  '                \$' +
+                                      totalMonth.january.toString(),
                                   style: TextStyle(color: Colors.white)))
                         ]),
                         Padding(
@@ -761,7 +760,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.february.toString(),
+                                      '                \$' +
+                                          totalMonth.february.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -772,7 +772,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.march.toString(),
+                                      '                \$' +
+                                          totalMonth.march.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -783,7 +784,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.april.toString(),
+                                      '                \$' +
+                                          totalMonth.april.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -793,7 +795,9 @@ class TodayTotal2 extends StatelessWidget {
                                   child: Text("Total Mayo(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
-                                  child: Text('\$' + totalMonth.may.toString(),
+                                  child: Text(
+                                      '                \$' +
+                                          totalMonth.may.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -803,7 +807,9 @@ class TodayTotal2 extends StatelessWidget {
                                   child: Text("Total Junio(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
-                                  child: Text('\$' + totalMonth.june.toString(),
+                                  child: Text(
+                                      '                \$' +
+                                          totalMonth.june.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -813,7 +819,9 @@ class TodayTotal2 extends StatelessWidget {
                                   child: Text("Total Julio(Ingre-Gasto):",
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
-                                  child: Text('\$' + totalMonth.july.toString(),
+                                  child: Text(
+                                      '                \$' +
+                                          totalMonth.july.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -824,7 +832,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.august.toString(),
+                                      '                \$' +
+                                          totalMonth.august.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -835,7 +844,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.september.toString(),
+                                      '                \$' +
+                                          totalMonth.september.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -846,7 +856,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.october.toString(),
+                                      '                \$' +
+                                          totalMonth.october.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -857,7 +868,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.november.toString(),
+                                      '                \$' +
+                                          totalMonth.november.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                         Padding(
@@ -868,7 +880,8 @@ class TodayTotal2 extends StatelessWidget {
                                       style: TextStyle(color: Colors.white))),
                               Expanded(
                                   child: Text(
-                                      '\$' + totalMonth.december.toString(),
+                                      '                \$' +
+                                          totalMonth.december.toString(),
                                       style: TextStyle(color: Colors.white)))
                             ])),
                       ])))),

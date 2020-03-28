@@ -29,10 +29,10 @@ class InversionPageState extends State {
       getData();
     }
     return Scaffold(
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.brown[200],
       appBar: AppBar(
         title: Text(stringToDate(date)),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown,
         centerTitle: true,
         bottom: PreferredSize(
             child: Text('Total: \$' + calculateTotalSales(inversions, count),
@@ -51,6 +51,7 @@ class InversionPageState extends State {
       ),
       body: InversionListItems(),
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.brown,
           onPressed: () {
             navigateToDetail(Inversion('Otro', 0, date, ''));
           },
@@ -64,12 +65,13 @@ class InversionPageState extends State {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[200],
+          color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
               leading: CircleAvatar(
                   backgroundColor: getColor(this.inversions[position].article),
-                  child: Text(this.inversions[position].article.substring(0, 1))),
+                  child:
+                      Text(this.inversions[position].article.substring(0, 1))),
               title: Text(this.inversions[position].article.toString() +
                   ': \$' +
                   this.inversions[position].price.toString()),
@@ -88,10 +90,10 @@ class InversionPageState extends State {
       final productsFuture = helper.getInversion();
       productsFuture.then((result) {
         List<Inversion> productList = List<Inversion>();
-        count = result.length;        
+        count = result.length;
         for (int i = 0; i < count; i++) {
           Inversion producAux = Inversion.fromObject(result[i]);
-          if( producAux.date == date ){
+          if (producAux.date == date) {
             productList.add(producAux);
           }
         }
@@ -141,8 +143,10 @@ class InversionPageState extends State {
   }
 
   void navigateToDetail(Inversion inversion) async {
-    bool result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => InversionDetail(inversion, date)));
+    bool result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => InversionDetail(inversion, date)));
     if (result == true) {
       getData();
     }
@@ -165,7 +169,7 @@ class InversionPageState extends State {
     return total.toString();
   }
 
-    Future<void> _generateCSVAndView(context) async {
+  Future<void> _generateCSVAndView(context) async {
     List<List<String>> csvData;
     List<String> aux;
     csvData = [

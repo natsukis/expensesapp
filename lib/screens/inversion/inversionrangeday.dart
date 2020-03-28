@@ -34,11 +34,11 @@ class InversionRangeDayState extends State {
       getData();
     }
     return Scaffold(
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.brown[200],
       appBar: AppBar(
         title: Text("Inversiones en fechas"),
         centerTitle: true,
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown,
         bottom: PreferredSize(
             child: Text(
                 stringToDateConvert(dateFrom) +
@@ -66,7 +66,7 @@ class InversionRangeDayState extends State {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[200],
+          color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
               leading: CircleAvatar(

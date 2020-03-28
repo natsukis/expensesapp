@@ -37,9 +37,9 @@ class InversionDetailState extends State {
     descriptionController.text = inversion.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown[200],
         appBar: AppBar(
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.brown,
           automaticallyImplyLeading: false,
           title: Text(inversion.description == ""
               ? "Nueva Inversion"
@@ -94,6 +94,7 @@ class InversionDetailState extends State {
           ]),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.brown,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.save),

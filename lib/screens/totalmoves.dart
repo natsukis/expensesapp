@@ -33,11 +33,11 @@ class TotalMovesState extends State {
       getDataInversion();
     }
     return Scaffold(
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.brown[200],
       appBar: AppBar(
         title: Text("Todos los movimientos"),
         centerTitle: true,
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown,
         bottom: PreferredSize(
             child: Text(
                 stringToDateConvert(dateFrom) +
@@ -55,7 +55,7 @@ class TotalMovesState extends State {
       itemCount: countTotal,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[200],
+          color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
               leading: CircleAvatar(

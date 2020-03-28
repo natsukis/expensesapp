@@ -48,9 +48,9 @@ class ExpenseDetailState extends State {
     TextStyle textStyle = Theme.of(context).textTheme.title;
     //getTotal(getDate(date));
     return Scaffold(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown[200],
         appBar: AppBar(
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.brown,
           automaticallyImplyLeading: false,
           title: Text(
               expense.description == "" ? "Nuevo Gasto" : expense.description),
@@ -104,6 +104,7 @@ class ExpenseDetailState extends State {
           ]),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.brown,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.save),
@@ -180,34 +181,6 @@ class ExpenseDetailState extends State {
       Navigator.pop(context, true);
     }
   }
-
-  // int getDate(String dateString) {
-  //   var x = new DateFormat().add_yMd().parse(dateString).year;
-  //   return x;
-  // }
-
-  // void getTotal(int year) {
-  //   final dbFuture = helper.initializeDb();
-  //   TotalPerMonth totalAux;
-  //   dbFuture.then((result) {
-  //     final total = helper.getTotalYear(year);
-  //     total.then((result) {
-  //       int count = result.length;
-
-  //       if (count == 0) {
-  //         totalAux = new TotalPerMonth.withYear(year);
-  //         helper.insertTotal(totalAux);
-  //       } else {
-  //         totalAux = TotalPerMonth.fromObject(result[0]);
-  //       }
-  //     });
-  //     if (mounted) {
-  //       setState(() {
-  //         tempTot = totalAux;
-  //       });
-  //     }
-  //   });
-  // }
 
   TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
     switch (month) {

@@ -11,33 +11,39 @@ class SubMenu extends StatelessWidget {
   SubMenu(this.route);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Stack(children: <Widget>[
+      Image.asset(imageMenu(),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+    Scaffold(
         appBar: AppBar(
           title: Text(title()),
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.transparent,
         ),
         floatingActionButton: FloatingActionButton(
             child: Text("Volver", style: TextStyle(color: Colors.white)),
-            backgroundColor: Colors.lightBlue,
+            backgroundColor: Colors.brown,
             onPressed: () {
               Navigator.pop(context, true);
             }),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.transparent,
         body: Padding(
-          padding: EdgeInsets.only(top: 120.0, left: 5.0, right: 5.0),
+          padding: EdgeInsets.only(top: 90.0, left: 5.0, right: 5.0),
           child: Center(
               child: SingleChildScrollView(child: Column(children: <Widget>[
             Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 10),
                 child: Container(
                     width: 180.0,
                     height: 50.0,
                     child: RaisedButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(28.0),
-                          side: BorderSide(color: Colors.blue)),
+                          side: BorderSide(color: Colors.brown)),
                       textColor: Colors.white,
-                      color: Colors.cyan,
+                      color: Colors.brown[200],
                       onPressed: () {
                         switch (route) {
                           case "Expense":
@@ -64,16 +70,16 @@ class SubMenu extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     ))),
                     Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 40),
                 child: Container(
                     width: 180.0,
                     height: 50.0,
                     child: RaisedButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(28.0),
-                          side: BorderSide(color: Colors.blue)),
+                          side: BorderSide(color: Colors.brown)),
                       textColor: Colors.white,
-                      color: Colors.cyan,
+                      color: Colors.brown[200],
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -84,16 +90,16 @@ class SubMenu extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     ))),
             Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
+                padding: EdgeInsets.only(top: 40, bottom: 20),
                 child: Container(
                     width: 180.0,
                     height: 50.0,
                     child: RaisedButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(28.0),
-                          side: BorderSide(color: Colors.blue)),
+                          side: BorderSide(color: Colors.brown)),
                       textColor: Colors.white,
-                      color: Colors.cyan,
+                      color: Colors.brown[200],
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -104,7 +110,7 @@ class SubMenu extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     )))
           ]))),
-        ));
+        ))]);
   }
 
   String date() {
@@ -125,6 +131,22 @@ class SubMenu extends StatelessWidget {
         break;
       default:
         return "Control";
+    }
+  }
+
+  String imageMenu(){
+    switch (route) {
+      case "Expense":
+        return "images/expense.jpg";
+        break;
+      case "Inversion":
+        return "images/inversion.jpg";
+        break;
+      case "Income":
+        return "images/income.jpg";
+        break;
+      default:
+        return "images/person.jpg";
     }
   }
 }

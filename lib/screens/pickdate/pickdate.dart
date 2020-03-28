@@ -21,50 +21,62 @@ class PickDateState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.cyan,
-        appBar: AppBar(
-          title: Text("Ingrese fecha"),
-          centerTitle: true,
-          backgroundColor: Colors.cyan,
-        ),
-        body: Center(
-          child:Padding(padding: EdgeInsets.only(top: 30),
-            child: Column(children: <Widget>[
-          RaisedButton(
-            color: Colors.cyan,
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(28.0),
-                  side: BorderSide(color: Colors.blue)),
-              onPressed: () {
-                DatePicker.showDatePicker(context,
-                    showTitleActions: true,
-                    minTime: DateTime(2020, 1, 1),
-                    maxTime: DateTime(2028, 12, 31),
-                    onChanged: (date) {}, onConfirm: (date) {
-                  setState(() {
-                    datesText = dateToString(date);
-                    dates = dateToBd(date);
-                    dateValidation = date;
-                  });
-                }, currentTime: DateTime.now(), locale: LocaleType.es);
-              },
-              child: Text(
-                'Elegir fecha a buscar',
-                style: TextStyle(color: Colors.white),
-              )),
-          Padding(
-            padding: EdgeInsets.only(top:10, bottom:10)
-            ,child:Container(child: Text(datesText,style: TextStyle(color:Colors.green)))),
-          RaisedButton(
-            color: Colors.lightBlue,
-            child: Text("Buscar"),
-            textColor: Colors.white,
-            onPressed: () {
-              alert();
-            },
-          )
-        ]))));
+    return Stack(children: <Widget>[
+      Image.asset("images/calendar.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Ingrese fecha"),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+          ),
+          body: Center(
+              child: Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Column(children: <Widget>[
+                    RaisedButton(
+                        color: Colors.brown[200],
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(28.0),
+                            side: BorderSide(color: Colors.brown)),
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(2020, 1, 1),
+                              maxTime: DateTime(2028, 12, 31),
+                              onChanged: (date) {}, onConfirm: (date) {
+                            setState(() {
+                              datesText = dateToString(date);
+                              dates = dateToBd(date);
+                              dateValidation = date;
+                            });
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.es);
+                        },
+                        child: Text(
+                          'Elegir fecha a buscar',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Container(
+                            child: Text(datesText,
+                                style: TextStyle(decoration: TextDecoration.underline,color:Colors.redAccent[400])))),
+                    RaisedButton(
+                      color: Colors.brown,
+                      child: Text("Buscar"),
+                      textColor: Colors.white,
+                      onPressed: () {
+                        alert();
+                      },
+                    )
+                  ]))))
+    ]);
   }
 
   void navigateToSale(String dates) async {

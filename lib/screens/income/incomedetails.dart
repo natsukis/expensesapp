@@ -40,9 +40,9 @@ class IncomeDetailState extends State {
     descriptionController.text = expense.description;
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown[200],
         appBar: AppBar(
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.brown,
           automaticallyImplyLeading: false,
           title: Text(expense.description == ""
               ? "Nuevo Ingreso"
@@ -97,6 +97,7 @@ class IncomeDetailState extends State {
           ]),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.brown,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.save),

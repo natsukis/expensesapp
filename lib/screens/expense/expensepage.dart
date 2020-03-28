@@ -31,10 +31,10 @@ class ExpensePageState extends State {
       getData();
     }
     return Scaffold(
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.brown[200],
       appBar: AppBar(
         title: Text(stringToDate(date)),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown,
         centerTitle: true,
         bottom: PreferredSize(
             child: Text('Total: \$' + calculateTotalSales(expenses, count),
@@ -56,6 +56,7 @@ class ExpensePageState extends State {
           onPressed: () {
             navigateToDetail(Expense('Otro', 0, 'Expense', date, ''));
           },
+          backgroundColor: Colors.brown,
           tooltip: "Agregar nuevo gasto",
           child: new Icon(Icons.add)),
     );
@@ -66,7 +67,7 @@ class ExpensePageState extends State {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[200],
+          color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
               leading: CircleAvatar(

@@ -24,22 +24,28 @@ class PickTwoDateState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.cyan,
+    return Stack(children: <Widget>[
+      Image.asset("images/calendar.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+    Scaffold(
+      backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text("Ingrese fechas a buscar"),
           centerTitle: true,
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.transparent,
         ),
         body: Center(
-          child:Padding(padding: EdgeInsets.only(top: 30),
+          child:Padding(padding: EdgeInsets.only(top: 50),
             child: Column(
           children: <Widget>[
             RaisedButton(
-              color: Colors.cyan,
+              color: Colors.brown[200],
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(28.0),
-                    side: BorderSide(color: Colors.blue)),
+                    side: BorderSide(color: Colors.brown)),
                 onPressed: () {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
@@ -57,12 +63,12 @@ class PickTwoDateState extends State {
                 )),
             Padding(
             padding: EdgeInsets.only(top:10, bottom:10)
-            ,child:Container(child: Text(convertDateToString(dateFrom),style: TextStyle(color:Colors.green)))),
+            ,child:Container(child: Text(convertDateToString(dateFrom),style: TextStyle(decoration: TextDecoration.underline,color:Colors.redAccent[400])))),
             RaisedButton(
-              color: Colors.cyan,
+              color: Colors.brown[200],
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(28.0),
-                    side: BorderSide(color: Colors.blue)),
+                    side: BorderSide(color: Colors.brown)),
                 onPressed: () {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
@@ -80,9 +86,9 @@ class PickTwoDateState extends State {
                 )),
             Padding(
             padding: EdgeInsets.only(top:10, bottom:10)
-            ,child:Container(child: Text(convertDateToString(dateTo),style: TextStyle(color:Colors.green)))),
+            ,child:Container(child: Text(convertDateToString(dateTo),style: TextStyle(decoration: TextDecoration.underline,color:Colors.redAccent[400])))),
             RaisedButton(
-              color: Colors.lightBlue,
+              color: Colors.brown,
               textColor: Colors.white,
               child: Text("Buscar"),
               onPressed: () {
@@ -90,7 +96,7 @@ class PickTwoDateState extends State {
               },
             )
           ],
-        ))));
+        ))))]);
   }
 
   String convertDateToString(DateTime datetoconvert) {

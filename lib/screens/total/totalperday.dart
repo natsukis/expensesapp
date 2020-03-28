@@ -17,21 +17,9 @@ class TotalPerDayState extends State {
   List<Expense> expenses;
   List<Expense> incomes;
   List<Inversion> inversions;
-  List<Expense> weekExpense;
-  List<Expense> weekIncome;
-  List<Inversion> weekInversion;
-  List<Expense> monthExpense;
-  List<Expense> monthIncome;
-  List<Inversion> monthInversion;
 
   int countIncome = 0;
   int countInversion = 0;
-  int weekexpensecount = 0;
-  int weekincomecount = 0;
-  int weekInversioncount = 0;
-  int monthExpenseCount = 0;
-  int monthInversionCount = 0;
-  int monthIncomeCount = 0;
   int countExpense = 0;
   DateTime dateFrom;
   DateTime dateTo;
@@ -46,11 +34,11 @@ class TotalPerDayState extends State {
       getDataInversion();
     }
     return Scaffold(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.brown[200],
         appBar: AppBar(
           centerTitle: true,
           title: Text(stringToDate(dateFrom) + " a " + stringToDate(dateTo)),
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.brown,
         ),
         floatingActionButton: FloatingActionButton(
             child: Text("Volver"),
@@ -101,7 +89,7 @@ class TotalPerDayState extends State {
                                       calculateTotalInversions(
                                           inversions, countInversion),
                                   style: TextStyle(color: Colors.blueAccent)))
-                        ])),                    
+                        ])),
                     Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Row(children: <Widget>[
@@ -110,11 +98,8 @@ class TotalPerDayState extends State {
                                   style: TextStyle(color: Colors.yellow))),
                           Expanded(
                               child: Text('\$' +
-                                  calculateTotalSimple(
-                                      monthExpense,
-                                      monthExpenseCount,
-                                      monthIncome,
-                                      monthIncomeCount)))
+                                  calculateTotalSimple(expenses, countExpense,
+                                      incomes, countIncome)))
                         ])),
                   ]))),
         ));
@@ -210,32 +195,6 @@ class TotalPerDayState extends State {
       total = total + inversion[i].price;
     }
     return total.toString();
-  }
-
-  String calculateTotal(
-    List<Expense> expenses,
-    int count,
-    List<Expense> incomes,
-    int countIncome,
-    List<Inversion> inversions,
-    int countInversion,
-  ) {
-    var total = 0;
-    for (var i = 0; i < countIncome; i++) {
-      total = total + incomes[i].price;
-    }
-
-    var totalexpense = 0;
-    for (var i = 0; i < count; i++) {
-      totalexpense = totalexpense + expenses[i].price;
-    }
-
-    var totalInversion = 0;
-    for (var i = 0; i < countInversion; i++) {
-      totalInversion = totalInversion + inversions[i].price;
-    }
-
-    return (total - totalexpense - totalInversion).toString();
   }
 
   String calculateTotalSimple(

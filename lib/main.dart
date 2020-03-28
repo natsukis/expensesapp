@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    precacheImage(AssetImage("images/expense.jpg"), context);
     return MaterialApp(
       title: 'Expense app',
       theme: ThemeData(
@@ -33,10 +34,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
      return Scaffold(
-       backgroundColor: Colors.cyan,
+       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.transparent,
       ),
       body: SplashScreen()
      );}
