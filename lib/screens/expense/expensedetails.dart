@@ -14,7 +14,8 @@ class ExpenseDetail extends StatefulWidget {
   ExpenseDetail(this.expense, this.date, this.tempTot);
 
   @override
-  State<StatefulWidget> createState() => ExpenseDetailState(expense, date, tempTot);
+  State<StatefulWidget> createState() =>
+      ExpenseDetailState(expense, date, tempTot);
 }
 
 class ExpenseDetailState extends State {
@@ -169,6 +170,11 @@ class ExpenseDetailState extends State {
         return;
       }
       int result = await helper.deleteExpense(expense.id);
+      //Delete in totalmonth table
+      var tempDate = new DateFormat().add_yMd().parse(date);
+      tempTot = updateDeleteMonth(tempTot, tempDate.month, expense.price);
+      helper.updateTotal(tempTot);
+      ///
       if (result != 0) {
         Navigator.pop(context, true);
         AlertDialog alertDialog = AlertDialog(
@@ -219,6 +225,49 @@ class ExpenseDetailState extends State {
         break;
       case 12:
         totalToUpdate.december = totalToUpdate.december - value;
+        break;
+    }
+    return totalToUpdate;
+  }
+
+  TotalPerMonth updateDeleteMonth(
+      TotalPerMonth totalToUpdate, int month, int value) {
+    switch (month) {
+      case 1:
+        totalToUpdate.january = totalToUpdate.january + value;
+        break;
+      case 2:
+        totalToUpdate.february = totalToUpdate.february + value;
+        break;
+      case 3:
+        totalToUpdate.march = totalToUpdate.march + value;
+        break;
+      case 4:
+        totalToUpdate.april = totalToUpdate.april + value;
+        break;
+      case 5:
+        totalToUpdate.may = totalToUpdate.may + value;
+        break;
+      case 6:
+        totalToUpdate.june = totalToUpdate.june + value;
+        break;
+      case 7:
+        totalToUpdate.july = totalToUpdate.july + value;
+        break;
+      case 8:
+        totalToUpdate.august = totalToUpdate.august + value;
+        break;
+      case 9:
+        totalToUpdate.september = totalToUpdate.september + value;
+        break;
+      case 10:
+        totalToUpdate.october = totalToUpdate.october + value;
+        break;
+      case 11:
+        totalToUpdate.november = totalToUpdate.november + value;
+        break;
+      case 12:
+        totalToUpdate.december = totalToUpdate.december + value;
         break;
     }
     return totalToUpdate;
