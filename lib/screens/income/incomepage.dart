@@ -192,7 +192,7 @@ class IncomePageState extends State {
     List<List<String>> csvData;
     List<String> aux;
     csvData = [
-      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio']
+      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio','']
     ];
 
     for (var item in expenses) {
@@ -202,6 +202,7 @@ class IncomePageState extends State {
         item.description,
         convertDatePath(item.date),
         item.price.toString(),
+        ''
       ];
       csvData = csvData + [aux];
     }

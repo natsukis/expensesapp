@@ -173,7 +173,7 @@ class InversionPageState extends State {
     List<List<String>> csvData;
     List<String> aux;
     csvData = [
-      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio']
+      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio','']
     ];
 
     for (var item in inversions) {
@@ -183,6 +183,7 @@ class InversionPageState extends State {
         item.description,
         convertDate(item.date),
         item.price.toString(),
+        ''
       ];
       csvData = csvData + [aux];
     }

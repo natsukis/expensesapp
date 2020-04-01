@@ -37,7 +37,7 @@ class DbHelper {
   Future<Database> initializeDb() async {
     Directory dir = await getApplicationDocumentsDirectory();
     String path = dir.path + "expenses.db";
-    var dbExpenses = await openDatabase(path, version: 2, onCreate: _create, onUpgrade: _upgrade);
+    var dbExpenses = await openDatabase(path, version: 3, onCreate: _create, onUpgrade: _upgrade);
     return dbExpenses;
   }
 

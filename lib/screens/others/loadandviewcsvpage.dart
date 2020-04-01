@@ -35,6 +35,7 @@ class LoadAndViewCsvPage extends StatelessWidget {
                             Text(row[2]),
                             Text(row[3]),
                             Text(row[4].toString()),
+                            Text(row[5]),
                           ],
                         ),
                       ),
