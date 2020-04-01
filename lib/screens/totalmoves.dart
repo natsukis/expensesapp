@@ -105,7 +105,7 @@ class TotalMovesState extends State {
         for (int i = 0; i < countInversion; i++) {
           Inversion producAux = Inversion.fromObject(result[i]);
           if (comparedate(producAux.date)) {
-            Expense temp = Expense('', 0, 'Inversion', '', '');
+            Expense temp = Expense('', 0, 'Inversion', '', '','Efectivo');
             temp.article = producAux.article;
             temp.date = producAux.date;
             temp.description = producAux.description;

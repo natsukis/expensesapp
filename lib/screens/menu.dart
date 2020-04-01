@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:gastosapp/screens/pickdate/picktwodates.dart';
 import 'package:gastosapp/screens/submenu.dart';
 
+import 'creditcard/creditcard.dart';
+
 class Menu extends StatefulWidget {
   Menu();
   @override
@@ -182,7 +184,43 @@ class MenuState extends State {
                       //         },
                       //         child: Text("Exportar")))
                     ])),
-              ])))))
+              ])))),
+              drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Mas opciones'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Tarjetas'),
+              onTap: () {
+                Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreditCard()));
+              },
+            ),
+            ListTile(
+              title: Text('Viajes'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+              )
     ]);
   }
 
@@ -240,6 +278,7 @@ class MenuState extends State {
   void getTotal(int year) async {
     final dbFuture = helper.initializeDb();
     TotalPerMonth totalAux;
+    TotalPerMonth totalNextYear;
     int statusTemp;
     await dbFuture.then((result) async {
       final total = helper.getTotalYear(year);
@@ -247,7 +286,9 @@ class MenuState extends State {
         int count = result.length;
         if (count == 0) {
           totalAux = new TotalPerMonth.withYear(year);
+          totalNextYear = new TotalPerMonth.withYear((year+1));
           helper.insertTotal(totalAux);
+          helper.insertTotal(totalNextYear);
           statusTemp = 0;
         } else {
           totalAux = TotalPerMonth.fromObject(result[0]);

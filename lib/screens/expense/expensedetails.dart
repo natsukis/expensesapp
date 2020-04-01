@@ -11,17 +11,18 @@ class ExpenseDetail extends StatefulWidget {
   final Expense expense;
   final String date;
   final TotalPerMonth tempTot;
-  ExpenseDetail(this.expense, this.date, this.tempTot);
+  final TotalPerMonth totalNextYear;
+  ExpenseDetail(this.expense, this.date, this.tempTot, this.totalNextYear);
 
   @override
   State<StatefulWidget> createState() =>
-      ExpenseDetailState(expense, date, tempTot);
+      ExpenseDetailState(expense, date, tempTot, totalNextYear);
 }
 
 class ExpenseDetailState extends State {
   Expense expense;
   final String date;
-  ExpenseDetailState(this.expense, this.date, this.tempTot);
+  ExpenseDetailState(this.expense, this.date, this.tempTot, this.totalNextYear);
   final _articles = [
     "Alquiler",
     "Celular",
@@ -39,10 +40,20 @@ class ExpenseDetailState extends State {
     "Taxi",
   ];
   String _article = "Otro";
+  final _methods = [
+    "Efectivo",
+    "Tarjeta 1c",
+    "Tarjeta 3c",
+    "Tarjeta 6c",
+    "Tarjeta 12c",
+    "Debito"
+  ];
+  String _method = "Efectivo";
   TextEditingController quantityController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TotalPerMonth tempTot;
+  TotalPerMonth totalNextYear;
   @override
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
@@ -100,6 +111,18 @@ class ExpenseDetailState extends State {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0))),
                     )),
+                ListTile(
+                    title: DropdownButton<String>(
+                  items: _methods.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  style: textStyle,
+                  value: expense.method,
+                  onChanged: (value) => updateMethod(value),
+                )),
               ],
             )
           ]),
@@ -125,20 +148,119 @@ class ExpenseDetailState extends State {
         ));
   }
 
-  void save() {
-    //Save in totalmonth table
-    var tempDate = new DateFormat().add_yMd().parse(date);
-    tempTot = updateMonth(tempTot, tempDate.month, expense.price);
-    helper.updateTotal(tempTot);
-
-    ///
+  void save() async{
     expense.date = date;
     expense.type = 'Expense';
-    if (expense.id != null) {
-      helper.updateExpense(expense);
-    } else {
-      helper.insertExpense(expense);
+
+    //Save in totalmonth table
+    var tempDate = new DateFormat().add_yMd().parse(date);
+    switch (expense.method) {
+      case "Tarjeta 3c":
+        tempTot = update3Month(tempTot, tempDate.month, expense.price);
+        helper.updateTotal(tempTot);
+        helper.updateTotal(totalNextYear);
+        if (expense.id != null) {
+          helper.updateExpense(expense);
+        } else {
+          var tempPrice = expense.price / 3;
+          expense.price = tempPrice.toInt();
+          String auxDescription = expense.description;
+          expense.description = auxDescription + ": Cuot 1";
+          await helper.insertExpense(expense);          
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 2";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 3";
+          await helper.insertExpense(expense);
+        }
+        break;
+      case "Tarjeta 6c":
+        tempTot = update6Month(tempTot, tempDate.month, expense.price);
+        helper.updateTotal(tempTot);
+        helper.updateTotal(totalNextYear);
+        if (expense.id != null) {
+          helper.updateExpense(expense);
+        } else {
+          var tempPrice = expense.price / 6;
+          expense.price = tempPrice.toInt();
+          String auxDescription = expense.description;
+          expense.description = auxDescription + ": Cuot 1";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 2";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 3";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 4";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 5";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 6";
+          await helper.insertExpense(expense);
+        }
+        break;
+      case "Tarjeta 12c":
+        tempTot = update12Month(tempTot, tempDate.month, expense.price);
+        helper.updateTotal(tempTot);
+        helper.updateTotal(totalNextYear);
+        if (expense.id != null) {
+          helper.updateExpense(expense);
+        } else {
+          var tempPrice = expense.price / 12;
+          expense.price = tempPrice.toInt();
+          String auxDescription = expense.description;
+          expense.description = auxDescription + ": Cuot 1";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 2";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description =auxDescription + ": Cuot 3";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 4";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 5";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 6";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 7";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 8";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 9";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 10";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description =auxDescription + ": Cuot 11";
+          await helper.insertExpense(expense);
+          expense.date = tarjetDate(expense.date);
+          expense.description = auxDescription + ": Cuot 12";
+          await helper.insertExpense(expense);
+        }
+        break;
+      default:
+        tempTot = updateMonth(tempTot, tempDate.month, expense.price);
+        helper.updateTotal(tempTot);
+        if (expense.id != null) {
+          helper.updateExpense(expense);
+        } else {
+          helper.insertExpense(expense);
+        }
     }
+
     Navigator.pop(context, true);
   }
 
@@ -162,6 +284,14 @@ class ExpenseDetailState extends State {
     expense.description = descriptionController.text;
   }
 
+  void updateMethod(String value) {
+    expense.method = value;
+
+    setState(() {
+      _method = value;
+    });
+  }
+
   void navigate(int index) async {
     if (index == 0) {
       save();
@@ -174,6 +304,7 @@ class ExpenseDetailState extends State {
       var tempDate = new DateFormat().add_yMd().parse(date);
       tempTot = updateDeleteMonth(tempTot, tempDate.month, expense.price);
       helper.updateTotal(tempTot);
+
       ///
       if (result != 0) {
         Navigator.pop(context, true);
@@ -185,6 +316,23 @@ class ExpenseDetailState extends State {
       }
     } else {
       Navigator.pop(context, true);
+    }
+  }
+
+  String tarjetDate(String dateToConvert) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(dateToConvert);
+    if (newDateTimeObj.month < 12) {
+      return (newDateTimeObj.month + 1).toString() +
+          '/' +
+          newDateTimeObj.day.toString() +
+          '/' +
+          newDateTimeObj.year.toString();
+    } else {
+      return "1" +
+          '/' +
+          newDateTimeObj.day.toString() +
+          '/' +
+          (newDateTimeObj.year + 1).toString();
     }
   }
 
@@ -225,6 +373,359 @@ class ExpenseDetailState extends State {
         break;
       case 12:
         totalToUpdate.december = totalToUpdate.december - value;
+        break;
+    }
+    return totalToUpdate;
+  }
+
+  TotalPerMonth update3Month(
+      TotalPerMonth totalToUpdate, int month, int value) {
+    var y = (value / 3);
+    var x = y.toInt();
+    switch (month) {
+      case 1:
+        totalToUpdate.january = totalToUpdate.january - x;
+        totalToUpdate.february = (totalToUpdate.february - x);
+        totalToUpdate.march = (totalToUpdate.march - x);
+        break;
+      case 2:
+        totalToUpdate.february = (totalToUpdate.february - (x));
+        totalToUpdate.march = (totalToUpdate.march - (x));
+        totalToUpdate.april = (totalToUpdate.april - (x));
+        break;
+      case 3:
+        totalToUpdate.march = (totalToUpdate.march - (x));
+        totalToUpdate.april = (totalToUpdate.april - (x));
+        totalToUpdate.may = (totalToUpdate.may - (x));
+        break;
+      case 4:
+        totalToUpdate.april = (totalToUpdate.april - (x));
+        totalToUpdate.may = (totalToUpdate.may - (x));
+        totalToUpdate.june = (totalToUpdate.june - (x));
+        break;
+      case 5:
+        totalToUpdate.may = (totalToUpdate.may - (x));
+        totalToUpdate.june = (totalToUpdate.june - (x));
+        totalToUpdate.july = (totalToUpdate.july - (x));
+        break;
+      case 6:
+        totalToUpdate.june = (totalToUpdate.june - (x));
+        totalToUpdate.july = (totalToUpdate.july - (x));
+        totalToUpdate.august = (totalToUpdate.august - (x));
+        break;
+      case 7:
+        totalToUpdate.july = (totalToUpdate.july - (x));
+        totalToUpdate.august = (totalToUpdate.august - (x));
+        totalToUpdate.september = (totalToUpdate.september - (x));
+        break;
+      case 8:
+        totalToUpdate.august = (totalToUpdate.august - (x));
+        totalToUpdate.september = (totalToUpdate.september - (x));
+        totalToUpdate.october = (totalToUpdate.october - (x));
+        break;
+      case 9:
+        totalToUpdate.september = (totalToUpdate.september - (x));
+        totalToUpdate.october = (totalToUpdate.october - (x));
+        totalToUpdate.november = (totalToUpdate.november - (x));
+        break;
+      case 10:
+        totalToUpdate.october = (totalToUpdate.october - (x));
+        totalToUpdate.november = (totalToUpdate.november - (x));
+        totalToUpdate.december = (totalToUpdate.december - (x));
+        break;
+      case 11:
+        totalToUpdate.november = (totalToUpdate.november - (x));
+        totalToUpdate.december = (totalToUpdate.december - (x));
+        totalNextYear.january = (totalNextYear.january - (x));
+        break;
+      case 12:
+        totalToUpdate.december = (totalToUpdate.december - (x));
+        totalNextYear.january = (totalNextYear.january - (x));
+        totalNextYear.february = (totalNextYear.february - (x));
+        break;
+    }
+    return totalToUpdate;
+  }
+
+  TotalPerMonth update6Month(
+      TotalPerMonth totalToUpdate, int month, int valuex) {
+    var x = (valuex / 6);
+    int value = x.toInt();
+
+    switch (month) {
+      case 1:
+        totalToUpdate.january = totalToUpdate.january - value;
+        totalToUpdate.february = totalToUpdate.february - value;
+        totalToUpdate.march = totalToUpdate.march - value;
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        break;
+      case 2:
+        totalToUpdate.february = totalToUpdate.february - value;
+        totalToUpdate.march = totalToUpdate.march - value;
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        break;
+      case 3:
+        totalToUpdate.march = totalToUpdate.march - value;
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        break;
+      case 4:
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        break;
+      case 5:
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        break;
+      case 6:
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        break;
+      case 7:
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        break;
+      case 8:
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        break;
+      case 9:
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        break;
+      case 10:
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        break;
+      case 11:
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        break;
+      case 12:
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        break;
+    }
+    return totalToUpdate;
+  }
+
+  TotalPerMonth update12Month(
+      TotalPerMonth totalToUpdate, int month, int valuex) {
+    var x = (valuex / 12);
+    int value = x.toInt();
+    switch (month) {
+      case 1:
+        totalToUpdate.january = totalToUpdate.january - value;
+        totalToUpdate.february = totalToUpdate.february - value;
+        totalToUpdate.march = totalToUpdate.march - value;
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        break;
+      case 2:
+        totalToUpdate.february = totalToUpdate.february - value;
+        totalToUpdate.march = totalToUpdate.march - value;
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+
+        break;
+      case 3:
+        totalToUpdate.march = totalToUpdate.march - value;
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        break;
+      case 4:
+        totalToUpdate.april = totalToUpdate.april - value;
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        break;
+      case 5:
+        totalToUpdate.may = totalToUpdate.may - value;
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        break;
+      case 6:
+        totalToUpdate.june = totalToUpdate.june - value;
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        break;
+      case 7:
+        totalToUpdate.july = totalToUpdate.july - value;
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        totalNextYear.june = totalNextYear.june - value;
+        break;
+      case 8:
+        totalToUpdate.august = totalToUpdate.august - value;
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        totalNextYear.june = totalNextYear.june - value;
+        totalNextYear.july = totalNextYear.july - value;
+        break;
+      case 9:
+        totalToUpdate.september = totalToUpdate.september - value;
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        totalNextYear.june = totalNextYear.june - value;
+        totalNextYear.july = totalNextYear.july - value;
+        totalNextYear.august = totalNextYear.august - value;
+        break;
+      case 10:
+        totalToUpdate.october = totalToUpdate.october - value;
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        totalNextYear.june = totalNextYear.june - value;
+        totalNextYear.july = totalNextYear.july - value;
+        totalNextYear.august = totalNextYear.august - value;
+        totalNextYear.september = totalNextYear.september - value;
+        break;
+      case 11:
+        totalToUpdate.november = totalToUpdate.november - value;
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        totalNextYear.june = totalNextYear.june - value;
+        totalNextYear.july = totalNextYear.july - value;
+        totalNextYear.august = totalNextYear.august - value;
+        totalNextYear.september = totalNextYear.september - value;
+        totalNextYear.october = totalNextYear.october - value;
+        break;
+      case 12:
+        totalToUpdate.december = totalToUpdate.december - value;
+        totalNextYear.january = totalNextYear.january - value;
+        totalNextYear.february = totalNextYear.february - value;
+        totalNextYear.march = totalNextYear.march - value;
+        totalNextYear.april = totalNextYear.april - value;
+        totalNextYear.may = totalNextYear.may - value;
+        totalNextYear.june = totalNextYear.june - value;
+        totalNextYear.july = totalNextYear.july - value;
+        totalNextYear.august = totalNextYear.august - value;
+        totalNextYear.september = totalNextYear.september - value;
+        totalNextYear.october = totalNextYear.october - value;
+        totalNextYear.november = totalNextYear.november - value;
         break;
     }
     return totalToUpdate;

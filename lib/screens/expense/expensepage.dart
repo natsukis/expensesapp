@@ -22,6 +22,7 @@ class ExpensePageState extends State {
   DbHelper helper = DbHelper();
   List<Expense> expenses;
   TotalPerMonth tempTot;
+  TotalPerMonth totalNextYear;
   int count = 0;
   String date;
   @override
@@ -54,7 +55,7 @@ class ExpensePageState extends State {
       body: expenseListItems(),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            navigateToDetail(Expense('Otro', 0, 'Expense', date, ''));
+            navigateToDetail(Expense('Otro', 0, 'Expense', date, '', 'Efectivo'));
           },
           backgroundColor: Colors.brown,
           tooltip: "Agregar nuevo gasto",
@@ -121,6 +122,24 @@ class ExpensePageState extends State {
         if (mounted) {
           setState(() {
             tempTot = totalAux;
+          });
+        }
+      });
+
+            //total next year
+      final totalNext = helper.getTotalYear(getDate(date)+1);
+      TotalPerMonth totalAuxNextYear;
+      totalNext.then((result) {
+        int count = result.length;
+        if (count == 0) {
+          totalAuxNextYear = new TotalPerMonth.withYear(getDate(date)+1);
+          helper.insertTotal(totalAuxNextYear);
+        } else {
+          totalAuxNextYear = TotalPerMonth.fromObject(result[0]);
+        }
+        if (mounted) {
+          setState(() {
+            totalNextYear = totalAuxNextYear;
           });
         }
       });
@@ -197,7 +216,7 @@ class ExpensePageState extends State {
     bool result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ExpenseDetail(expense, date, tempTot)));
+            builder: (context) => ExpenseDetail(expense, date, tempTot, totalNextYear)));
     if (result == true) {
       getData();
     }

@@ -17,6 +17,7 @@ class DbHelper {
   String colPrice = "price";
   String colDate = "date";
   String colType = "type";
+  String colMethod = "method";
 
   DbHelper._internal();
 
@@ -43,7 +44,7 @@ class DbHelper {
   void _create(Database db, int newVersion) async {
     await db.execute(
         "CREATE TABLE $tblExpense($colId INTEGER PRIMARY KEY, $colArticle TEXT, " +
-            "$colDescription TEXT, $colPrice INTEGER, $colType TEXT, $colDate TEXT)");
+            "$colDescription TEXT, $colPrice INTEGER, $colType TEXT, $colDate TEXT, $colMethod TEXT)");
     await db.execute(
         "CREATE TABLE $tblInversion($colId INTEGER PRIMARY KEY, $colArticle TEXT, " +
             "$colDescription TEXT, $colPrice INTEGER, $colDate TEXT)");
@@ -54,10 +55,11 @@ class DbHelper {
   }
 
   void _upgrade(Database db, int newVersion, int update) async {
-    await db.execute(
-        "CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
-            "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +
-            "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
+    // await db.execute(
+    //     "IF OBJECT_ID('dbo.totalyear', 'U') IS NULL CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
+    //         "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +
+    //         "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
+  await db.execute("ALTER TABLE $tblExpense ADD $colMethod TEXT");
   }
 
   //<--Expense block-->

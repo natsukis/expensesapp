@@ -26,6 +26,7 @@ class ExpenseRangeDayState extends State {
   DateTime dateTo;
   DateTime dateFrom;
   TotalPerMonth tempTot;
+  TotalPerMonth totalNextYear;
   ExpenseRangeDayState(this.dateFrom, this.dateTo);
 
   @override
@@ -122,6 +123,24 @@ class ExpenseRangeDayState extends State {
             });
           }
         });
+
+              //total next year
+      final totalNext = helper.getTotalYear(dateFrom.year+1);
+      TotalPerMonth totalAuxNextYear;
+      totalNext.then((result) {
+        int count = result.length;
+        if (count == 0) {
+          totalAuxNextYear = new TotalPerMonth.withYear(dateFrom.year+1);
+          helper.insertTotal(totalAuxNextYear);
+        } else {
+          totalAuxNextYear = TotalPerMonth.fromObject(result[0]);
+        }
+        if (mounted) {
+          setState(() {
+            totalNextYear = totalAuxNextYear;
+          });
+        }
+      });
       });
     });
   }
@@ -131,7 +150,7 @@ class ExpenseRangeDayState extends State {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                ExpenseDetail(expense, expense.date, tempTot)));
+                ExpenseDetail(expense, expense.date, tempTot, totalNextYear)));
     if (result == true) {
       getData();
     }

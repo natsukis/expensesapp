@@ -5,9 +5,10 @@ class Expense{
   String _description;
   String _date;
   int _price;
+  String _method;
 
-  Expense(this._article, this._price,this._type, this._date, [this._description]);
-  Expense.withId(this._id,this._article, this._price, this._type, this._date, [this._description]);
+  Expense(this._article, this._price,this._type, this._date, this._description, this._method);
+  Expense.withId(this._id,this._article, this._price, this._type, this._date, this._description, this._method);
 
   int get id => _id;
   String get article => _article;
@@ -15,6 +16,7 @@ class Expense{
   String get date => _date;
   String get type => _type;
   int get price => _price;
+  String get method => _method;
 
 set article (String newArticle){
     _article = newArticle;
@@ -40,6 +42,10 @@ set date (String newDate){
     _type = newType;
  }
 
+ set method (String newMethod){
+    _method = newMethod;
+}
+
 Map<String, dynamic> toMap(){
   var map = Map<String, dynamic>();
   map["article"] = _article;
@@ -47,6 +53,7 @@ Map<String, dynamic> toMap(){
   map["price"] = _price;
   map["type"] = _type;
   map["date"] = _date;
+  map["method"] = _method;
   if (_id != null){
     map["id"] = _id;
   }
@@ -60,6 +67,7 @@ Expense.fromObject(dynamic o){
   this._price = o["price"];
   this._type = o["type"];
   this._date = o["date"];
+  this._method = o["method"];
 }
 
 }

@@ -56,7 +56,7 @@ class IncomePageState extends State {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown,
           onPressed: () {
-            navigateToDetail(Expense('Otro', 0, 'Expense', date, ''));
+            navigateToDetail(Expense('Otro', 0, 'Expense', date, '','Efectivo'));
           },
           tooltip: "Agregar nuevo gasto",
           child: new Icon(Icons.add)),
