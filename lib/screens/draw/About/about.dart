@@ -6,7 +6,7 @@ class About extends StatelessWidget {
     return Center(
       child: Container(
         child: Text(
-            "Bienvenido a la app de gastos personales creada para poder tener un control de los gastos de la vida cotidiana, saldos de tarjeta, planeamiento y demas cosas escenciales." +
+            "Bienvenidos a la app de gastos personales creada para poder tener un control de los gastos de la vida cotidiana, saldos de tarjeta, planeamiento y demas cosas escenciales." +
                 "\n" +
                 "Espero que la disfruten. Hecha por un Rosarino para el mundo. \n" +
                 "Saludos, Natsuki."),
