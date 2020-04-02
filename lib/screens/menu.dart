@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/screens/draw/About/about.dart';
+import 'package:gastosapp/screens/draw/stadistics/stadistic.dart';
 import 'package:gastosapp/screens/total/todaytotal.dart';
 import 'package:gastosapp/util/dbhelper.dart';
 import 'package:intl/intl.dart';
@@ -189,43 +190,49 @@ class MenuState extends State {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
-                child: Text('Mas opciones'),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-              ),
+              Container(
+                  height: 150.0,
+                  child: DrawerHeader(
+                    child: Center(child:Text('Gato: App de administracion')),
+                    decoration: BoxDecoration(
+                      color: Colors.brown[200],
+                    ),
+                  ),
+                  margin: EdgeInsets.all(0.0),
+                  padding: EdgeInsets.all(0.0)),
               ListTile(
                 title: Text('Tarjetas'),
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => CreditCard()));
                 },
               ),
-              ListTile(
-                title: Text('Viajes'),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
+              // ListTile(
+              //   title: Text('Viajes'),
+              //   onTap: () {
+              //     // Update the state of the app
+              //     // ...
+              //     // Then close the drawer
+              //     Navigator.pop(context);
+              //   },
+              //),
               ListTile(
                 title: Text('Estadisticas'),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
                   Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Stadistics(tempTot)));
                 },
               ),
               ListTile(
                 title: Text('Sobre la app'),
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => About()));
-                  Navigator.pop(context);
                 },
               ),
             ],

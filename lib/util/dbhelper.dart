@@ -59,7 +59,7 @@ class DbHelper {
     //     "IF OBJECT_ID('dbo.totalyear', 'U') IS NULL CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
     //         "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +
     //         "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
-  await db.execute("ALTER TABLE $tblExpense ADD $colMethod TEXT");
+    await db.execute("ALTER TABLE $tblExpense ADD COLUMN $colMethod TEXT");
   }
 
   //<--Expense block-->

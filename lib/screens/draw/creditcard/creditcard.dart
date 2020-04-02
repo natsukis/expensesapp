@@ -27,50 +27,72 @@ class CreditCardState extends State {
       expenses = List<Expense>();
       getDataExpense();
     }
-    return Scaffold(
-        backgroundColor: Colors.brown[200],
-        appBar: AppBar(
-          title: Text("Totales " + DateTime.now().year.toString()),
-          centerTitle: true,
-          backgroundColor: Colors.brown,
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 20.0, left: 20),
-          child: Column(children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 20.0),
-            child:Row(children: <Widget>[
-              Expanded(
-                child: Text("Total a pagar este mes: ",
-                    style: TextStyle(color: Colors.white)),
+    return Stack(children: <Widget>[
+      Image.asset("images/creditcard.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Totales " + DateTime.now().year.toString()),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 20.0, left: 10),
+            child: Column(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.yellow[300],
+                        border: Border.all(color: Colors.yellow),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    child: Row(children: <Widget>[
+                      Expanded(
+                        child: Text("Total a pagar este mes: ",
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                      Expanded(
+                          child: Text(
+                              '                     \$' + totalCreditToPay,
+                              style: TextStyle(color: Colors.black)))
+                    ])),
               ),
-              Expanded(
-                  child: Text('                \$' + totalCreditToPay,
-                      style: TextStyle(color: Colors.white)))
-            ]),            
-            ),
-            
-            Padding(padding: EdgeInsets.only(top: 20.0),
-            child:Row(children: <Widget>[
-              Expanded(
-                child: Text("Total a pagar el proximo mes: ",
-                    style: TextStyle(color: Colors.white)),
-              ),
-              Expanded(
-                  child: Text('                \$' + totalCreditNextMontPay,
-                      style: TextStyle(color: Colors.white)))
-            ])),
-            Padding(padding: EdgeInsets.only(top: 20.0, bottom: 20),
-            child:Row(children: <Widget>[
-              Expanded(
-                child: Text("Consumos: ",
-                    style: TextStyle(color: Colors.white)),
-              ),
-              Expanded(
-                  child: Text(""))
-            ])),            
-            Expanded(child: expenseListItems())
-          ]),
-        ));
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[300],
+                          border: Border.all(color: Colors.yellow),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Row(children: <Widget>[
+                        Expanded(
+                          child: Text("Total del proximo mes: ",
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                        Expanded(
+                            child: Text(
+                                '                     \$' +
+                                    totalCreditNextMontPay,
+                                style: TextStyle(color: Colors.black)))
+                      ]))),
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0, bottom: 20),
+                  child: Row(children: <Widget>[
+                    Expanded(
+                      child: Text("Consumos: ",
+                          style: TextStyle(color: Colors.yellow)),
+                    ),
+                    Expanded(child: Text(""))
+                  ])),
+              Expanded(child: expenseListItems())
+            ]),
+          ))
+    ]);
   }
 
   ListView expenseListItems() {

@@ -1,6 +1,5 @@
 # This is a generated file; do not edit or check into version control.
-downloads_path_provider=C:\\Flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\downloads_path_provider-0.1.0\\
-path_provider=C:\\Flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-1.6.5\\
-path_provider_macos=C:\\Flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-0.0.4\\
-permission_handler=C:\\Flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\permission_handler-4.4.0\\
-sqflite=C:\\Flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sqflite-1.2.2+1\\
+downloads_path_provider=D:\\Archivos de Programas\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\downloads_path_provider-0.1.0\\
+path_provider=D:\\Archivos de Programas\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-1.6.1\\
+permission_handler=D:\\Archivos de Programas\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\permission_handler-4.4.0\\
+sqflite=D:\\Archivos de Programas\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sqflite-1.2.1\\
