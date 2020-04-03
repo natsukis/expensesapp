@@ -63,7 +63,7 @@ class TotalMovesState extends State {
                   child: Text(this.expenses[position].article.substring(0, 1))),
               title: Text(this.expenses[position].article),
               subtitle:
-                  Text('Total: \$' + this.expenses[position].price.toString()),
+                  Text('Total: \$' + this.expenses[position].price.toString() + '. Dia: ' + stringToDate(this.expenses[position].date)),
               onTap: () {}),
         );
       },

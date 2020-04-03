@@ -38,6 +38,7 @@ class IncomeDetailState extends State {
   @override
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
+    priceController.text = expense.price.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
         backgroundColor: Colors.brown[200],
@@ -46,7 +47,7 @@ class IncomeDetailState extends State {
           automaticallyImplyLeading: false,
           title: Text(expense.description == ""
               ? "Nuevo Ingreso"
-              : expense.description),
+              : expense.description + '. ' + stringToDate(expense.date)),
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
@@ -166,6 +167,7 @@ class IncomeDetailState extends State {
       var tempDate = new DateFormat().add_yMd().parse(date);
       tempTot = updateDeleteMonth(tempTot, tempDate.month, expense.price);
       helper.updateTotal(tempTot);
+
       ///
       if (result != 0) {
         Navigator.pop(context, true);
@@ -222,7 +224,8 @@ class IncomeDetailState extends State {
     return totalToUpdate;
   }
 
-      TotalPerMonth updateDeleteMonth(TotalPerMonth totalToUpdate, int month, int value) {
+  TotalPerMonth updateDeleteMonth(
+      TotalPerMonth totalToUpdate, int month, int value) {
     switch (month) {
       case 1:
         totalToUpdate.january = totalToUpdate.january - value;
@@ -262,5 +265,14 @@ class IncomeDetailState extends State {
         break;
     }
     return totalToUpdate;
+  }
+
+  String stringToDate(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.day.toString() +
+        '/' +
+        newDateTimeObj.month.toString() +
+        '/' +
+        newDateTimeObj.year.toString();
   }
 }

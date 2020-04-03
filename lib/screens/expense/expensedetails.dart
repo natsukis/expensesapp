@@ -57,15 +57,16 @@ class ExpenseDetailState extends State {
   @override
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
+    priceController.text = expense.price.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    //getTotal(getDate(date));
     return Scaffold(
         backgroundColor: Colors.brown[200],
         appBar: AppBar(
           backgroundColor: Colors.brown,
           automaticallyImplyLeading: false,
-          title: Text(
-              expense.description == "" ? "Nuevo Gasto" : expense.description),
+          title: Text(expense.description == ""
+              ? "Nuevo Gasto"
+              : expense.description + '. ' + stringToDate(expense.date)),
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
@@ -148,7 +149,7 @@ class ExpenseDetailState extends State {
         ));
   }
 
-  void save() async{
+  void save() async {
     expense.date = date;
     expense.type = 'Expense';
 
@@ -166,7 +167,7 @@ class ExpenseDetailState extends State {
           expense.price = tempPrice.toInt();
           String auxDescription = expense.description;
           expense.description = auxDescription + ": Cuot 1/3";
-          await helper.insertExpense(expense);          
+          await helper.insertExpense(expense);
           expense.date = tarjetDate(expense.date);
           expense.description = auxDescription + ": Cuot 2/3";
           await helper.insertExpense(expense);
@@ -220,7 +221,7 @@ class ExpenseDetailState extends State {
           expense.description = auxDescription + ": Cuot 2/12";
           await helper.insertExpense(expense);
           expense.date = tarjetDate(expense.date);
-          expense.description =auxDescription + ": Cuot 3/12";
+          expense.description = auxDescription + ": Cuot 3/12";
           await helper.insertExpense(expense);
           expense.date = tarjetDate(expense.date);
           expense.description = auxDescription + ": Cuot 4/12";
@@ -244,7 +245,7 @@ class ExpenseDetailState extends State {
           expense.description = auxDescription + ": Cuot 10/12";
           await helper.insertExpense(expense);
           expense.date = tarjetDate(expense.date);
-          expense.description =auxDescription + ": Cuot 11/12";
+          expense.description = auxDescription + ": Cuot 11/12";
           await helper.insertExpense(expense);
           expense.date = tarjetDate(expense.date);
           expense.description = auxDescription + ": Cuot 12/12";
@@ -772,5 +773,14 @@ class ExpenseDetailState extends State {
         break;
     }
     return totalToUpdate;
+  }
+
+  String stringToDate(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.day.toString() +
+        '/' +
+        newDateTimeObj.month.toString() +
+        '/' +
+        newDateTimeObj.year.toString();
   }
 }

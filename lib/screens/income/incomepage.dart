@@ -79,8 +79,6 @@ class IncomePageState extends State {
                   this.expenses[position].price.toString()),
               subtitle: Text(this.expenses[position].description),
               onTap: () {
-                debugPrint(
-                    "Tapped on " + this.expenses[position].id.toString());
                 navigateToDetail(this.expenses[position]);
               }),
         );

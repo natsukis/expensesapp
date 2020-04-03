@@ -36,7 +36,7 @@ class CreditCardState extends State {
       Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text("Totales " + DateTime.now().year.toString()),
+            title: Text("Resumen de tarjeta "),
             centerTitle: true,
             backgroundColor: Colors.transparent,
           ),

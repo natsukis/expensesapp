@@ -120,12 +120,12 @@ class IncomeRangeDayState extends State {
         } else {
           totalAux = TotalPerMonth.fromObject(result[0]);
         }
+        if (mounted) {
+          setState(() {
+            tempTot = totalAux;
+          });
+        }
       });
-      if (mounted) {
-        setState(() {
-          tempTot = totalAux;
-        });
-      }
     });
   }
 

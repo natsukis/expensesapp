@@ -41,7 +41,7 @@ class DbHelper {
     return dbExpenses;
   }
 
-  void _create(Database db, int newVersion) async {
+  void _create(Database db, int version) async {
     await db.execute(
         "CREATE TABLE $tblExpense($colId INTEGER PRIMARY KEY, $colArticle TEXT, " +
             "$colDescription TEXT, $colPrice INTEGER, $colType TEXT, $colDate TEXT, $colMethod TEXT)");
@@ -54,12 +54,14 @@ class DbHelper {
             "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
   }
 
-  void _upgrade(Database db, int newVersion, int update) async {
+  void _upgrade(Database db, int version, int update) async {
     // await db.execute(
-    //     "IF OBJECT_ID('dbo.totalyear', 'U') IS NULL CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
+    //     "CREATE TABLE totalyear(year INTEGER PRIMARY KEY, january INTEGER, " +
     //         "february INTEGER, march INTEGER, april INTEGER, may INTEGER, june INTEGER, " +
     //         "july INTEGER, august INTEGER, september INTEGER, october INTEGER, november INTEGER, december INTEGER)");
-    await db.execute("ALTER TABLE $tblExpense ADD COLUMN $colMethod TEXT");
+    if (version < 3) {
+      await db.execute("ALTER TABLE $tblExpense ADD COLUMN $colMethod TEXT");
+    }    
   }
 
   //<--Expense block-->

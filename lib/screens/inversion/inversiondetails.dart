@@ -35,6 +35,7 @@ class InversionDetailState extends State {
   @override
   Widget build(BuildContext context) {
     descriptionController.text = inversion.description;
+    priceController.text = inversion.price.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
         backgroundColor: Colors.brown[200],
@@ -43,7 +44,7 @@ class InversionDetailState extends State {
           automaticallyImplyLeading: false,
           title: Text(inversion.description == ""
               ? "Nueva Inversion"
-              : inversion.description),
+              : inversion.description + '. ' + stringToDate(inversion.date)),
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
@@ -163,5 +164,14 @@ class InversionDetailState extends State {
     } else {
       Navigator.pop(context, true);
     }
+  }
+
+  String stringToDate(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.day.toString() +
+        '/' +
+        newDateTimeObj.month.toString() +
+        '/' +
+        newDateTimeObj.year.toString();
   }
 }
