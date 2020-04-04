@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:gastosapp/model/expense.dart';
 import 'package:gastosapp/model/inversion.dart';
@@ -38,7 +39,7 @@ class TodayTotalState extends State {
         body: PageView(
       controller: _controller,
       children: [
-        TodayTotal1(date),
+        TotalMoves(),
         TodayTotal3(),
         TodayTotal2(tempTot, status),
       ],
@@ -623,6 +624,10 @@ class TodayTotal2 extends StatelessWidget {
             title: Text("Totales " + DateTime.now().year.toString()),
             centerTitle: true,
             backgroundColor: Colors.transparent,
+            bottom: PreferredSize(
+                child: Text('Total: \$' + calculateAnualTotal().toString(),
+                    style: TextStyle(color: Colors.yellow)),
+                preferredSize: null),
           ),
           body: Padding(
             padding: EdgeInsets.only(top: 20.0, left: 20),
@@ -633,12 +638,12 @@ class TodayTotal2 extends StatelessWidget {
                         child: Column(children: <Widget>[
                           Row(children: <Widget>[
                             Expanded(
-                              child: Text("Total Enero(Ingre-Gasto): ",
-                                  style: TextStyle(color: Colors.white)),
+                              child: Text("Total Enero: ",
+                                  style: TextStyle(color: Colors.black)),
                             ),
                             Expanded(
                                 child: Text(
-                                    '                \$' +
+                                    '                      \$' +
                                         totalMonth.january.toString(),
                                     style: TextStyle(color: Colors.white)))
                           ]),
@@ -646,11 +651,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Febrero(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Febrero:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.february.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -658,11 +663,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Marzo(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Marzo:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.march.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -670,11 +675,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Abril(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Abril:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.april.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -682,11 +687,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Mayo(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Mayo:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.may.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -694,11 +699,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Junio(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Junio:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.june.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -706,11 +711,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Julio(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Julio:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.july.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -718,11 +723,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Agosto(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Agosto:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.august.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -730,12 +735,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text(
-                                        "Total Septiembre(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Septiembre:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.september.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -743,11 +747,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Octubre(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Octubre:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.october.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -755,11 +759,11 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Noviembre(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Noviembre:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.november.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
@@ -767,14 +771,22 @@ class TodayTotal2 extends StatelessWidget {
                               padding: EdgeInsets.only(top: 30),
                               child: Row(children: <Widget>[
                                 Expanded(
-                                    child: Text("Total Diciembre(Ingre-Gasto):",
-                                        style: TextStyle(color: Colors.white))),
+                                    child: Text("Total Diciembre:",
+                                        style: TextStyle(color: Colors.black))),
                                 Expanded(
                                     child: Text(
-                                        '                \$' +
+                                        '                      \$' +
                                             totalMonth.december.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
+                          DotsIndicator(
+                            dotsCount: 3,
+                            position: 2,
+                            decorator: DotsDecorator(
+                              color: Colors.brown,
+                              activeColor: Colors.white,
+                            ),
+                          )
                         ])))),
           ))
     ]);
@@ -1208,6 +1220,21 @@ class TodayTotal2 extends StatelessWidget {
       return false;
     }
   }
+
+  int calculateAnualTotal() {
+    return totalMonth.january +
+        totalMonth.february +
+        totalMonth.march +
+        totalMonth.april +
+        totalMonth.may +
+        totalMonth.june +
+        totalMonth.july +
+        totalMonth.august +
+        totalMonth.september +
+        totalMonth.october +
+        totalMonth.november +
+        totalMonth.december;
+  }
 }
 
 class TodayTotal3 extends StatefulWidget {
@@ -1264,12 +1291,12 @@ class TodayTotal3State extends State {
       Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text("Gastos del mes "),
+            title: Text("Gastos del mes"),
             centerTitle: true,
             backgroundColor: Colors.transparent,
           ),
           body: Padding(
-            padding: EdgeInsets.only(top: 20.0, left: 5, right: 5),
+            padding: EdgeInsets.only(top: 10.0, left: 5, right: 5),
             child: Column(children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 20.0),
@@ -1307,7 +1334,7 @@ class TodayTotal3State extends State {
                                 style: TextStyle(color: Colors.black)))
                       ]))),
               Padding(
-                  padding: EdgeInsets.only(top: 20.0, bottom: 20),
+                  padding: EdgeInsets.only(top: 20.0, bottom: 10),
                   child: Row(children: <Widget>[
                     Expanded(
                       child: Text("Consumos: ",
@@ -1316,10 +1343,14 @@ class TodayTotal3State extends State {
                     Expanded(child: Text(""))
                   ])),
               Expanded(child: expenseListItems()),
-              Padding(
-                  padding: EdgeInsets.only(top: 5),
-                  child: Text("Total anual --->",
-                      style: TextStyle(color: Colors.brown))),
+              DotsIndicator(
+                dotsCount: 3,
+                position: 1,
+                decorator: DotsDecorator(
+                  color: Colors.brown,
+                  activeColor: Colors.white,
+                ),
+              )
             ]),
           ))
     ]);
@@ -1330,13 +1361,13 @@ class TodayTotal3State extends State {
       itemCount: countResume,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          margin: EdgeInsets.all(1),
+          margin: EdgeInsets.all(2),
           color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
               contentPadding: EdgeInsets.only(left: 5, right: 5),
               leading: selectIcon(this.expenseResume[position].article),
-              title: Text(this.expenseResume[position].article + ':'),
+              title: Text(this.expenseResume[position].article),
               trailing:
                   Text("\$" + this.expenseResume[position].price.toString()),
               onTap: () {}),
@@ -1773,7 +1804,7 @@ class TodayTotal3State extends State {
         return month.aprilTo;
         break;
       case 5:
-        return month.mayFrom;
+        return month.mayTo;
         break;
       case 6:
         return month.juneTo;
@@ -1799,5 +1830,456 @@ class TodayTotal3State extends State {
       default:
         return DateTime.now();
     }
+  }
+}
+
+class TotalMoves extends StatefulWidget {
+  int count = 0;
+  TotalMoves();
+  @override
+  State<StatefulWidget> createState() => TotalMovesState();
+}
+
+class TotalMovesState extends State {
+  DbHelper helper = DbHelper();
+  List<Expense> expenses;
+  List<Expense> expensesTotal;
+  List<Expense> incomes;
+  List<Inversion> inversions;
+  List<Inversion> inversion;
+  int countInversion = 0;
+  int countExpense = 0;
+  int countExpenseTotal = 0;
+  int countIncome = 0;
+  int countTotal = 0;
+  int count = 0;
+  DateTime dateTo = DateTime.now();
+  DateTime dateFrom = DateTime.now();
+  List<Expense> total;
+  TotalMovesState();
+
+  @override
+  Widget build(BuildContext context) {
+    if (expenses == null) {
+      expenses = List<Expense>();
+      inversion = List<Inversion>();
+      getDataExpense();
+      getDataInversion();
+      getDataExpenseTotal();
+      getDataIncome();
+    }
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Resumen de hoy"),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 10.0, left: 5, right: 5),
+            child: Column(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.yellow[300],
+                        border: Border.all(color: Colors.yellow),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    child: Row(children: <Widget>[
+                      Expanded(
+                        child: Text("Gastos: ",
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                      Expanded(
+                          child: Text(
+                              '                   \$' +
+                                  calculateTotalExpenses(
+                                      expensesTotal, countExpenseTotal),
+                              style: TextStyle(color: Colors.black)))
+                    ])),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[300],
+                          border: Border.all(color: Colors.yellow),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Row(children: <Widget>[
+                        Expanded(
+                          child: Text("Ingresos: ",
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                        Expanded(
+                            child: Text(
+                                '                   \$' +
+                                    calculateTotalExpenses(
+                                        incomes, countIncome),
+                                style: TextStyle(color: Colors.black)))
+                      ]))),
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[300],
+                          border: Border.all(color: Colors.yellow),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Row(children: <Widget>[
+                        Expanded(
+                          child: Text("Inversiones: ",
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                        Expanded(
+                            child: Text(
+                                '                   \$' +
+                                    calculateTotalInversions(
+                                        inversions, countInversion),
+                                style: TextStyle(color: Colors.black)))
+                      ]))),
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0, bottom: 10),
+                  child: Row(children: <Widget>[
+                    Expanded(
+                      child: Text("Movimientos: ",
+                          style: TextStyle(color: Colors.yellow)),
+                    ),
+                    Expanded(child: Text(""))
+                  ])),
+              Expanded(child: productListItems()),
+              DotsIndicator(
+                dotsCount: 3,
+                position: 0,
+                decorator: DotsDecorator(
+                  color: Colors.brown,
+                  activeColor: Colors.white,
+                ),
+              )
+            ]),
+          ))
+    ]);
+  }
+
+  ListView productListItems() {
+    return ListView.builder(
+      itemCount: countTotal,
+      itemBuilder: (BuildContext context, int position) {
+        return Card(
+          margin: EdgeInsets.all(2),
+          color: Colors.brown[100],
+          elevation: 2.0,
+          child: ListTile(
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: selectIcon(this.expenses[position].article,
+                  this.expenses[position].type),
+              title: Text(this.expenses[position].article),
+              trailing: Text('\$' + this.expenses[position].price.toString()),
+              onTap: () {}),
+        );
+      },
+    );
+  }
+
+  void getDataExpense() {
+    final dbFuture = helper.initializeDb();
+    dbFuture.then((result) {
+      final expensesFuture = helper.getExpenses();
+      expensesFuture.then((result) {
+        List<Expense> expenseList = List<Expense>();
+        countExpense = result.length;
+        int notToday = 0;
+        for (int i = 0; i < countExpense; i++) {
+          Expense producAux = Expense.fromObject(result[i]);
+          if (comparedate(producAux.date)) {
+            expenseList.add(producAux);
+          } else {
+            notToday = notToday + 1;
+          }
+        }
+        setState(() {
+          expenses = expenseList;
+          countExpense = countExpense - notToday;
+          countTotal = countTotal + countExpense;
+        });
+      });
+    });
+  }
+
+  void getDataExpenseTotal() {
+    final dbFuture = helper.initializeDb();
+    dbFuture.then((result) {
+      final expensesFuture = helper.getExpenses();
+      expensesFuture.then((result) {
+        List<Expense> expenseList = List<Expense>();
+        countExpenseTotal = result.length;
+        int notToday = 0;
+        for (int i = 0; i < countExpenseTotal; i++) {
+          Expense producAux = Expense.fromObject(result[i]);
+          if (comparedate(producAux.date) && producAux.type == "Expense") {
+            expenseList.add(producAux);
+          } else {
+            notToday = notToday + 1;
+          }
+        }
+        setState(() {
+          expensesTotal = expenseList;
+          countExpenseTotal = countExpenseTotal - notToday;
+        });
+      });
+    });
+  }
+
+  void getDataIncome() {
+    final dbFuture = helper.initializeDb();
+    dbFuture.then((result) {
+      final expensesFuture = helper.getExpenses();
+      expensesFuture.then((result) {
+        List<Expense> expenseList = List<Expense>();
+        countIncome = result.length;
+        int notToday = 0;
+        for (int i = 0; i < countIncome; i++) {
+          Expense producAux = Expense.fromObject(result[i]);
+          if (comparedate(producAux.date) && producAux.type == "Income") {
+            expenseList.add(producAux);
+          } else {
+            notToday = notToday + 1;
+          }
+        }
+        setState(() {
+          incomes = expenseList;
+          countIncome = countIncome - notToday;
+        });
+      });
+    });
+  }
+
+  void getDataInversion() {
+    final dbFuture = helper.initializeDb();
+    dbFuture.then((result) {
+      final inversionFuture = helper.getInversion();
+      inversionFuture.then((result) {
+        countInversion = result.length;
+        int notToday = 0;
+        for (int i = 0; i < countInversion; i++) {
+          Inversion producAux = Inversion.fromObject(result[i]);
+          if (comparedate(producAux.date)) {
+            Expense temp = Expense('', 0, 'Inversion', '', '', 'Efectivo');
+            temp.article = producAux.article;
+            temp.date = producAux.date;
+            temp.description = producAux.description;
+            temp.price = producAux.price;
+            expenses.add(temp);
+            inversion.add(producAux);
+          } else {
+            notToday = notToday + 1;
+          }
+        }
+        setState(() {
+          inversions = inversion;
+          countInversion = countInversion - notToday;
+          countTotal = countTotal + countInversion;
+        });
+      });
+    });
+  }
+
+  String stringToDateConvert(DateTime aux) {
+    return aux.day.toString() + '/' + aux.month.toString();
+  }
+
+  String stringToDate(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.day.toString() +
+        '/' +
+        newDateTimeObj.month.toString() +
+        '/' +
+        newDateTimeObj.year.toString();
+  }
+
+  String convertDatePath(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.month.toString() +
+        '-' +
+        newDateTimeObj.day.toString() +
+        '-' +
+        newDateTimeObj.year.toString();
+  }
+
+  bool comparedate(String date) {
+    DateTime dateD = new DateFormat().add_yMd().parse(date);
+
+    if (dateD.isAfter(dateFrom.add(new Duration(days: -1))) &&
+        dateD.isBefore(dateTo.add(new Duration(days: 1)))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Icon selectIcon(String article, String type) {
+    switch (type) {
+      case "Expense":
+        switch (article) {
+          case "Alquiler":
+            return Icon(Icons.home, color: Colors.blue, size: 40);
+            break;
+          case "Colectivo":
+            return Icon(Icons.directions_bus,
+                color: Colors.lightBlue[200], size: 40);
+            break;
+          case "Celular":
+            return Icon(Icons.phone_android, color: Colors.white, size: 40);
+            break;
+
+          case "Compra":
+            return Icon(Icons.shopping_basket, color: Colors.green, size: 40);
+            break;
+
+          case "Impuesto":
+            return Icon(Icons.money_off, color: Colors.red[400], size: 40);
+            break;
+
+          case "Nafta":
+            return Icon(Icons.local_gas_station, color: Colors.black, size: 40);
+            break;
+
+          case "Internet":
+            return Icon(Icons.computer, color: Colors.blueGrey, size: 40);
+            break;
+
+          case "Prestamo":
+            return Icon(Icons.attach_money, color: Colors.red, size: 40);
+            break;
+
+          case "Regalo":
+            return Icon(Icons.card_giftcard, color: Colors.cyan, size: 40);
+            break;
+
+          case "Salida":
+            return Icon(Icons.local_bar, color: Colors.orange, size: 40);
+            break;
+
+          case "Seguro":
+            return Icon(Icons.security, color: Colors.pink, size: 40);
+            break;
+
+          case "Taxi":
+            return Icon(Icons.local_taxi, color: Colors.yellow[400], size: 40);
+            break;
+
+          case "Gastos comunes":
+            return Icon(Icons.local_cafe, color: Colors.grey[600], size: 40);
+            break;
+
+          case "Hospedaje":
+            return Icon(Icons.hotel, color: Colors.brown[600], size: 40);
+            break;
+
+          case "Supermercado":
+            return Icon(Icons.local_grocery_store,
+                color: Colors.purple, size: 40);
+            break;
+
+          case "Viaje":
+            return Icon(Icons.card_travel, color: Colors.orange[200], size: 40);
+            break;
+
+          case "Tarjeta":
+            return Icon(Icons.credit_card, color: Colors.blueAccent, size: 40);
+            break;
+
+          case "Otro":
+            return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+            break;
+
+          default:
+            return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+        }
+        break;
+      case "Inversion":
+        return Icon(
+          Icons.score,
+          color: Colors.orange,
+          size: 40,
+        );
+        break;
+      case "Income":
+        return Icon(
+          Icons.monetization_on,
+          color: Colors.green,
+          size: 40,
+        );
+        break;
+      default:
+        return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+    }
+  }
+
+  String calculateTotalExpenses(List<Expense> expenses, int count) {
+    var total = 0;
+    for (var i = 0; i < count; i++) {
+      total = total + expenses[i].price;
+    }
+    return total.toString();
+  }
+
+  String calculateTotalInversions(List<Inversion> inversion, int count) {
+    var total = 0;
+    for (var i = 0; i < count; i++) {
+      total = total + inversion[i].price;
+    }
+    return total.toString();
+  }
+
+  String calculateTotal(
+    List<Expense> expenses,
+    int count,
+    List<Expense> incomes,
+    int countIncome,
+    List<Inversion> inversions,
+    int countInversion,
+  ) {
+    var total = 0;
+    for (var i = 0; i < countIncome; i++) {
+      total = total + incomes[i].price;
+    }
+
+    var totalexpense = 0;
+    for (var i = 0; i < count; i++) {
+      totalexpense = totalexpense + expenses[i].price;
+    }
+
+    var totalInversion = 0;
+    for (var i = 0; i < countInversion; i++) {
+      totalInversion = totalInversion + inversions[i].price;
+    }
+
+    return (total - totalexpense - totalInversion).toString();
+  }
+
+  String calculateTotalSimple(
+    List<Expense> expenses,
+    int count,
+    List<Expense> incomes,
+    int countIncome,
+  ) {
+    var total = 0;
+    for (var i = 0; i < countIncome; i++) {
+      total = total + incomes[i].price;
+    }
+
+    var totalexpense = 0;
+    for (var i = 0; i < count; i++) {
+      totalexpense = totalexpense + expenses[i].price;
+    }
+
+    return (total - totalexpense).toString();
   }
 }

@@ -92,7 +92,7 @@ class MenuState extends State {
                               child: Text("Ingresos")))
                     ]),
                     Padding(
-                        padding: EdgeInsets.only(top: 35),
+                        padding: EdgeInsets.only(top: 60),
                         child: Row(children: <Widget>[
                           Expanded(
                               child: RaisedButton(
@@ -111,27 +111,27 @@ class MenuState extends State {
                                                 SubMenu("Inversion")));
                                   },
                                   child: Text("Inversiones"))),
-                          Expanded(
-                              child: RaisedButton(
-                                  padding: EdgeInsets.all(15.0),
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(28.0),
-                                      side: BorderSide(color: Colors.brown)),
-                                  textColor: Colors.white,
-                                  color: Colors.brown[200],
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PickTwoDate("TotalMoves")));
-                                  },
-                                  child: Text("Todos los Mov.")))
-                        ])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 35),
-                        child: Row(children: <Widget>[
+                          // Expanded(
+                          //     child: RaisedButton(
+                          //         padding: EdgeInsets.all(15.0),
+                          //         shape: new RoundedRectangleBorder(
+                          //             borderRadius:
+                          //                 new BorderRadius.circular(28.0),
+                          //             side: BorderSide(color: Colors.brown)),
+                          //         textColor: Colors.white,
+                          //         color: Colors.brown[200],
+                          //         onPressed: () {
+                          //           Navigator.push(
+                          //               context,
+                          //               MaterialPageRoute(
+                          //                   builder: (context) =>
+                          //                       PickTwoDate("TotalMoves")));
+                          //         },
+                          //         child: Text("Todos los Mov.")))
+                          //     ])),
+                          // Padding(
+                          //     padding: EdgeInsets.only(top: 35),
+                          //     child: Row(children: <Widget>[
                           Expanded(
                               child: RaisedButton(
                                   padding: EdgeInsets.all(15.0),
@@ -149,23 +149,23 @@ class MenuState extends State {
                                                 TodayTotal(date())));
                                   },
                                   child: Text("Resumen"))),
-                          Expanded(
-                              child: RaisedButton(
-                                  padding: EdgeInsets.all(15.0),
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(28.0),
-                                      side: BorderSide(color: Colors.brown)),
-                                  textColor: Colors.white,
-                                  color: Colors.brown[200],
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PickTwoDate("TotalPerDay")));
-                                  },
-                                  child: Text("Resumen x fecha"))),
+                          // Expanded(
+                          //     child: RaisedButton(
+                          //         padding: EdgeInsets.all(15.0),
+                          //         shape: new RoundedRectangleBorder(
+                          //             borderRadius:
+                          //                 new BorderRadius.circular(28.0),
+                          //             side: BorderSide(color: Colors.brown)),
+                          //         textColor: Colors.white,
+                          //         color: Colors.brown[200],
+                          //         onPressed: () {
+                          //           Navigator.push(
+                          //               context,
+                          //               MaterialPageRoute(
+                          //                   builder: (context) =>
+                          //                       PickTwoDate("TotalPerDay")));
+                          //         },
+                          //         child: Text("Resumen x fecha"))),
                         ])),
                     // Center(
                     //     child: RaisedButton(
@@ -193,7 +193,7 @@ class MenuState extends State {
               Container(
                   height: 150.0,
                   child: DrawerHeader(
-                    child: Center(child:Text('Gato: App de administracion')),
+                    child: Center(child: Text('Gato: App de administracion')),
                     decoration: BoxDecoration(
                       color: Colors.brown[200],
                     ),
@@ -208,15 +208,6 @@ class MenuState extends State {
                       MaterialPageRoute(builder: (context) => CreditCard()));
                 },
               ),
-              // ListTile(
-              //   title: Text('Viajes'),
-              //   onTap: () {
-              //     // Update the state of the app
-              //     // ...
-              //     // Then close the drawer
-              //     Navigator.pop(context);
-              //   },
-              //),
               ListTile(
                 title: Text('Estadisticas'),
                 onTap: () {

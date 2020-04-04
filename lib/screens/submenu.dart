@@ -17,100 +17,108 @@ class SubMenu extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
           alignment: Alignment.center),
-    Scaffold(
-        appBar: AppBar(
-          title: Text(title()),
+      Scaffold(
+          appBar: AppBar(
+            title: Text(title()),
+            backgroundColor: Colors.transparent,
+          ),
+          floatingActionButton: SizedBox(
+              width: 60.0,
+              height: 60.0,
+              child: FloatingActionButton(
+                  child: Text("Volver", style: TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.brown,
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  })),
           backgroundColor: Colors.transparent,
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: Text("Volver", style: TextStyle(color: Colors.white)),
-            backgroundColor: Colors.brown,
-            onPressed: () {
-              Navigator.pop(context, true);
-            }),
-        backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.only(top: 90.0, left: 5.0, right: 5.0),
-          child: Center(
-              child: SingleChildScrollView(child: Column(children: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Container(
-                    width: 180.0,
-                    height: 50.0,
-                    child: RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(28.0),
-                          side: BorderSide(color: Colors.brown)),
-                      textColor: Colors.white,
-                      color: Colors.brown[200],
-                      onPressed: () {
-                        switch (route) {
-                          case "Expense":
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ExpensePage(date())));
-                            break;
-                          case "Inversion":
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => InversionPage(date())));
-                            break;
-                          case "Income":
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => IncomePage(date())));
-                            break;
-                        }
-                      },
-                      child: Text("Movimientos de hoy"),
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    ))),
-                    Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Container(
-                    width: 180.0,
-                    height: 50.0,
-                    child: RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(28.0),
-                          side: BorderSide(color: Colors.brown)),
-                      textColor: Colors.white,
-                      color: Colors.brown[200],
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PickDate(route)));
-                      },
-                      child: Text("Movimientos x dia"),
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    ))),
-            Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 20),
-                child: Container(
-                    width: 180.0,
-                    height: 50.0,
-                    child: RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(28.0),
-                          side: BorderSide(color: Colors.brown)),
-                      textColor: Colors.white,
-                      color: Colors.brown[200],
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PickTwoDate(route)));
-                      },
-                      child: Text("Movimientos x fecha"),
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    )))
-          ]))),
-        ))]);
+          body: Padding(
+            padding: EdgeInsets.only(top: 90.0, left: 5.0, right: 5.0),
+            child: Center(
+                child: SingleChildScrollView(
+                    child: Column(children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Container(
+                      width: 190.0,
+                      height: 60.0,
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(28.0),
+                            side: BorderSide(color: Colors.brown)),
+                        textColor: Colors.white,
+                        color: Colors.brown[200],
+                        onPressed: () {
+                          switch (route) {
+                            case "Expense":
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ExpensePage(date())));
+                              break;
+                            case "Inversion":
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InversionPage(date())));
+                              break;
+                            case "Income":
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          IncomePage(date())));
+                              break;
+                          }
+                        },
+                        child: Text("Movimientos de hoy"),
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      ))),
+              Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Container(
+                      width: 190.0,
+                      height: 60.0,
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(28.0),
+                            side: BorderSide(color: Colors.brown)),
+                        textColor: Colors.white,
+                        color: Colors.brown[200],
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PickDate(route)));
+                        },
+                        child: Text("Movimientos x dia"),
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      ))),
+              Padding(
+                  padding: EdgeInsets.only(top: 40, bottom: 20),
+                  child: Container(
+                      width: 190.0,
+                      height: 60.0,
+                      child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(28.0),
+                            side: BorderSide(color: Colors.brown)),
+                        textColor: Colors.white,
+                        color: Colors.brown[200],
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PickTwoDate(route)));
+                        },
+                        child: Text("Movimientos x fecha"),
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      )))
+            ]))),
+          ))
+    ]);
   }
 
   String date() {
@@ -134,7 +142,7 @@ class SubMenu extends StatelessWidget {
     }
   }
 
-  String imageMenu(){
+  String imageMenu() {
     switch (route) {
       case "Expense":
         return "images/expense.jpg";

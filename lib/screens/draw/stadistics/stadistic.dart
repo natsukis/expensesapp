@@ -34,8 +34,8 @@ class StadisticsState extends State {
     Colors.green,
     Colors.blue,
     Colors.yellow,
-    Colors.brown,
-    Colors.black,
+    Colors.greenAccent,
+    Colors.teal[50],
     Colors.cyan,
     Colors.grey,
     Colors.orange,
@@ -156,7 +156,7 @@ class StadisticsState extends State {
                             showChartValueLabel: false,
                             initialAngle: 0,
                             chartValueStyle: defaultChartValueStyle.copyWith(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.black.withOpacity(0.9),
                                 fontSize: 10),
                             chartType: ChartType.disc,
                           )
@@ -180,14 +180,14 @@ class StadisticsState extends State {
             Container(
                 margin: EdgeInsets.all(0),
                 child: Padding(
-                    padding: EdgeInsets.only(top:5,left: 14),
+                    padding: EdgeInsets.only(top:20,left: 14),
                     child: toggle
                         ? PieChart(
                             dataMap: dataInversionMap,
                             animationDuration: Duration(milliseconds: 800),
                             chartLegendSpacing: 27.0,
                             legendStyle:
-                                TextStyle(fontSize: 12, color: Colors.white),
+                                TextStyle(fontSize: 12, color: Colors.black),
                             chartRadius:
                                 MediaQuery.of(context).size.width / 2.6,
                             showChartValuesInPercentage: true,
