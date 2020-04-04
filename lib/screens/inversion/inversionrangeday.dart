@@ -67,15 +67,18 @@ class InversionRangeDayState extends State {
       itemBuilder: (BuildContext context, int position) {
         return Card(
           color: Colors.brown[100],
+          margin: EdgeInsets.all(3),
           elevation: 2.0,
           child: ListTile(
-              leading: CircleAvatar(
-                  backgroundColor: getColor(this.inversions[position].article),
-                  child:
-                      Text(this.inversions[position].article.substring(0, 1))),
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: Icon(
+                Icons.score,
+                color: getColor(this.inversions[position].article),
+                size: 40,
+              ),
               title: Text(this.inversions[position].article),
-              subtitle: Text(
-                  'Total: \$' + this.inversions[position].price.toString()),
+              subtitle: Text(this.inversions[position].description),
+              trailing: Text('\$' + this.inversions[position].price.toString()),
               onTap: () {
                 navigateToInversionDetail(this.inversions[position]);
               }),
@@ -215,8 +218,11 @@ class InversionRangeDayState extends State {
     if (result[PermissionGroup.storage] == PermissionStatus.granted) {
       // permission was granted
       final String dir = (await DownloadsPathProvider.downloadsDirectory).path;
-      final String path =
-          '$dir/Inversiones' + stringToDateConvertCsv(dateFrom) + "a" + stringToDateConvertCsv(dateTo) + '.csv';
+      final String path = '$dir/Inversiones' +
+          stringToDateConvertCsv(dateFrom) +
+          "a" +
+          stringToDateConvertCsv(dateTo) +
+          '.csv';
 
       // create file
       final File file = File(path);
@@ -238,8 +244,12 @@ class InversionRangeDayState extends State {
         '/' +
         newDateTimeObj.year.toString();
   }
-    String stringToDateConvertCsv(DateTime aux) {
-    return aux.day.toString() + '-' + aux.month.toString() + '-' + aux.year.toString();
-  }
 
+  String stringToDateConvertCsv(DateTime aux) {
+    return aux.day.toString() +
+        '-' +
+        aux.month.toString() +
+        '-' +
+        aux.year.toString();
+  }
 }

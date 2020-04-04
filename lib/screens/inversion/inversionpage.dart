@@ -49,7 +49,7 @@ class InversionPageState extends State {
           SizedBox(width: 10),
         ],
       ),
-      body: InversionListItems(),
+      body: inversionListItems(),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.brown,
           onPressed: () {
@@ -60,22 +60,24 @@ class InversionPageState extends State {
     );
   }
 
-  ListView InversionListItems() {
+  ListView inversionListItems() {
     return ListView.builder(
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
+          margin: EdgeInsets.all(3),
           color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
-              leading: CircleAvatar(
-                  backgroundColor: getColor(this.inversions[position].article),
-                  child:
-                      Text(this.inversions[position].article.substring(0, 1))),
-              title: Text(this.inversions[position].article.toString() +
-                  ': \$' +
-                  this.inversions[position].price.toString()),
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: Icon(
+                Icons.score,
+                color: getColor(this.inversions[position].article),
+                size: 40,
+              ),
+              title: Text(this.inversions[position].article.toString()),
               subtitle: Text(this.inversions[position].description),
+              trailing: Text("\$" + this.inversions[position].price.toString()),
               onTap: () {
                 navigateToDetail(this.inversions[position]);
               }),
@@ -91,15 +93,18 @@ class InversionPageState extends State {
       productsFuture.then((result) {
         List<Inversion> productList = List<Inversion>();
         count = result.length;
+        int notToday = 0;
         for (int i = 0; i < count; i++) {
           Inversion producAux = Inversion.fromObject(result[i]);
           if (producAux.date == date) {
             productList.add(producAux);
+          } else {
+            notToday = notToday + 1;
           }
         }
         setState(() {
           inversions = productList;
-          count = count;
+          count = count - notToday;
         });
       });
     });
@@ -173,7 +178,7 @@ class InversionPageState extends State {
     List<List<String>> csvData;
     List<String> aux;
     csvData = [
-      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio','']
+      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio', '']
     ];
 
     for (var item in inversions) {

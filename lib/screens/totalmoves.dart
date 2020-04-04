@@ -58,12 +58,13 @@ class TotalMovesState extends State {
           color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
-              leading: CircleAvatar(
-                  backgroundColor: getColor(this.expenses[position].type),
-                  child: Text(this.expenses[position].article.substring(0, 1))),
+              leading: selectIcon(this.expenses[position].article,
+                  this.expenses[position].type),
               title: Text(this.expenses[position].article),
-              subtitle:
-                  Text('Total: \$' + this.expenses[position].price.toString() + '. Dia: ' + stringToDate(this.expenses[position].date)),
+              subtitle: Text('Total: \$' +
+                  this.expenses[position].price.toString() +
+                  '. Dia: ' +
+                  stringToDate(this.expenses[position].date)),
               onTap: () {}),
         );
       },
@@ -105,7 +106,7 @@ class TotalMovesState extends State {
         for (int i = 0; i < countInversion; i++) {
           Inversion producAux = Inversion.fromObject(result[i]);
           if (comparedate(producAux.date)) {
-            Expense temp = Expense('', 0, 'Inversion', '', '','Efectivo');
+            Expense temp = Expense('', 0, 'Inversion', '', '', 'Efectivo');
             temp.article = producAux.article;
             temp.date = producAux.date;
             temp.description = producAux.description;
@@ -156,19 +157,102 @@ class TotalMovesState extends State {
     }
   }
 
-  Color getColor(String article) {
-    switch (article) {
+  Icon selectIcon(String article, String type) {
+    switch (type) {
       case "Expense":
-        return Colors.blue;
+        switch (article) {
+          case "Alquiler":
+            return Icon(Icons.home, color: Colors.blue, size: 40);
+            break;
+          case "Colectivo":
+            return Icon(Icons.directions_bus,
+                color: Colors.lightBlue[200], size: 40);
+            break;
+          case "Celular":
+            return Icon(Icons.phone_android, color: Colors.white, size: 40);
+            break;
+
+          case "Compra":
+            return Icon(Icons.shopping_basket, color: Colors.green, size: 40);
+            break;
+
+          case "Impuesto":
+            return Icon(Icons.money_off, color: Colors.red[400], size: 40);
+            break;
+
+          case "Nafta":
+            return Icon(Icons.local_gas_station, color: Colors.black, size: 40);
+            break;
+
+          case "Internet":
+            return Icon(Icons.computer, color: Colors.blueGrey, size: 40);
+            break;
+
+          case "Prestamo":
+            return Icon(Icons.attach_money, color: Colors.red, size: 40);
+            break;
+
+          case "Regalo":
+            return Icon(Icons.card_giftcard, color: Colors.cyan, size: 40);
+            break;
+
+          case "Salida":
+            return Icon(Icons.local_bar, color: Colors.orange, size: 40);
+            break;
+
+          case "Seguro":
+            return Icon(Icons.security, color: Colors.pink, size: 40);
+            break;
+
+          case "Taxi":
+            return Icon(Icons.local_taxi, color: Colors.yellow[400], size: 40);
+            break;
+
+          case "Gastos comunes":
+            return Icon(Icons.local_cafe, color: Colors.grey[600], size: 40);
+            break;
+
+          case "Hospedaje":
+            return Icon(Icons.hotel, color: Colors.brown[600], size: 40);
+            break;
+
+          case "Supermercado":
+            return Icon(Icons.local_grocery_store,
+                color: Colors.purple, size: 40);
+            break;
+
+          case "Viaje":
+            return Icon(Icons.card_travel, color: Colors.orange[200], size: 40);
+            break;
+
+          case "Tarjeta":
+            return Icon(Icons.credit_card, color: Colors.blueAccent, size: 40);
+            break;
+
+          case "Otro":
+            return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+            break;
+
+          default:
+            return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+        }
         break;
       case "Inversion":
-        return Colors.orange;
+        return Icon(
+          Icons.score,
+          color: Colors.orange,
+          size: 40,
+        );
         break;
       case "Income":
-        return Colors.green;
-        break;    
+        return Icon(
+          Icons.monetization_on,
+          color: Colors.green,
+          size: 40,
+        );
+        break;
       default:
-        return Colors.grey;
+        return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
     }
   }
 }

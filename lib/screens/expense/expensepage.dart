@@ -55,7 +55,8 @@ class ExpensePageState extends State {
       body: expenseListItems(),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            navigateToDetail(Expense('Otro', 0, 'Expense', date, '', 'Efectivo'));
+            navigateToDetail(
+                Expense('Otro', 0, 'Expense', date, '', 'Efectivo'));
           },
           backgroundColor: Colors.brown,
           tooltip: "Agregar nuevo gasto",
@@ -68,16 +69,16 @@ class ExpensePageState extends State {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
+          margin: EdgeInsets.all(3),
           color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
-              leading: CircleAvatar(
-                  backgroundColor: getColor(this.expenses[position].article),
-                  child: Text(this.expenses[position].article.substring(0, 1))),
-              title: Text(this.expenses[position].article.toString() +
-                  ': \$' +
-                  this.expenses[position].price.toString()),
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: selectIcon(this.expenses[position].article),
+              title: Text(this.expenses[position].article ),
               subtitle: Text(this.expenses[position].description),
+              trailing:
+                  Text("\$" + this.expenses[position].price.toString()),
               onTap: () {
                 navigateToDetail(this.expenses[position]);
               }),
@@ -126,13 +127,13 @@ class ExpensePageState extends State {
         }
       });
 
-            //total next year
-      final totalNext = helper.getTotalYear(getDate(date)+1);
+      //total next year
+      final totalNext = helper.getTotalYear(getDate(date) + 1);
       TotalPerMonth totalAuxNextYear;
       totalNext.then((result) {
         int count = result.length;
         if (count == 0) {
-          totalAuxNextYear = new TotalPerMonth.withYear(getDate(date)+1);
+          totalAuxNextYear = new TotalPerMonth.withYear(getDate(date) + 1);
           helper.insertTotal(totalAuxNextYear);
         } else {
           totalAuxNextYear = TotalPerMonth.fromObject(result[0]);
@@ -151,64 +152,80 @@ class ExpensePageState extends State {
     return x;
   }
 
-  Color getColor(String article) {
+  Icon selectIcon(String article) {
     switch (article) {
       case "Alquiler":
-        return Colors.blue;
+        return Icon(Icons.home, color: Colors.blue, size: 40);
         break;
       case "Colectivo":
-        return Colors.yellow;
+        return Icon(Icons.directions_bus, color: Colors.lightBlue[200], size: 40);
         break;
       case "Celular":
-        return Colors.green;
+        return Icon(Icons.phone_android, color: Colors.white, size: 40);
         break;
 
       case "Compra":
-        return Colors.lightGreen;
+        return Icon(Icons.shopping_basket, color: Colors.green, size: 40);
         break;
 
       case "Impuesto":
-        return Colors.brown;
+        return Icon(Icons.money_off, color: Colors.red[400], size: 40);
         break;
 
       case "Nafta":
-        return Colors.red;
+        return Icon(Icons.local_gas_station, color: Colors.black, size: 40);
         break;
 
       case "Internet":
-        return Colors.blueGrey;
+        return Icon(Icons.computer, color: Colors.blueGrey, size: 40);
         break;
 
       case "Prestamo":
-        return Colors.orange;
+        return Icon(Icons.attach_money, color: Colors.red, size: 40);
         break;
 
       case "Regalo":
-        return Colors.cyan;
+        return Icon(Icons.card_giftcard, color: Colors.cyan, size: 40);
         break;
 
       case "Salida":
-        return Colors.pink;
+        return Icon(Icons.local_bar, color: Colors.orange, size: 40);
         break;
 
       case "Seguro":
-        return Colors.brown[100];
+        return Icon(Icons.security, color: Colors.pink, size: 40);
         break;
 
       case "Taxi":
-        return Colors.yellow[100];
+        return Icon(Icons.local_taxi, color: Colors.yellow[400], size: 40);
         break;
 
       case "Gastos comunes":
-        return Colors.grey;
+        return Icon(Icons.local_cafe, color: Colors.grey[600], size: 40);
+        break;
+
+      case "Hospedaje":
+        return Icon(Icons.hotel, color: Colors.brown[600], size: 40);
+        break;
+
+      case "Supermercado":
+        return Icon(Icons.local_grocery_store, color: Colors.purple, size: 40);
+        break;
+
+      case "Viaje":
+        return Icon(Icons.card_travel, color: Colors.orange[200], size: 40);
+        break;
+
+      case "Tarjeta":
+        return Icon(Icons.credit_card, color: Colors.blueAccent, size: 40);
         break;
 
       case "Otro":
-        return Colors.grey;
+        return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
         break;
 
       default:
-        return Colors.grey;
+        return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
     }
   }
 
@@ -216,7 +233,8 @@ class ExpensePageState extends State {
     bool result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ExpenseDetail(expense, date, tempTot, totalNextYear)));
+            builder: (context) =>
+                ExpenseDetail(expense, date, tempTot, totalNextYear)));
     if (result == true) {
       getData();
     }

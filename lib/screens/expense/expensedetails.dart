@@ -29,6 +29,7 @@ class ExpenseDetailState extends State {
     "Colectivo",
     "Compra",
     "Gastos comunes",
+    "Hospedaje",
     "Impuesto",
     "Internet",
     "Nafta",
@@ -37,7 +38,10 @@ class ExpenseDetailState extends State {
     "Regalo",
     "Salida",
     "Seguro",
+    "Supermercado",
+    "Tarjeta",
     "Taxi",
+    "Viaje",
   ];
   String _article = "Otro";
   final _methods = [

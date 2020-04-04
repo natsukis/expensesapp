@@ -99,108 +99,122 @@ class StadisticsState extends State {
   Widget build(BuildContext context) {
     loadData();
 
-    return Scaffold(
-      backgroundColor: Colors.brown[200],
-      appBar: AppBar(
-        backgroundColor: Colors.brown,
-        title: Text("Estadisticas %"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-          child: Container(
-              child: Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Center(
-            child: Column(children: <Widget>[
-          Container(
-            child: toggle
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Colors.yellow[300],
-                        border: Border.all(color: Colors.yellow),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    child: Text(
-                      "Resumen de ganancias",
-                      style: TextStyle(color: Colors.black),
-                    ))
-                : Text(""),
-          ),
-          Container(
-              margin: EdgeInsets.all(0),
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: toggle
-                      ? PieChart(
-                          dataMap: dataMap,
-                          animationDuration: Duration(milliseconds: 800),
-                          chartLegendSpacing: 27.0,
-                          legendStyle:
-                              TextStyle(fontSize: 12, color: Colors.white),
-                          chartRadius: MediaQuery.of(context).size.width / 2.3,
-                          showChartValuesInPercentage: true,
-                          showChartValues: true,
-                          showChartValuesOutside: true,
-                          chartValueBackgroundColor: Colors.grey[200],
-                          colorList: colorList,
-                          showLegends: true,
-                          legendPosition: LegendPosition.right,
-                          decimalPlaces: 1,
-                          showChartValueLabel: false,
-                          initialAngle: 0,
-                          chartValueStyle: defaultChartValueStyle.copyWith(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 10),
-                          chartType: ChartType.disc,
-                        )
-                      : Text("Haga click para generar el grafico"))),
-          Container(
-            child: toggle
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Colors.yellow[300],
-                        border: Border.all(color: Colors.yellow),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    child: Text("Cartera de inversiones",
-                        style: TextStyle(color: Colors.black)),
-                  )
-                : Text(""),
-          ),
-          Container(
-              margin: EdgeInsets.all(0),
-              child: Padding(
-                  padding: EdgeInsets.only(left: 14),
-                  child: toggle
-                      ? PieChart(
-                          dataMap: dataInversionMap,
-                          animationDuration: Duration(milliseconds: 800),
-                          chartLegendSpacing: 27.0,
-                          legendStyle:
-                              TextStyle(fontSize: 12, color: Colors.white),
-                          chartRadius: MediaQuery.of(context).size.width / 2.3,
-                          showChartValuesInPercentage: true,
-                          showChartValues: true,
-                          showChartValuesOutside: true,
-                          chartValueBackgroundColor: Colors.grey[200],
-                          colorList: colorInversionList,
-                          showLegends: true,
-                          legendPosition: LegendPosition.right,
-                          decimalPlaces: 1,
-                          showChartValueLabel: false,
-                          initialAngle: 0,
-                          chartValueStyle: defaultChartValueStyle.copyWith(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 10),
-                          chartType: ChartType.disc,
-                        )
-                      : Text(""))),
-        ])),
-      ))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: togglePieChart,
-        backgroundColor: Colors.brown,
-        child: Icon(Icons.insert_chart),
-      ),
-    );
+    return Stack(children: <Widget>[
+      Image.asset("images/stadistic.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: Text("Estadisticas %"),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+            child: Container(
+                child: Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Center(
+              child: Column(children: <Widget>[
+            Container(
+              child: toggle
+                  ? Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[300],
+                          border: Border.all(color: Colors.yellow),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Text(
+                        "Resumen de ganancias",
+                        style: TextStyle(color: Colors.black),
+                      ))
+                  : Text(""),
+            ),
+            Container(
+                margin: EdgeInsets.all(0),
+                child: Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: toggle
+                        ? PieChart(
+                            dataMap: dataMap,
+                            animationDuration: Duration(milliseconds: 800),
+                            chartLegendSpacing: 27.0,
+                            legendStyle:
+                                TextStyle(fontSize: 12, color: Colors.white),
+                            chartRadius:
+                                MediaQuery.of(context).size.width / 2.3,
+                            showChartValuesInPercentage: true,
+                            showChartValues: true,
+                            showChartValuesOutside: true,
+                            chartValueBackgroundColor: Colors.grey[200],
+                            colorList: colorList,
+                            showLegends: true,
+                            legendPosition: LegendPosition.right,
+                            decimalPlaces: 1,
+                            showChartValueLabel: false,
+                            initialAngle: 0,
+                            chartValueStyle: defaultChartValueStyle.copyWith(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 10),
+                            chartType: ChartType.disc,
+                          )
+                        : Text(
+                            "Haga click para generar el grafico",
+                            style: TextStyle(color: Colors.black),
+                          ))),
+            Container(
+              child: toggle
+                  ? Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[300],
+                          border: Border.all(color: Colors.yellow),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Text("Cartera de inversiones",
+                          style: TextStyle(color: Colors.black)),
+                    )
+                  : Text(""),
+            ),
+            Container(
+                margin: EdgeInsets.all(0),
+                child: Padding(
+                    padding: EdgeInsets.only(top:5,left: 14),
+                    child: toggle
+                        ? PieChart(
+                            dataMap: dataInversionMap,
+                            animationDuration: Duration(milliseconds: 800),
+                            chartLegendSpacing: 27.0,
+                            legendStyle:
+                                TextStyle(fontSize: 12, color: Colors.white),
+                            chartRadius:
+                                MediaQuery.of(context).size.width / 2.6,
+                            showChartValuesInPercentage: true,
+                            showChartValues: true,
+                            showChartValuesOutside: true,
+                            chartValueBackgroundColor: Colors.grey[200],
+                            colorList: colorInversionList,
+                            showLegends: true,
+                            legendPosition: LegendPosition.right,
+                            decimalPlaces: 1,
+                            showChartValueLabel: false,
+                            initialAngle: 0,
+                            chartValueStyle: defaultChartValueStyle.copyWith(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 10),
+                            chartType: ChartType.ring,
+                          )
+                        : Text(""))),
+          ])),
+        ))),
+        floatingActionButton: FloatingActionButton(
+          onPressed: togglePieChart,
+          backgroundColor: Colors.brown,
+          child: Icon(Icons.insert_chart),
+        ),
+      )
+    ]);
   }
 
   void togglePieChart() {
@@ -255,16 +269,18 @@ class StadisticsState extends State {
               iOtro = iOtro + producAux.price;
           }
         }
-        setState(() {
-          broker = iBroker;
-          plazo = iPlazo;
-          fondo = iFondo;
-          cedears = iCedears;
-          futuros = iFuturos;
-          acciones = iAcciones;
-          bonos = iBonos;
-          otro = iOtro;
-        });
+        if (mounted) {
+          setState(() {
+            broker = iBroker;
+            plazo = iPlazo;
+            fondo = iFondo;
+            cedears = iCedears;
+            futuros = iFuturos;
+            acciones = iAcciones;
+            bonos = iBonos;
+            otro = iOtro;
+          });
+        }
       });
     });
   }
@@ -296,10 +312,15 @@ class StadisticsState extends State {
           "Acciones: \$" + acciones.toString(), () => acciones.toDouble());
     }
     if (bonos > 0) {
-      dataInversionMap.putIfAbsent("Bonos: \$" + bonos.toString(), () => bonos.toDouble());
+      dataInversionMap.putIfAbsent(
+          "Bonos: \$" + bonos.toString(), () => bonos.toDouble());
     }
     if (otro > 0) {
-      dataInversionMap.putIfAbsent("Otro: \$" + otro.toString(), () => otro.toDouble());
+      dataInversionMap.putIfAbsent(
+          "Otro: \$" + otro.toString(), () => otro.toDouble());
+    }
+    if (dataInversionMap.isEmpty) {
+      dataInversionMap.putIfAbsent("Sin Inversiones: \$0", () => 1);
     }
   }
 }

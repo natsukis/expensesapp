@@ -5,6 +5,7 @@ import 'package:gastosapp/model/month.dart';
 import 'package:gastosapp/model/monthinversion.dart';
 import 'package:gastosapp/model/totalpermonth.dart';
 import 'package:gastosapp/util/dbhelper.dart';
+import 'package:gastosapp/util/months.dart';
 import 'package:intl/intl.dart';
 
 class TodayTotal extends StatefulWidget {
@@ -38,6 +39,7 @@ class TodayTotalState extends State {
       controller: _controller,
       children: [
         TodayTotal1(date),
+        TodayTotal3(),
         TodayTotal2(tempTot, status),
       ],
     ));
@@ -123,195 +125,159 @@ class TodayTotal1State extends State {
       getDataExpense();
       getDataIncome();
       getDataInversion();
-      getWeekExpenseData();
-      getWeekIncomeData();
-      getWeekInversionData();
       getMonthExpenseData();
       getMonthInversionData();
       getMonthIncomeData();
     }
-    return Scaffold(
-        backgroundColor: Colors.brown[200],
-        appBar: AppBar(
-          title: Text(stringToDate(date)),
-          centerTitle: true,
-          backgroundColor: Colors.brown,
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: Text("Volver"),
-            backgroundColor: Colors.brown,
-            onPressed: () {
-              Navigator.pop(context, true);
-            }),
-        body: Padding(
-          padding: EdgeInsets.only(top: 20.0, left: 20),
-          child: Center(
-              child: SingleChildScrollView(
-                  child: Container(
-                      alignment: Alignment.center,
-                      child: Column(children: <Widget>[
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: Text("Gastos del dia: ",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          Expanded(
-                              child: Text(
-                                  '               -\$' +
-                                      calculateTotalExpenses(
-                                          expenses, countExpense),
-                                  style: TextStyle(color: Colors.red)))
-                        ]),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Ingresos del dia:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalExpenses(
-                                              incomes, countIncome),
-                                      style:
-                                          TextStyle(color: Colors.greenAccent)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Inversiones del dia: ",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalInversions(
-                                              inversions, countInversion),
-                                      style:
-                                          TextStyle(color: Colors.blueAccent)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total (Ingre.-Gasto):",
-                                      style: TextStyle(color: Colors.yellow))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalSimple(
-                                              expenses,
-                                              countExpense,
-                                              incomes,
-                                              countIncome),
-                                      style: TextStyle(color: Colors.yellow)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Gastos ult. 7 dias:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '               -\$' +
-                                          calculateTotalExpenses(
-                                              weekExpense, weekexpensecount),
-                                      style: TextStyle(color: Colors.red)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Ingresos ult. 7 dias:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalExpenses(
-                                              weekIncome, weekincomecount),
-                                      style:
-                                          TextStyle(color: Colors.greenAccent)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Inversiones ult. 7 dias:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalInversions(
-                                              weekInversion,
-                                              weekInversioncount),
-                                      style:
-                                          TextStyle(color: Colors.blueAccent)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Gastos ult. 30 dias:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '               -\$' +
-                                          calculateTotalExpenses(
-                                              monthExpense, monthExpenseCount),
-                                      style: TextStyle(color: Colors.red)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Ingresos ult. 30 dias:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalExpenses(
-                                              monthIncome, monthIncomeCount),
-                                      style:
-                                          TextStyle(color: Colors.greenAccent)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Inversiones ult. 30 dias:",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalInversions(
-                                              monthInversion,
-                                              monthInversionCount),
-                                      style:
-                                          TextStyle(color: Colors.blueAccent))),
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total ult. 30 dias (I-G):",
-                                      style: TextStyle(color: Colors.yellow))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          calculateTotalSimple(
-                                              monthExpense,
-                                              monthExpenseCount,
-                                              monthIncome,
-                                              monthIncomeCount),
-                                      style: TextStyle(color: Colors.yellow)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Text("Total anual --->",
-                                style: TextStyle(color: Colors.brown))),
-                      ])))),
-        ));
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Hoy"),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+          ),
+          floatingActionButton: FloatingActionButton(
+              child: Text("Volver"),
+              backgroundColor: Colors.brown,
+              onPressed: () {
+                Navigator.pop(context, true);
+              }),
+          body: Padding(
+            padding: EdgeInsets.only(top: 20.0, left: 20),
+            child: Center(
+                child: SingleChildScrollView(
+                    child: Container(
+                        alignment: Alignment.center,
+                        child: Column(children: <Widget>[
+                          Row(children: <Widget>[
+                            Expanded(
+                              child: Text("Gastos del dia: ",
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                            Expanded(
+                                child: Text(
+                                    '               -\$' +
+                                        calculateTotalExpenses(
+                                            expenses, countExpense),
+                                    style: TextStyle(color: Colors.red)))
+                          ]),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Ingresos del dia:",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            calculateTotalExpenses(
+                                                incomes, countIncome),
+                                        style: TextStyle(
+                                            color: Colors.greenAccent)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Inversiones del dia: ",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            calculateTotalInversions(
+                                                inversions, countInversion),
+                                        style: TextStyle(
+                                            color: Colors.blueAccent)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total (Ingre.-Gasto):",
+                                        style:
+                                            TextStyle(color: Colors.yellow))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            calculateTotalSimple(
+                                                expenses,
+                                                countExpense,
+                                                incomes,
+                                                countIncome),
+                                        style: TextStyle(color: Colors.yellow)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Gastos ult. 30 dias:",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '               -\$' +
+                                            calculateTotalExpenses(monthExpense,
+                                                monthExpenseCount),
+                                        style: TextStyle(color: Colors.red)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Ingresos ult. 30 dias:",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            calculateTotalExpenses(
+                                                monthIncome, monthIncomeCount),
+                                        style: TextStyle(
+                                            color: Colors.greenAccent)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Inversiones ult. 30 dias:",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            calculateTotalInversions(
+                                                monthInversion,
+                                                monthInversionCount),
+                                        style: TextStyle(
+                                            color: Colors.blueAccent))),
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total ult. 30 dias (I-G):",
+                                        style:
+                                            TextStyle(color: Colors.yellow))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            calculateTotalSimple(
+                                                monthExpense,
+                                                monthExpenseCount,
+                                                monthIncome,
+                                                monthIncomeCount),
+                                        style: TextStyle(color: Colors.yellow)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Text("Gastos Mensuales --->",
+                                  style: TextStyle(color: Colors.brown))),
+                        ])))),
+          ))
+    ]);
   }
 
   void getDataExpense() {
@@ -381,88 +347,6 @@ class TodayTotal1State extends State {
         setState(() {
           inversions = inversionList;
           countInversion = countInversion - notToday;
-        });
-      });
-    });
-  }
-
-  void getWeekExpenseData() {
-    final dbFuture = helper.initializeDb();
-    dbFuture.then((result) {
-      final expensesFuture = helper.getExpenses();
-      expensesFuture.then((result) {
-        List<Expense> expenseList = List<Expense>();
-        weekexpensecount = result.length;
-        int notToday = 0;
-        for (int i = 0; i < weekexpensecount; i++) {
-          Expense producAux = Expense.fromObject(result[i]);
-          DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
-          var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 7 &&
-              diff.inDays >= 0 &&
-              producAux.type == "Expense") {
-            expenseList.add(producAux);
-          } else {
-            notToday = notToday + 1;
-          }
-        }
-        setState(() {
-          weekExpense = expenseList;
-          weekexpensecount = weekexpensecount - notToday;
-        });
-      });
-    });
-  }
-
-  void getWeekIncomeData() {
-    final dbFuture = helper.initializeDb();
-    dbFuture.then((result) {
-      final expensesFuture = helper.getExpenses();
-      expensesFuture.then((result) {
-        List<Expense> expenseList = List<Expense>();
-        weekincomecount = result.length;
-        int notToday = 0;
-        for (int i = 0; i < weekincomecount; i++) {
-          Expense producAux = Expense.fromObject(result[i]);
-          DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
-          var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays <= 7 &&
-              diff.inDays >= 0 &&
-              producAux.type == "Income") {
-            expenseList.add(producAux);
-          } else {
-            notToday = notToday + 1;
-          }
-        }
-        setState(() {
-          weekIncome = expenseList;
-          weekincomecount = weekincomecount - notToday;
-        });
-      });
-    });
-  }
-
-  void getWeekInversionData() {
-    final dbFuture = helper.initializeDb();
-    dbFuture.then((result) {
-      final expensesFuture = helper.getInversion();
-      expensesFuture.then((result) {
-        List<Inversion> inversionList = List<Inversion>();
-        weekInversioncount = result.length;
-        int notToday = 0;
-        for (int i = 0; i < weekInversioncount; i++) {
-          Inversion producAux = Inversion.fromObject(result[i]);
-          DateTime tempDate = DateFormat().add_yMd().parse(producAux.date);
-          var diff = DateTime.now().difference(tempDate);
-          if (diff.inDays >= 0 && diff.inDays <= 7) {
-            inversionList.add(producAux);
-          } else {
-            notToday = notToday + 1;
-          }
-        }
-        setState(() {
-          weekInversion = inversionList;
-          weekInversioncount = weekInversioncount - notToday;
         });
       });
     });
@@ -727,165 +611,173 @@ class TodayTotal2 extends StatelessWidget {
           incomeMonth.decemberList, incomeMonth.notDecember);
       //
     }
-    return Scaffold(
-        backgroundColor: Colors.brown[200],
-        appBar: AppBar(
-          title: Text("Totales " + DateTime.now().year.toString()),
-          centerTitle: true,
-          backgroundColor: Colors.brown,
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 20.0, left: 20),
-          child: Center(
-              child: SingleChildScrollView(
-                  child: Container(
-                      alignment: Alignment.center,
-                      child: Column(children: <Widget>[
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: Text("Total Enero(Ingre-Gasto): ",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          Expanded(
-                              child: Text(
-                                  '                \$' +
-                                      totalMonth.january.toString(),
-                                  style: TextStyle(color: Colors.white)))
-                        ]),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Febrero(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.february.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Marzo(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.march.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Abril(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.april.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Mayo(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.may.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Junio(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.june.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Julio(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.july.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Agosto(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.august.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Septiembre(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.september.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Octubre(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.october.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Noviembre(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.november.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                        Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Row(children: <Widget>[
-                              Expanded(
-                                  child: Text("Total Diciembre(Ingre-Gasto):",
-                                      style: TextStyle(color: Colors.white))),
-                              Expanded(
-                                  child: Text(
-                                      '                \$' +
-                                          totalMonth.december.toString(),
-                                      style: TextStyle(color: Colors.white)))
-                            ])),
-                      ])))),
-        ));
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Totales " + DateTime.now().year.toString()),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 20.0, left: 20),
+            child: Center(
+                child: SingleChildScrollView(
+                    child: Container(
+                        alignment: Alignment.center,
+                        child: Column(children: <Widget>[
+                          Row(children: <Widget>[
+                            Expanded(
+                              child: Text("Total Enero(Ingre-Gasto): ",
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                            Expanded(
+                                child: Text(
+                                    '                \$' +
+                                        totalMonth.january.toString(),
+                                    style: TextStyle(color: Colors.white)))
+                          ]),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Febrero(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.february.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Marzo(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.march.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Abril(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.april.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Mayo(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.may.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Junio(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.june.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Julio(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.july.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Agosto(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.august.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text(
+                                        "Total Septiembre(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.september.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Octubre(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.october.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Noviembre(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.november.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                          Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Row(children: <Widget>[
+                                Expanded(
+                                    child: Text("Total Diciembre(Ingre-Gasto):",
+                                        style: TextStyle(color: Colors.white))),
+                                Expanded(
+                                    child: Text(
+                                        '                \$' +
+                                            totalMonth.december.toString(),
+                                        style: TextStyle(color: Colors.white)))
+                              ])),
+                        ])))),
+          ))
+    ]);
   }
 
   void getDataExpense() {
@@ -1314,6 +1206,598 @@ class TodayTotal2 extends StatelessWidget {
       return true;
     } else {
       return false;
+    }
+  }
+}
+
+class TodayTotal3 extends StatefulWidget {
+  TodayTotal3();
+  @override
+  State<StatefulWidget> createState() => TodayTotal3State();
+}
+
+class TodayTotal3State extends State {
+  DbHelper helper = DbHelper();
+  Months month = Months();
+  List<Expense> expenses;
+  int countExpense = 0;
+  int creditCount = 0;
+  String totalCreditToPay = "";
+  String totalCreditNextMontPay = "";
+
+  //Diferent expenses
+  Expense alquiler;
+  Expense celular;
+  Expense colectivo;
+  Expense compra;
+  Expense gastos;
+  Expense hospedaje;
+  Expense impuesto;
+  Expense internet;
+  Expense nafta;
+  Expense otro;
+  Expense prestamo;
+  Expense regalo;
+  Expense salida;
+  Expense seguro;
+  Expense supermercado;
+  Expense tarjeta;
+  Expense taxi;
+  Expense viaje;
+  List<Expense> expenseResume = List<Expense>();
+  int countResume = 0;
+
+  TodayTotal3State();
+
+  @override
+  Widget build(BuildContext context) {
+    if (expenses == null) {
+      expenses = List<Expense>();
+      getDataExpense();
+    }
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text("Gastos del mes "),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 20.0, left: 5, right: 5),
+            child: Column(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.yellow[300],
+                        border: Border.all(color: Colors.yellow),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    child: Row(children: <Widget>[
+                      Expanded(
+                        child: Text("Total a pagar este mes: ",
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                      Expanded(
+                          child: Text('                  \$' + totalCreditToPay,
+                              style: TextStyle(color: Colors.black)))
+                    ])),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[300],
+                          border: Border.all(color: Colors.yellow),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      child: Row(children: <Widget>[
+                        Expanded(
+                          child: Text("Total del proximo mes: ",
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                        Expanded(
+                            child: Text(
+                                '                  \$' + totalCreditNextMontPay,
+                                style: TextStyle(color: Colors.black)))
+                      ]))),
+              Padding(
+                  padding: EdgeInsets.only(top: 20.0, bottom: 20),
+                  child: Row(children: <Widget>[
+                    Expanded(
+                      child: Text("Consumos: ",
+                          style: TextStyle(color: Colors.yellow)),
+                    ),
+                    Expanded(child: Text(""))
+                  ])),
+              Expanded(child: expenseListItems()),
+              Padding(
+                  padding: EdgeInsets.only(top: 5),
+                  child: Text("Total anual --->",
+                      style: TextStyle(color: Colors.brown))),
+            ]),
+          ))
+    ]);
+  }
+
+  ListView expenseListItems() {
+    return ListView.builder(
+      itemCount: countResume,
+      itemBuilder: (BuildContext context, int position) {
+        return Card(
+          margin: EdgeInsets.all(1),
+          color: Colors.brown[100],
+          elevation: 2.0,
+          child: ListTile(
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: selectIcon(this.expenseResume[position].article),
+              title: Text(this.expenseResume[position].article + ':'),
+              trailing:
+                  Text("\$" + this.expenseResume[position].price.toString()),
+              onTap: () {}),
+        );
+      },
+    );
+  }
+
+  void getDataExpense() {
+    final dbFuture = helper.initializeDb();
+    dbFuture.then((result) {
+      final expensesFuture = helper.getExpenses();
+      expensesFuture.then((result) {
+        countExpense = result.length;
+
+        //List
+        int expenseCount = 0;
+        int futureCount = 0;
+        int contTempResume = 0;
+        List<Expense> futureCredit = List<Expense>();
+
+        for (int i = 0; i < countExpense; i++) {
+          Expense producAux = Expense.fromObject(result[i]);
+
+          if (comparedate(producAux.date, getInitialDate(DateTime.now().month),
+                  getEndDate(DateTime.now().month)) &&
+              producAux.type == "Expense") {
+            expenses.add(producAux);
+
+            switch (producAux.article) {
+              case "Alquiler":
+                if (alquiler == null) {
+                  alquiler = producAux;
+                } else {
+                  alquiler.price = alquiler.price + producAux.price;
+                }
+                break;
+              case "Colectivo":
+                if (colectivo == null) {
+                  colectivo = producAux;
+                } else {
+                  colectivo.price = colectivo.price + producAux.price;
+                }
+                break;
+              case "Celular":
+                if (celular == null) {
+                  celular = producAux;
+                } else {
+                  celular.price = celular.price + producAux.price;
+                }
+                break;
+
+              case "Compra":
+                if (compra == null) {
+                  compra = producAux;
+                } else {
+                  compra.price = compra.price + producAux.price;
+                }
+                break;
+
+              case "Impuesto":
+                if (impuesto == null) {
+                  impuesto = producAux;
+                } else {
+                  impuesto.price = impuesto.price + producAux.price;
+                }
+                break;
+
+              case "Nafta":
+                if (nafta == null) {
+                  nafta = producAux;
+                } else {
+                  nafta.price = nafta.price + producAux.price;
+                }
+                break;
+
+              case "Internet":
+                if (internet == null) {
+                  internet = producAux;
+                } else {
+                  internet.price = internet.price + producAux.price;
+                }
+                break;
+
+              case "Prestamo":
+                if (prestamo == null) {
+                  prestamo = producAux;
+                } else {
+                  prestamo.price = prestamo.price + producAux.price;
+                }
+                break;
+
+              case "Regalo":
+                if (regalo == null) {
+                  regalo = producAux;
+                } else {
+                  regalo.price = regalo.price + producAux.price;
+                }
+                break;
+
+              case "Salida":
+                if (salida == null) {
+                  salida = producAux;
+                } else {
+                  salida.price = salida.price + producAux.price;
+                }
+                break;
+
+              case "Seguro":
+                if (seguro == null) {
+                  seguro = producAux;
+                } else {
+                  seguro.price = seguro.price + producAux.price;
+                }
+                break;
+
+              case "Taxi":
+                if (taxi == null) {
+                  taxi = producAux;
+                } else {
+                  taxi.price = taxi.price + producAux.price;
+                }
+                break;
+
+              case "Gastos comunes":
+                if (gastos == null) {
+                  gastos = producAux;
+                } else {
+                  gastos.price = gastos.price + producAux.price;
+                }
+                break;
+
+              case "Hospedaje":
+                if (hospedaje == null) {
+                  hospedaje = producAux;
+                } else {
+                  hospedaje.price = hospedaje.price + producAux.price;
+                }
+                break;
+
+              case "Supermercado":
+                if (supermercado == null) {
+                  supermercado = producAux;
+                } else {
+                  supermercado.price = supermercado.price + producAux.price;
+                }
+                break;
+
+              case "Viaje":
+                if (viaje == null) {
+                  viaje = producAux;
+                } else {
+                  viaje.price = viaje.price + producAux.price;
+                }
+                break;
+
+              case "Tarjeta":
+                if (tarjeta == null) {
+                  tarjeta = producAux;
+                } else {
+                  tarjeta.price = tarjeta.price + producAux.price;
+                }
+                break;
+
+              case "Otro":
+                if (otro == null) {
+                  otro = producAux;
+                } else {
+                  otro.price = otro.price + producAux.price;
+                }
+                break;
+            }
+          } else {
+            expenseCount = expenseCount + 1;
+          }
+          if (comparedate(
+                  producAux.date,
+                  getInitialDate(DateTime.now().month + 1),
+                  getEndDate(DateTime.now().month + 1)) &&
+              producAux.type == "Expense") {
+            futureCredit.add(producAux);
+          } else {
+            futureCount = futureCount + 1;
+          }
+        }
+
+        //add to resume the expenses
+        if (alquiler != null) {
+          expenseResume.add(alquiler);
+          contTempResume = contTempResume + 1;
+        }
+        if (celular != null) {
+          expenseResume.add(celular);
+          contTempResume = contTempResume + 1;
+        }
+        if (colectivo != null) {
+          expenseResume.add(colectivo);
+          contTempResume = contTempResume + 1;
+        }
+        if (compra != null) {
+          expenseResume.add(compra);
+          contTempResume = contTempResume + 1;
+        }
+        if (gastos != null) {
+          expenseResume.add(gastos);
+          contTempResume = contTempResume + 1;
+        }
+        if (hospedaje != null) {
+          expenseResume.add(hospedaje);
+          contTempResume = contTempResume + 1;
+        }
+        if (impuesto != null) {
+          expenseResume.add(impuesto);
+          contTempResume = contTempResume + 1;
+        }
+        if (internet != null) {
+          expenseResume.add(internet);
+          contTempResume = contTempResume + 1;
+        }
+        if (nafta != null) {
+          expenseResume.add(nafta);
+          contTempResume = contTempResume + 1;
+        }
+        if (otro != null) {
+          expenseResume.add(otro);
+          contTempResume = contTempResume + 1;
+        }
+        if (prestamo != null) {
+          expenseResume.add(prestamo);
+          contTempResume = contTempResume + 1;
+        }
+        if (regalo != null) {
+          expenseResume.add(regalo);
+          contTempResume = contTempResume + 1;
+        }
+        if (salida != null) {
+          expenseResume.add(salida);
+          contTempResume = contTempResume + 1;
+        }
+        if (seguro != null) {
+          expenseResume.add(seguro);
+          contTempResume = contTempResume + 1;
+        }
+        if (supermercado != null) {
+          expenseResume.add(supermercado);
+          contTempResume = contTempResume + 1;
+        }
+        if (tarjeta != null) {
+          expenseResume.add(tarjeta);
+          contTempResume = contTempResume + 1;
+        }
+        if (taxi != null) {
+          expenseResume.add(taxi);
+          contTempResume = contTempResume + 1;
+        }
+        if (viaje != null) {
+          expenseResume.add(viaje);
+          contTempResume = contTempResume + 1;
+        }
+
+        if (mounted) {
+          setState(() {
+            countResume = contTempResume;
+            totalCreditToPay =
+                calculateTotalExpenses(expenses, countExpense - expenseCount);
+            totalCreditNextMontPay = calculateTotalExpenses(
+                futureCredit, countExpense - futureCount);
+          });
+        }
+      });
+    });
+  }
+
+  String stringToDate(String aux) {
+    var newDateTimeObj = new DateFormat().add_yMd().parse(aux);
+    return newDateTimeObj.day.toString() +
+        '/' +
+        newDateTimeObj.month.toString() +
+        '/' +
+        newDateTimeObj.year.toString();
+  }
+
+  String calculateTotalExpenses(List<Expense> expenses, int count) {
+    var total = 0;
+    for (var i = 0; i < count; i++) {
+      total = total + expenses[i].price;
+    }
+    return total.toString();
+  }
+
+  bool comparedate(String date, DateTime dateFrom, DateTime dateTo) {
+    DateTime dateD = new DateFormat().add_yMd().parse(date);
+    if (dateD.isAfter(dateFrom.add(new Duration(days: -1))) &&
+        dateD.isBefore(dateTo.add(new Duration(days: 1)))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Icon selectIcon(String article) {
+    switch (article) {
+      case "Alquiler":
+        return Icon(Icons.home, color: Colors.blue, size: 40);
+        break;
+      case "Colectivo":
+        return Icon(Icons.directions_bus,
+            color: Colors.lightBlue[200], size: 40);
+        break;
+      case "Celular":
+        return Icon(Icons.phone_android, color: Colors.white, size: 40);
+        break;
+
+      case "Compra":
+        return Icon(Icons.shopping_basket, color: Colors.green, size: 40);
+        break;
+
+      case "Impuesto":
+        return Icon(Icons.money_off, color: Colors.red[400], size: 40);
+        break;
+
+      case "Nafta":
+        return Icon(Icons.local_gas_station, color: Colors.black, size: 40);
+        break;
+
+      case "Internet":
+        return Icon(Icons.computer, color: Colors.blueGrey, size: 40);
+        break;
+
+      case "Prestamo":
+        return Icon(Icons.attach_money, color: Colors.red, size: 40);
+        break;
+
+      case "Regalo":
+        return Icon(Icons.card_giftcard, color: Colors.cyan, size: 40);
+        break;
+
+      case "Salida":
+        return Icon(Icons.local_bar, color: Colors.orange, size: 40);
+        break;
+
+      case "Seguro":
+        return Icon(Icons.security, color: Colors.pink, size: 40);
+        break;
+
+      case "Taxi":
+        return Icon(Icons.local_taxi, color: Colors.yellow[400], size: 40);
+        break;
+
+      case "Gastos comunes":
+        return Icon(Icons.local_cafe, color: Colors.grey[600], size: 40);
+        break;
+
+      case "Hospedaje":
+        return Icon(Icons.hotel, color: Colors.brown[600], size: 40);
+        break;
+
+      case "Supermercado":
+        return Icon(Icons.local_grocery_store, color: Colors.purple, size: 40);
+        break;
+
+      case "Viaje":
+        return Icon(Icons.card_travel, color: Colors.orange[200], size: 40);
+        break;
+
+      case "Tarjeta":
+        return Icon(Icons.credit_card, color: Colors.blueAccent, size: 40);
+        break;
+
+      case "Otro":
+        return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+        break;
+
+      default:
+        return Icon(Icons.add_box, color: Colors.brown[400], size: 40);
+    }
+  }
+
+  DateTime getInitialDate(int search) {
+    switch (search) {
+      case 1:
+        return month.januaryFrom;
+        break;
+      case 2:
+        return month.februaryFrom;
+        break;
+      case 3:
+        return month.marchFrom;
+        break;
+      case 4:
+        return month.aprilFrom;
+        break;
+      case 5:
+        return month.mayFrom;
+        break;
+      case 6:
+        return month.juneFrom;
+        break;
+      case 7:
+        return month.julyFrom;
+        break;
+      case 8:
+        return month.augustFrom;
+        break;
+      case 9:
+        return month.septemberFrom;
+        break;
+      case 10:
+        return month.octoberFrom;
+        break;
+      case 11:
+        return month.novemberFrom;
+        break;
+      case 12:
+        return month.decemberFrom;
+        break;
+      default:
+        return DateTime.now();
+    }
+  }
+
+  DateTime getEndDate(int search) {
+    switch (search) {
+      case 1:
+        return month.januaryTo;
+        break;
+      case 2:
+        return month.februaryTo;
+        break;
+      case 3:
+        return month.marchTo;
+        break;
+      case 4:
+        return month.aprilTo;
+        break;
+      case 5:
+        return month.mayFrom;
+        break;
+      case 6:
+        return month.juneTo;
+        break;
+      case 7:
+        return month.julyTo;
+        break;
+      case 8:
+        return month.aprilTo;
+        break;
+      case 9:
+        return month.septemberTo;
+        break;
+      case 10:
+        return month.octoberTo;
+        break;
+      case 11:
+        return month.novemberTo;
+        break;
+      case 12:
+        return month.decemberTo;
+        break;
+      default:
+        return DateTime.now();
     }
   }
 }

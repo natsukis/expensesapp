@@ -54,9 +54,10 @@ class IncomePageState extends State {
       ),
       body: expenseListItems(),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.brown,
+          backgroundColor: Colors.brown,
           onPressed: () {
-            navigateToDetail(Expense('Otro', 0, 'Expense', date, '','Efectivo'));
+            navigateToDetail(
+                Expense('Otro', 0, 'Expense', date, '', 'Efectivo'));
           },
           tooltip: "Agregar nuevo gasto",
           child: new Icon(Icons.add)),
@@ -68,16 +69,19 @@ class IncomePageState extends State {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
+          margin: EdgeInsets.all(3),
           color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
-              leading: CircleAvatar(
-                  backgroundColor: getColor(this.expenses[position].article),
-                  child: Text(this.expenses[position].article.substring(0, 1))),
-              title: Text(this.expenses[position].article.toString() +
-                  ': \$' +
-                  this.expenses[position].price.toString()),
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: Icon(
+                Icons.monetization_on,
+                color: getColor(this.expenses[position].article),
+                size: 40,
+              ),
+              title: Text(this.expenses[position].article),
               subtitle: Text(this.expenses[position].description),
+              trailing: Text("\$" + this.expenses[position].price.toString()),
               onTap: () {
                 navigateToDetail(this.expenses[position]);
               }),
@@ -190,7 +194,7 @@ class IncomePageState extends State {
     List<List<String>> csvData;
     List<String> aux;
     csvData = [
-      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio','']
+      ['Articulo', 'Tipo', 'Descripcion', 'Fecha', 'Precio', '']
     ];
 
     for (var item in expenses) {

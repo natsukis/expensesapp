@@ -69,15 +69,19 @@ class IncomeRangeDayState extends State {
       itemCount: count,
       itemBuilder: (BuildContext context, int position) {
         return Card(
+          margin: EdgeInsets.all(3),
           color: Colors.brown[100],
           elevation: 2.0,
           child: ListTile(
-              leading: CircleAvatar(
-                  backgroundColor: getColor(this.expenses[position].price),
-                  child: Text(this.expenses[position].article.substring(0, 1))),
+              contentPadding: EdgeInsets.only(left: 5, right: 5),
+              leading: Icon(
+                Icons.monetization_on,
+                color: getColor(this.expenses[position].article),
+                size: 40,
+              ),
               title: Text(this.expenses[position].article),
-              subtitle:
-                  Text('Total: \$' + this.expenses[position].price.toString()),
+              subtitle: Text(this.expenses[position].description),
+              trailing: Text('\$' + this.expenses[position].price.toString()),
               onTap: () {
                 navigateToDetail(this.expenses[position]);
               }),
@@ -173,21 +177,28 @@ class IncomeRangeDayState extends State {
     }
   }
 
-  Color getColor(int price) {
-    if (price <= 1000) {
-      return Colors.blue;
-    } else if (price <= 5000) {
-      return Colors.yellow;
-    } else if (price <= 10000) {
-      return Colors.green;
-    } else if (price <= 20000) {
-      return Colors.lightGreen;
-    } else if (price <= 50000) {
-      return Colors.brown;
-    } else if (price <= 100000) {
-      return Colors.blueGrey;
-    } else {
-      return Colors.grey;
+  Color getColor(String article) {
+    switch (article) {
+      case "Ganancias":
+        return Colors.blue;
+        break;
+      case "Inversion":
+        return Colors.yellow;
+        break;
+      case "Prestamo":
+        return Colors.green;
+        break;
+
+      case "Sueldo":
+        return Colors.lightGreen;
+        break;
+
+      case "Otro":
+        return Colors.grey;
+        break;
+
+      default:
+        return Colors.grey;
     }
   }
 
