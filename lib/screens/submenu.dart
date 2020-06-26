@@ -41,7 +41,7 @@ class SubMenu extends StatelessWidget {
                   padding: EdgeInsets.only(top: 10),
                   child: Container(
                       width: 190.0,
-                      height: 60.0,
+                      height: 40.0,
                       child: RaisedButton(
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(28.0),
@@ -80,7 +80,7 @@ class SubMenu extends StatelessWidget {
                   padding: EdgeInsets.only(top: 40),
                   child: Container(
                       width: 190.0,
-                      height: 60.0,
+                      height: 40.0,
                       child: RaisedButton(
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(28.0),
@@ -100,7 +100,7 @@ class SubMenu extends StatelessWidget {
                   padding: EdgeInsets.only(top: 40, bottom: 20),
                   child: Container(
                       width: 190.0,
-                      height: 60.0,
+                      height: 40.0,
                       child: RaisedButton(
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(28.0),

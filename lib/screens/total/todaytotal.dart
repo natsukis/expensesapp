@@ -297,10 +297,12 @@ class TodayTotal1State extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          expenses = expenseList;
-          countExpense = countExpense - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            expenses = expenseList;
+            countExpense = countExpense - notToday;
+          });
+        }
       });
     });
   }
@@ -321,10 +323,12 @@ class TodayTotal1State extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          incomes = expenseList;
-          countIncome = countIncome - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            incomes = expenseList;
+            countIncome = countIncome - notToday;
+          });
+        }
       });
     });
   }
@@ -345,10 +349,12 @@ class TodayTotal1State extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          inversions = inversionList;
-          countInversion = countInversion - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            inversions = inversionList;
+            countInversion = countInversion - notToday;
+          });
+        }
       });
     });
   }
@@ -373,10 +379,12 @@ class TodayTotal1State extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          monthIncome = expenseList;
-          monthIncomeCount = monthIncomeCount - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            monthIncome = expenseList;
+            monthIncomeCount = monthIncomeCount - notToday;
+          });
+        }
       });
     });
   }
@@ -401,10 +409,12 @@ class TodayTotal1State extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          monthExpense = expenseList;
-          monthExpenseCount = monthExpenseCount - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            monthExpense = expenseList;
+            monthExpenseCount = monthExpenseCount - notToday;
+          });
+        }
       });
     });
   }
@@ -427,10 +437,12 @@ class TodayTotal1State extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          monthInversion = expenseList;
-          monthInversionCount = monthInversionCount - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            monthInversion = expenseList;
+            monthInversionCount = monthInversionCount - notToday;
+          });
+        }
       });
     });
   }
@@ -779,14 +791,16 @@ class TodayTotal2 extends StatelessWidget {
                                             totalMonth.december.toString(),
                                         style: TextStyle(color: Colors.white)))
                               ])),
-                          DotsIndicator(
-                            dotsCount: 3,
-                            position: 2,
-                            decorator: DotsDecorator(
-                              color: Colors.brown,
-                              activeColor: Colors.white,
-                            ),
-                          )
+                          Padding(
+                              padding: EdgeInsets.only(top: 37),
+                              child: DotsIndicator(
+                                dotsCount: 3,
+                                position: 2,
+                                decorator: DotsDecorator(
+                                  color: Colors.brown,
+                                  activeColor: Colors.white,
+                                ),
+                              ))
                         ])))),
           ))
     ]);
@@ -1395,8 +1409,6 @@ class TodayTotal3State extends State {
           if (comparedate(producAux.date, getInitialDate(DateTime.now().month),
                   getEndDate(DateTime.now().month)) &&
               producAux.type == "Expense") {
-            expenses.add(producAux);
-
             switch (producAux.article) {
               case "Alquiler":
                 if (alquiler == null) {
@@ -1632,7 +1644,7 @@ class TodayTotal3State extends State {
           setState(() {
             countResume = contTempResume;
             totalCreditToPay =
-                calculateTotalExpenses(expenses, countExpense - expenseCount);
+                calculateTotalExpenses(expenseResume, countResume);
             totalCreditNextMontPay = calculateTotalExpenses(
                 futureCredit, countExpense - futureCount);
           });
@@ -2003,11 +2015,13 @@ class TotalMovesState extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          expenses = expenseList;
-          countExpense = countExpense - notToday;
-          countTotal = countTotal + countExpense;
-        });
+        if (mounted) {
+          setState(() {
+            expenses = expenseList;
+            countExpense = countExpense - notToday;
+            countTotal = countTotal + countExpense;
+          });
+        }
       });
     });
   }
@@ -2028,10 +2042,12 @@ class TotalMovesState extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          expensesTotal = expenseList;
-          countExpenseTotal = countExpenseTotal - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            expensesTotal = expenseList;
+            countExpenseTotal = countExpenseTotal - notToday;
+          });
+        }
       });
     });
   }
@@ -2052,10 +2068,12 @@ class TotalMovesState extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          incomes = expenseList;
-          countIncome = countIncome - notToday;
-        });
+        if (mounted) {
+          setState(() {
+            incomes = expenseList;
+            countIncome = countIncome - notToday;
+          });
+        }
       });
     });
   }
@@ -2081,11 +2099,13 @@ class TotalMovesState extends State {
             notToday = notToday + 1;
           }
         }
-        setState(() {
-          inversions = inversion;
-          countInversion = countInversion - notToday;
-          countTotal = countTotal + countInversion;
-        });
+        if (mounted) {
+          setState(() {
+            inversions = inversion;
+            countInversion = countInversion - notToday;
+            countTotal = countTotal + countInversion;
+          });
+        }
       });
     });
   }

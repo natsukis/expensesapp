@@ -33,32 +33,39 @@ class InversionRangeDayState extends State {
       inversions = List<Inversion>();
       getData();
     }
-    return Scaffold(
-      backgroundColor: Colors.brown[200],
-      appBar: AppBar(
-        title: Text("Inversiones en fechas"),
-        centerTitle: true,
-        backgroundColor: Colors.brown,
-        bottom: PreferredSize(
-            child: Text(
-                stringToDateConvert(dateFrom) +
-                    " a " +
-                    stringToDateConvert(dateTo),
-                style: TextStyle(color: Colors.white)),
-            preferredSize: null),
-        actions: <Widget>[
-          InkWell(
-            onTap: () => _generateCSVAndView(context),
-            child: Align(
-              alignment: Alignment.center,
-              child: Text('CSV'),
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text("Inversiones en fechas"),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          bottom: PreferredSize(
+              child: Text(
+                  stringToDateConvert(dateFrom) +
+                      " a " +
+                      stringToDateConvert(dateTo),
+                  style: TextStyle(color: Colors.white)),
+              preferredSize: null),
+          actions: <Widget>[
+            InkWell(
+              onTap: () => _generateCSVAndView(context),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text('CSV'),
+              ),
             ),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
-      body: Center(child: productListItems()),
-    );
+            SizedBox(width: 10),
+          ],
+        ),
+        body: Center(child: productListItems()),
+      )
+    ]);
   }
 
   ListView productListItems() {

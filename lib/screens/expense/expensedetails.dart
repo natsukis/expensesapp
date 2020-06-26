@@ -23,6 +23,7 @@ class ExpenseDetailState extends State {
   Expense expense;
   final String date;
   ExpenseDetailState(this.expense, this.date, this.tempTot, this.totalNextYear);
+  int oldExpense = 0;
   final _articles = [
     "Alquiler",
     "Celular",
@@ -60,97 +61,107 @@ class ExpenseDetailState extends State {
   TotalPerMonth totalNextYear;
   @override
   Widget build(BuildContext context) {
+    if (expense.id != null && oldExpense == 0) {
+      oldExpense = expense.price;
+    }
     descriptionController.text = expense.description;
     priceController.text = expense.price.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    return Scaffold(
-        backgroundColor: Colors.brown[200],
-        appBar: AppBar(
-          backgroundColor: Colors.brown,
-          automaticallyImplyLeading: false,
-          title: Text(expense.description == ""
-              ? "Nuevo Gasto"
-              : expense.description + '. ' + stringToDate(expense.date)),
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
-          child: ListView(children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: ListTile(
-                        title: DropdownButton<String>(
-                      items: _articles.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      style: textStyle,
-                      value: expense.article,
-                      onChanged: (value) => updateArticle(value),
-                    ))),
-                Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: TextField(
-                      controller: descriptionController,
-                      style: textStyle,
-                      onChanged: (value) => this.updateDescription(),
-                      decoration: InputDecoration(
-                          labelStyle: textStyle,
-                          labelText: "Descripcion",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: priceController,
-                      style: textStyle,
-                      onChanged: (value) => this.updatePrice(),
-                      decoration: InputDecoration(
-                          labelStyle: textStyle,
-                          labelText: "Precio",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-                ListTile(
-                    title: DropdownButton<String>(
-                  items: _methods.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  style: textStyle,
-                  value: expense.method,
-                  onChanged: (value) => updateMethod(value),
-                )),
-              ],
-            )
-          ]),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.brown,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.save),
-              title: Text('Guardar'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.delete),
-              title: Text('Borrar'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back),
-              title: Text('Volver'),
-            ),
-          ],
-          selectedItemColor: Colors.amber[800],
-          onTap: navigate,
-        ));
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            title: Text(expense.description == ""
+                ? "Nuevo Gasto"
+                : expense.description + '. ' + stringToDate(expense.date)),
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
+            child: ListView(children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ListTile(
+                          title: DropdownButton<String>(
+                        items: _articles.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        style: textStyle,
+                        value: expense.article,
+                        onChanged: (value) => updateArticle(value),
+                      ))),
+                  Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: TextField(
+                        controller: descriptionController,
+                        style: textStyle,
+                        onChanged: (value) => this.updateDescription(),
+                        decoration: InputDecoration(
+                            labelStyle: textStyle,
+                            labelText: "Descripcion",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: priceController,
+                        style: textStyle,
+                        onChanged: (value) => this.updatePrice(),
+                        decoration: InputDecoration(
+                            labelStyle: textStyle,
+                            labelText: "Precio",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      )),
+                  ListTile(
+                      title: DropdownButton<String>(
+                    items: _methods.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    style: textStyle,
+                    value: expense.method,
+                    onChanged: (value) => updateMethod(value),
+                  )),
+                ],
+              )
+            ]),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.brown,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.save),
+                title: Text('Guardar'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.delete),
+                title: Text('Borrar'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.arrow_back),
+                title: Text('Volver'),
+              ),
+            ],
+            selectedItemColor: Colors.amber[800],
+            onTap: navigate,
+          ))
+    ]);
   }
 
   void save() async {
@@ -161,12 +172,14 @@ class ExpenseDetailState extends State {
     var tempDate = new DateFormat().add_yMd().parse(date);
     switch (expense.method) {
       case "Tarjeta 3c":
-        tempTot = update3Month(tempTot, tempDate.month, expense.price);
-        helper.updateTotal(tempTot);
-        helper.updateTotal(totalNextYear);
         if (expense.id != null) {
+          tempTot = updateMonth(tempTot, tempDate.month, expense.price);
           helper.updateExpense(expense);
+          helper.updateTotal(tempTot);
         } else {
+          tempTot = update3Month(tempTot, tempDate.month, expense.price);
+          helper.updateTotal(tempTot);
+          helper.updateTotal(totalNextYear);
           var tempPrice = expense.price / 3;
           expense.price = tempPrice.toInt();
           String auxDescription = expense.description;
@@ -181,12 +194,14 @@ class ExpenseDetailState extends State {
         }
         break;
       case "Tarjeta 6c":
-        tempTot = update6Month(tempTot, tempDate.month, expense.price);
-        helper.updateTotal(tempTot);
-        helper.updateTotal(totalNextYear);
         if (expense.id != null) {
+          tempTot = updateMonth(tempTot, tempDate.month, expense.price);
           helper.updateExpense(expense);
+          helper.updateTotal(tempTot);
         } else {
+          tempTot = update6Month(tempTot, tempDate.month, expense.price);
+          helper.updateTotal(tempTot);
+          helper.updateTotal(totalNextYear);
           var tempPrice = expense.price / 6;
           expense.price = tempPrice.toInt();
           String auxDescription = expense.description;
@@ -210,12 +225,14 @@ class ExpenseDetailState extends State {
         }
         break;
       case "Tarjeta 12c":
-        tempTot = update12Month(tempTot, tempDate.month, expense.price);
-        helper.updateTotal(tempTot);
-        helper.updateTotal(totalNextYear);
         if (expense.id != null) {
+          tempTot = updateMonth(tempTot, tempDate.month, expense.price);
           helper.updateExpense(expense);
+          helper.updateTotal(tempTot);
         } else {
+          tempTot = update12Month(tempTot, tempDate.month, expense.price);
+          helper.updateTotal(tempTot);
+          helper.updateTotal(totalNextYear);
           var tempPrice = expense.price / 12;
           expense.price = tempPrice.toInt();
           String auxDescription = expense.description;
@@ -344,39 +361,75 @@ class ExpenseDetailState extends State {
   TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
     switch (month) {
       case 1:
+        if (oldExpense > 0) {
+          totalToUpdate.january = totalToUpdate.january + oldExpense;
+        }
         totalToUpdate.january = totalToUpdate.january - value;
         break;
       case 2:
+        if (oldExpense > 0) {
+          totalToUpdate.february = totalToUpdate.february + oldExpense;
+        }
         totalToUpdate.february = totalToUpdate.february - value;
         break;
       case 3:
+        if (oldExpense > 0) {
+          totalToUpdate.march = totalToUpdate.march + oldExpense;
+        }
         totalToUpdate.march = totalToUpdate.march - value;
         break;
       case 4:
+        if (oldExpense > 0) {
+          totalToUpdate.april = totalToUpdate.april + oldExpense;
+        }
         totalToUpdate.april = totalToUpdate.april - value;
         break;
       case 5:
+        if (oldExpense > 0) {
+          totalToUpdate.may = totalToUpdate.may + oldExpense;
+        }
         totalToUpdate.may = totalToUpdate.may - value;
         break;
       case 6:
+        if (oldExpense > 0) {
+          totalToUpdate.june = totalToUpdate.june + oldExpense;
+        }
         totalToUpdate.june = totalToUpdate.june - value;
         break;
       case 7:
+        if (oldExpense > 0) {
+          totalToUpdate.july = totalToUpdate.july + oldExpense;
+        }
         totalToUpdate.july = totalToUpdate.july - value;
         break;
       case 8:
+        if (oldExpense > 0) {
+          totalToUpdate.august = totalToUpdate.august + oldExpense;
+        }
         totalToUpdate.august = totalToUpdate.august - value;
         break;
       case 9:
+        if (oldExpense > 0) {
+          totalToUpdate.september = totalToUpdate.september + oldExpense;
+        }
         totalToUpdate.september = totalToUpdate.september - value;
         break;
       case 10:
+        if (oldExpense > 0) {
+          totalToUpdate.october = totalToUpdate.october + oldExpense;
+        }
         totalToUpdate.october = totalToUpdate.october - value;
         break;
       case 11:
+        if (oldExpense > 0) {
+          totalToUpdate.november = totalToUpdate.november + oldExpense;
+        }
         totalToUpdate.november = totalToUpdate.november - value;
         break;
       case 12:
+        if (oldExpense > 0) {
+          totalToUpdate.december = totalToUpdate.december + oldExpense;
+        }
         totalToUpdate.december = totalToUpdate.december - value;
         break;
     }

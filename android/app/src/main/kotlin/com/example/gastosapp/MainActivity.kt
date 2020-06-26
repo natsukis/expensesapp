@@ -1,4 +1,4 @@
-package com.example.gastosapp
+package com.natsuki.gastosapp
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

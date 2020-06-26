@@ -180,12 +180,12 @@ class StadisticsState extends State {
             Container(
                 margin: EdgeInsets.all(0),
                 child: Padding(
-                    padding: EdgeInsets.only(top:20,left: 14),
+                    padding: EdgeInsets.only(top: 25, left: 14, bottom: 5),
                     child: toggle
                         ? PieChart(
                             dataMap: dataInversionMap,
                             animationDuration: Duration(milliseconds: 800),
-                            chartLegendSpacing: 27.0,
+                            chartLegendSpacing: 35.0,
                             legendStyle:
                                 TextStyle(fontSize: 12, color: Colors.black),
                             chartRadius:
@@ -321,6 +321,8 @@ class StadisticsState extends State {
     }
     if (dataInversionMap.isEmpty) {
       dataInversionMap.putIfAbsent("Sin Inversiones: \$0", () => 1);
+    } else {
+      dataInversionMap.remove("Sin Inversiones: \$0");
     }
   }
 }

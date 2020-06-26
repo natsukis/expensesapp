@@ -28,36 +28,43 @@ class InversionPageState extends State {
       inversions = List<Inversion>();
       getData();
     }
-    return Scaffold(
-      backgroundColor: Colors.brown[200],
-      appBar: AppBar(
-        title: Text(stringToDate(date)),
-        backgroundColor: Colors.brown,
-        centerTitle: true,
-        bottom: PreferredSize(
-            child: Text('Total: \$' + calculateTotalSales(inversions, count),
-                style: TextStyle(color: Colors.white)),
-            preferredSize: null),
-        actions: <Widget>[
-          InkWell(
-            onTap: () => _generateCSVAndView(context),
-            child: Align(
-              alignment: Alignment.center,
-              child: Text('CSV'),
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text(stringToDate(date)),
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          bottom: PreferredSize(
+              child: Text('Total: \$' + calculateTotalSales(inversions, count),
+                  style: TextStyle(color: Colors.white)),
+              preferredSize: null),
+          actions: <Widget>[
+            InkWell(
+              onTap: () => _generateCSVAndView(context),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text('CSV'),
+              ),
             ),
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
-      body: inversionListItems(),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.brown,
-          onPressed: () {
-            navigateToDetail(Inversion('Otro', 0, date, ''));
-          },
-          tooltip: "Agregar nueva inversion",
-          child: new Icon(Icons.add)),
-    );
+            SizedBox(width: 10),
+          ],
+        ),
+        body: inversionListItems(),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.brown,
+            onPressed: () {
+              navigateToDetail(Inversion('Otro', 0, date, ''));
+            },
+            tooltip: "Agregar nueva inversion",
+            child: new Icon(Icons.add)),
+      )
+    ]);
   }
 
   ListView inversionListItems() {

@@ -31,11 +31,17 @@ class ExpensePageState extends State {
       expenses = List<Expense>();
       getData();
     }
-    return Scaffold(
-      backgroundColor: Colors.brown[200],
+    return  Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+          Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(stringToDate(date)),
-        backgroundColor: Colors.brown,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
         bottom: PreferredSize(
             child: Text('Total: \$' + calculateTotalSales(expenses, count),
@@ -61,7 +67,7 @@ class ExpensePageState extends State {
           backgroundColor: Colors.brown,
           tooltip: "Agregar nuevo gasto",
           child: new Icon(Icons.add)),
-    );
+    )]);
   }
 
   ListView expenseListItems() {

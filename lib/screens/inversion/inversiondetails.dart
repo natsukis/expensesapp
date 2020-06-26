@@ -37,82 +37,90 @@ class InversionDetailState extends State {
     descriptionController.text = inversion.description;
     priceController.text = inversion.price.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    return Scaffold(
-        backgroundColor: Colors.brown[200],
-        appBar: AppBar(
-          backgroundColor: Colors.brown,
-          automaticallyImplyLeading: false,
-          title: Text(inversion.description == ""
-              ? "Nueva Inversion"
-              : inversion.description + '. ' + stringToDate(inversion.date)),
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
-          child: ListView(children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: ListTile(
-                        title: DropdownButton<String>(
-                      items: _articles.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      style: textStyle,
-                      value: inversion.article,
-                      onChanged: (value) => updateArticle(value),
-                    ))),
-                Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: TextField(
-                      controller: descriptionController,
-                      style: textStyle,
-                      onChanged: (value) => this.updateDescription(),
-                      decoration: InputDecoration(
-                          labelStyle: textStyle,
-                          labelText: "Descripcion",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: priceController,
-                      style: textStyle,
-                      onChanged: (value) => this.updatePrice(),
-                      decoration: InputDecoration(
-                          labelStyle: textStyle,
-                          labelText: "Saldo",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-              ],
-            )
-          ]),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.brown,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.save),
-              title: Text('Guardar'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.delete),
-              title: Text('Borrar'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back),
-              title: Text('Volver'),
-            ),
-          ],
-          selectedItemColor: Colors.amber[800],
-          onTap: navigate,
-        ));
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            title: Text(inversion.description == ""
+                ? "Nueva Inversion"
+                : inversion.description + '. ' + stringToDate(inversion.date)),
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
+            child: ListView(children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ListTile(
+                          title: DropdownButton<String>(
+                        items: _articles.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        style: textStyle,
+                        isExpanded: true,
+                        value: inversion.article,
+                        onChanged: (value) => updateArticle(value),
+                      ))),
+                  Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: TextField(
+                        controller: descriptionController,
+                        style: textStyle,
+                        onChanged: (value) => this.updateDescription(),
+                        decoration: InputDecoration(
+                            labelStyle: textStyle,
+                            labelText: "Descripcion",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: priceController,
+                        style: textStyle,
+                        onChanged: (value) => this.updatePrice(),
+                        decoration: InputDecoration(
+                            labelStyle: textStyle,
+                            labelText: "Saldo",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      )),
+                ],
+              )
+            ]),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.brown,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.save),
+                title: Text('Guardar'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.delete),
+                title: Text('Borrar'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.arrow_back),
+                title: Text('Volver'),
+              ),
+            ],
+            selectedItemColor: Colors.amber[800],
+            onTap: navigate,
+          ))
+    ]);
   }
 
   void save() {

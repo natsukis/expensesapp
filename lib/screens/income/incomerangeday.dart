@@ -36,12 +36,18 @@ class IncomeRangeDayState extends State {
       expenses = List<Expense>();
       getData();
     }
-    return Scaffold(
-      backgroundColor: Colors.brown[200],
+    return  Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+          Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text("Ingresos totales"),
         centerTitle: true,
-        backgroundColor: Colors.brown,
+        backgroundColor: Colors.transparent,
         bottom: PreferredSize(
             child: Text(
                 stringToDateConvert(dateFrom) +
@@ -61,7 +67,7 @@ class IncomeRangeDayState extends State {
         ],
       ),
       body: Center(child: productListItems()),
-    );
+    )]);
   }
 
   ListView productListItems() {

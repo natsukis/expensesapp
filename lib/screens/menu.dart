@@ -36,14 +36,14 @@ class MenuState extends State {
           backgroundColor: Colors.transparent,
         ),
         body: Padding(
-            padding: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
+            padding: EdgeInsets.only( left: 5.0, right: 5.0),
             child: Center(
                 child: SingleChildScrollView(
                     child: Column(children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(bottom: 230),
+                  padding: EdgeInsets.only(bottom: 270),
                   child: Container(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(5.0),
                     decoration: BoxDecoration(
                         color: Colors.yellow[300],
                         border: Border.all(color: Colors.yellow),

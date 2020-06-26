@@ -34,88 +34,99 @@ class IncomeDetailState extends State {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TotalPerMonth tempTot;
+  int oldIncome = 0;
 
   @override
   Widget build(BuildContext context) {
     descriptionController.text = expense.description;
     priceController.text = expense.price.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    return Scaffold(
-        backgroundColor: Colors.brown[200],
-        appBar: AppBar(
-          backgroundColor: Colors.brown,
-          automaticallyImplyLeading: false,
-          title: Text(expense.description == ""
-              ? "Nuevo Ingreso"
-              : expense.description + '. ' + stringToDate(expense.date)),
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
-          child: ListView(children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: ListTile(
-                        title: DropdownButton<String>(
-                      items: _articles.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      style: textStyle,
-                      value: expense.article,
-                      onChanged: (value) => updateArticle(value),
-                    ))),
-                Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: TextField(
-                      controller: descriptionController,
-                      style: textStyle,
-                      onChanged: (value) => this.updateDescription(),
-                      decoration: InputDecoration(
-                          labelStyle: textStyle,
-                          labelText: "Descripcion",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: priceController,
-                      style: textStyle,
-                      onChanged: (value) => this.updatePrice(),
-                      decoration: InputDecoration(
-                          labelStyle: textStyle,
-                          labelText: "Saldo",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                    )),
-              ],
-            )
-          ]),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.brown,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.save),
-              title: Text('Guardar'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.delete),
-              title: Text('Borrar'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.arrow_back),
-              title: Text('Volver'),
-            ),
-          ],
-          selectedItemColor: Colors.amber[800],
-          onTap: navigate,
-        ));
+    if (expense.id != null && oldIncome == 0) {
+      oldIncome = expense.price;
+    }
+    return Stack(children: <Widget>[
+      Image.asset("images/total.jpg",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          alignment: Alignment.center),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            title: Text(expense.description == ""
+                ? "Nuevo Ingreso"
+                : expense.description + '. ' + stringToDate(expense.date)),
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10),
+            child: ListView(children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ListTile(
+                          title: DropdownButton<String>(
+                        items: _articles.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        style: textStyle,
+                        value: expense.article,
+                        onChanged: (value) => updateArticle(value),
+                      ))),
+                  Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: TextField(
+                        controller: descriptionController,
+                        style: textStyle,
+                        onChanged: (value) => this.updateDescription(),
+                        decoration: InputDecoration(
+                            labelStyle: textStyle,
+                            labelText: "Descripcion",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: priceController,
+                        style: textStyle,
+                        onChanged: (value) => this.updatePrice(),
+                        decoration: InputDecoration(
+                            labelStyle: textStyle,
+                            labelText: "Saldo",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                      )),
+                ],
+              )
+            ]),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.brown,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.save),
+                title: Text('Guardar'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.delete),
+                title: Text('Borrar'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.arrow_back),
+                title: Text('Volver'),
+              ),
+            ],
+            selectedItemColor: Colors.amber[800],
+            onTap: navigate,
+          ))
+    ]);
   }
 
   void save() {
@@ -185,39 +196,75 @@ class IncomeDetailState extends State {
   TotalPerMonth updateMonth(TotalPerMonth totalToUpdate, int month, int value) {
     switch (month) {
       case 1:
+        if (oldIncome > 0) {
+          totalToUpdate.january = totalToUpdate.january - oldIncome;
+        }
         totalToUpdate.january = totalToUpdate.january + value;
         break;
       case 2:
+        if (oldIncome > 0) {
+          totalToUpdate.february = totalToUpdate.february - oldIncome;
+        }
         totalToUpdate.february = totalToUpdate.february + value;
         break;
       case 3:
+        if (oldIncome > 0) {
+          totalToUpdate.march = totalToUpdate.march - oldIncome;
+        }
         totalToUpdate.march = totalToUpdate.march + value;
         break;
       case 4:
+        if (oldIncome > 0) {
+          totalToUpdate.april = totalToUpdate.april - oldIncome;
+        }
         totalToUpdate.april = totalToUpdate.april + value;
         break;
       case 5:
+        if (oldIncome > 0) {
+          totalToUpdate.may = totalToUpdate.may - oldIncome;
+        }
         totalToUpdate.may = totalToUpdate.may + value;
         break;
       case 6:
+        if (oldIncome > 0) {
+          totalToUpdate.june = totalToUpdate.june - oldIncome;
+        }
         totalToUpdate.june = totalToUpdate.june + value;
         break;
       case 7:
+        if (oldIncome > 0) {
+          totalToUpdate.july = totalToUpdate.july - oldIncome;
+        }
         totalToUpdate.july = totalToUpdate.july + value;
         break;
       case 8:
+        if (oldIncome > 0) {
+          totalToUpdate.august = totalToUpdate.august - oldIncome;
+        }
         totalToUpdate.august = totalToUpdate.august + value;
         break;
       case 9:
+        if (oldIncome > 0) {
+          totalToUpdate.september = totalToUpdate.september - oldIncome;
+        }
         totalToUpdate.september = totalToUpdate.september + value;
         break;
       case 10:
+        if (oldIncome > 0) {
+          totalToUpdate.october = totalToUpdate.october - oldIncome;
+        }
         totalToUpdate.october = totalToUpdate.october + value;
         break;
       case 11:
+        if (oldIncome > 0) {
+          totalToUpdate.november = totalToUpdate.november - oldIncome;
+        }
         totalToUpdate.november = totalToUpdate.november + value;
         break;
       case 12:
+        if (oldIncome > 0) {
+          totalToUpdate.december = totalToUpdate.december - oldIncome;
+        }
         totalToUpdate.december = totalToUpdate.december + value;
         break;
     }
